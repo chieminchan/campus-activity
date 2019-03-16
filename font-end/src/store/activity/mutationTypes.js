@@ -1,0 +1,2 @@
+
+export const LOAD_ACTIVITIES = 'LOAD_ACTIVITIES';

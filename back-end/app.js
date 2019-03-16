@@ -2,10 +2,12 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var userRouter = require('./routes/user');
+var activityRouter = require('./routes/activity');
 
 var app = express();
 
@@ -19,16 +21,28 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// 启用session中间件
+app.use(session({
+  // 相当于一个加密密钥
+  secret: "my-secret",
+  // 强制session保存到session store中
+  resave: true,
+  // 强制没有“初始化”的session保存到storage中
+  saveUninitialized: false,
+  cookie: {maxAge: 60*60*1000, httpOnly: true}
+}));
+
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/user', userRouter);
+app.use('/activity', activityRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

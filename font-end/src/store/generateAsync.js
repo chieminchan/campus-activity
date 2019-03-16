@@ -22,21 +22,23 @@ export const generateAsyncAction = (action, {
     mutateType,
     meta
 }) => (...arg) => {
-    const [{ commit }, ...payload] = arg;
+    const [{
+        commit
+    }, ...payload] = arg;
     commit(`${mutateType}_${PENDDING_STATE}`, {
         payload,
         meta
     });
     return action(...payload)
-        .then((respone) => {
+        .then(response => {
             commit(`${mutateType}_${FULFILL_STATE}`, {
-                respone,
+                response,
                 payload,
                 meta
             });
-            return respone;
+            return response;
         })
-        .catch((error) => {
+        .catch(error => {
             commit(`${mutateType}_${REJECTED_STATE}`, {
                 error,
                 payload,
@@ -44,20 +46,6 @@ export const generateAsyncAction = (action, {
             });
         });
 };
-
-function defaultMergeStrategy(val) {
-    return val;
-}
-
-function gainState(target, props) {
-    if (_.isArray(props)) {
-        return props.length > 0 ? gainState(target[props.shift()], props) : target;
-    }
-    if (_.isString(props)) {
-        return gainState(target, props.split('.'));
-    }
-    return target;
-}
 
 export const generateMutation = (mutation, {
     mutateType,
@@ -71,10 +59,23 @@ export const generateMutation = (mutation, {
         Vue.set(state, statePath, {
             payload
         });
-    },
+    }
 });
 
-export const generateAsynMutation = (mutation, {
+function defaultMergeStrategy(val) {
+    return val;
+}
+
+function gainState(target, props) {
+    if (_.isArray(props)) {
+        return props.length > 0 ? gainState(target[props.shift()], props) : target;
+    } else if (_.isString(props)) {
+        return gainState(target, props.split('.'));
+    }
+    return target;
+}
+
+export const generateAsyncMutation = (mutation, {
     mutateType,
     statePath,
     mergeBy = defaultMergeStrategy
@@ -87,7 +88,7 @@ export const generateAsynMutation = (mutation, {
             isError: false,
             error: undefined,
             payload: null,
-            isFulfill: false,
+            isFulfill: false
         }, gainState(state, statePath));
         Vue.set(state, statePath, currentState);
     };
@@ -100,8 +101,9 @@ export const generateAsynMutation = (mutation, {
             isError: true,
             error,
             payload: null,
-            isFulfill: false,
+            isFulfill: false
         }, gainState(state, statePath));
+
         Vue.set(state, statePath, currentState);
     };
 
@@ -117,17 +119,14 @@ export const generateAsynMutation = (mutation, {
                 isFetching: false,
                 isError: false,
                 error: undefined,
-                isFulfill: true,
+                isFulfill: true
             }, gainState(state, statePath));
             Vue.set(state, statePath, currentState);
         };
     }
-
     return {
         [`${mutateType}_${PENDDING_STATE}`]: penddingFn,
         [`${mutateType}_${REJECTED_STATE}`]: errorFn,
-        [`${mutateType}_${FULFILL_STATE}`]: fulfillFn,
-    }
-
-
+        [`${mutateType}_${FULFILL_STATE}`]: fulfillFn
+    };
 };

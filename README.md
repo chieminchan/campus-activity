@@ -3,7 +3,7 @@
 
 ## 技术栈
 - 前端：
-Vue.js + Vue-router + Vuex + Axios + Less + iView
+Vue.js + Vue-router + Vuex + Axios + Less + iView + Lodash
 
 
 

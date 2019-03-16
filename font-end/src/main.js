@@ -6,6 +6,8 @@ import iView from 'iview';
 import VueMoment from 'vue-moment';
 import moment from 'moment'
 import 'iview/dist/styles/iview.css';
+import './css/index.less';
+import 'font-awesome/css/font-awesome.css';
 
 Vue.use(iView);
 Vue.use(VueMoment, {moment});

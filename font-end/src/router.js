@@ -1,25 +1,54 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+import iView from 'iview';
 
-Vue.use(Router)
+import HomePage from '@/views/layout/HomePage.vue';
 
-export default new Router({
+Vue.use(iView);
+Vue.use(Router);
+
+const router = new Router({
   mode: 'history',
-  base: process.env.BASE_URL,
-  routes: [
+  routes: [{
+      path: '/login',
+      name: 'login',
+      component: () => import('@/views/login/Index.vue'),
+      hidden: true,
+    },
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: HomePage,
+      redirect: {
+        name: 'activity'
+      }
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      path: '/activity/all',
+      component: HomePage,
+      children: [{
+        name: 'activity',
+        path: '',
+        component: () => import('@/views/activity/Index.vue'),
+      }, ]
     }
   ]
-})
+});
+
+router.beforeEach((to, from, next) => {
+  iView.LoadingBar.config({
+    color: '#008bf8',
+    failedColor: '#f0ad4e',
+    height: 4
+  });
+  iView.LoadingBar.start();
+  next();
+});
+
+router.afterEach(() => {
+  iView.LoadingBar.update('50%');
+  iView.LoadingBar.finish();
+});
+
+
+export default router;
