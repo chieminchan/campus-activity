@@ -29,10 +29,8 @@
 
 <script>
 import { login } from '@/store/api/auth';
-import stateMixin from '@/utils/stateParseMixin';
 
 export default {
-  mixs: { stateMixin },
   data() {
     // 存放数据
     return {

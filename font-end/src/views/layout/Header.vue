@@ -33,6 +33,7 @@
 <script>
 import stateParseMixin from '@/utils/stateParseMixin';
 import { mapState, mapActions } from 'vuex';
+import _ from 'lodash';
 import Navbar from './Navbar';
 
 export default {
@@ -49,7 +50,6 @@ export default {
     getUserName() {
       if (this.isFulfill) {
         const nameArr = this.state.payload.results[0].user_name.split("");
-        const length = nameArr.length;
         return _.slice(nameArr, -1)[0];
       }
       return '';
@@ -78,7 +78,7 @@ export default {
 
 .head {
   width: 100%;
-  height: 59px;
+  height: 65px;
   background: #ffffff;
   box-shadow: 0 1px 3px rgba(26, 26, 26, 0.1);
   background-clip: content-box;
@@ -103,7 +103,7 @@ export default {
 .user-avatar {
   font-size: 15px;
   font-weight: 500;
-  background: @color-primary;
+  background: @color-primary !important;
 }
 
 .news {

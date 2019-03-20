@@ -2,7 +2,7 @@ export default [
   {
     title: '首页',
     icon: 'ios-school',
-    name: 'home',
+    name: 'index',
     to: {
       path: '/',
     },
@@ -12,7 +12,7 @@ export default [
     icon: 'md-infinite',
     name: 'find',
     to: {
-      path: '/activities',
+      path: '/find',
     },
   },
   {

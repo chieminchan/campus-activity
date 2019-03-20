@@ -6,4 +6,16 @@ export default {
     mutateType: types.LOAD_ACTIVITIES,
     statePath: 'activities'
   }),
+
+  ...generateAsyncMutation(undefined, {
+    mutateType: types.LOAD_ACTIVITY_TYPE_LISTS,
+    statePath: 'activityTypeLists'
+  }),
+
+  ...generateAsyncMutation(undefined, {
+    mutateType: types.LOAD_LATEST_ACTIVITIES,
+    statePath: 'latestActivities'
+  }),
+
+
 }

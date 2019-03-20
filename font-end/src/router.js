@@ -20,17 +20,34 @@ const router = new Router({
       name: 'home',
       component: HomePage,
       redirect: {
-        name: 'activity'
+        name: 'index'
       }
     },
     {
-      path: '/activity/all',
+      path: '/index',
       component: HomePage,
       children: [{
-        name: 'activity',
+        name: 'index',
         path: '',
         component: () => import('@/views/activity/Index.vue'),
-      }, ]
+      }, 
+      {
+        name: 'index-detail',
+        path: 'index/detail',
+        component: () => import('@/views/activity/Detail.vue'),
+      }, 
+    ]
+    },
+    {
+      name: 'find',
+      path: '/find',
+      component: HomePage,
+      children: [
+        {
+          path: '',
+          component: () => import('@/views/activity/Filter.vue'),
+        }
+      ]
     }
   ]
 });
