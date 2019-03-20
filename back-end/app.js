@@ -29,7 +29,7 @@ app.use(session({
   resave: true,
   // 强制没有“初始化”的session保存到storage中
   saveUninitialized: false,
-  cookie: {maxAge: 60*60*1000, httpOnly: true}
+  cookie: {maxAge: 24*60*60*1000, httpOnly: true}
 }));
 
 app.use('/', indexRouter);

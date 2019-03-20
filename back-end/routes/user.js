@@ -47,7 +47,6 @@ router.get('/profile', (req, res, next) => {
   if (isLogin) {
     service.query(_sql)
       .then((data) => {
-        console.log(1, data);
         //如果成功，发送code200,加上data
         res.send({
           'status': 0,
