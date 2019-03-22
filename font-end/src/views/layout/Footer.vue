@@ -1,5 +1,6 @@
 <template>
   <footer class="foot">
+    <Divider dashed />
     <p class="tips">
       <span>建议反馈</span>
       <span>举报投诉</span>
@@ -16,12 +17,16 @@
   width: 100%;
   min-height: 80px;
   background: #f4f4f4;
-  border-top: 1px solid #ccc;
   font-size: 13px;
   .flex-vertical;
+
+  .ivu-divider-dashed {
+    background: 0 0;
+    border-top: 1px dashed #8292a2;
+  }
 }
 
-.tips{
+.tips {
   margin-bottom: 20px;
   span {
     margin-left: 20px;

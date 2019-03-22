@@ -17,5 +17,10 @@ export default {
     statePath: 'latestActivities'
   }),
 
+  ...generateAsyncMutation(undefined, {
+    mutateType: types.LOAD_ACTIVITY_INFO,
+    statePath: 'activityInfo'
+  })
+
 
 }

@@ -9,7 +9,9 @@ Vue.use(Router);
 
 const router = new Router({
   mode: 'history',
-  routes: [{
+  routes: [
+    // 登录
+    {
       path: '/login',
       name: 'login',
       component: () => import('@/views/login/Index.vue'),
@@ -20,32 +22,36 @@ const router = new Router({
       name: 'home',
       component: HomePage,
       redirect: {
-        name: 'index'
+        name: 'activity'
       }
     },
+
+    // 首页
     {
-      path: '/index',
+      path: '/activity',
       component: HomePage,
       children: [{
-        name: 'index',
+        name: 'activity',
         path: '',
         component: () => import('@/views/activity/Index.vue'),
       }, 
       {
         name: 'index-detail',
-        path: 'index/detail',
-        component: () => import('@/views/activity/Detail.vue'),
+        path: ':aid',
+        component: () => import('@/views/activity/ActivityPost.vue'),
       }, 
     ]
     },
+
+    // 发现
     {
-      name: 'find',
       path: '/find',
       component: HomePage,
       children: [
-        {
+        { 
+          name: 'find',
           path: '',
-          component: () => import('@/views/activity/Filter.vue'),
+          component: () => import('@/views/activity/ActivityFilter.vue'),
         }
       ]
     }
@@ -63,6 +69,7 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach(() => {
+  window.scrollTo(0,0);
   iView.LoadingBar.update('50%');
   iView.LoadingBar.finish();
 });

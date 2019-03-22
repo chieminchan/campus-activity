@@ -6,6 +6,7 @@ export default {
   state: {
     latestActivities: {},
     activityTypeLists: {},
+    activityInfo: {},
     activities: {},
   },
   actions,

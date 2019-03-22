@@ -2,7 +2,7 @@ export default [
   {
     title: '首页',
     icon: 'ios-school',
-    name: 'index',
+    name: 'activity',
     to: {
       path: '/',
     },

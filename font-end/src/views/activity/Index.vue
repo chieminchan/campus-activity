@@ -24,7 +24,7 @@
     <ActivityLists :selectedType="showActivityLists"></ActivityLists>
 
     <!-- 查看更多 -->
-    <router-link class="more-link" :to="{name: find}">
+    <router-link class="more-link" :to="{name: 'find'}">
       查看更多....
     </router-link>
   </div>
@@ -64,7 +64,7 @@ export default {
       }
     }
   },
-  mounted() {
+  created() {
     this.getLatestActivities();
   }
 }
