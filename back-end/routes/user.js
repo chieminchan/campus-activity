@@ -8,8 +8,8 @@ router.post('/login', (req, res, next) => {
     userId,
     password
   } = req.body;
-  let _sql = `select user_id, user_name, user_password from users
-                 where user_id = ${userId}`;
+  let _sql = `select user_account, user_name, user_password from users
+                 where user_account = ${userId}`;
 
   service.query(_sql)
     .then((data) => {
@@ -41,9 +41,9 @@ router.get('/profile', (req, res, next) => {
     uid,
     isLogin
   } = req.session;
-  let _sql = `select user_id, user_name, user_sex, user_department, user_grade, 
+  let _sql = `select user_id, user_account, user_name, user_sex, user_department, user_grade, 
               user_profession, user_class, user_type from users
-                where user_id = ${uid}`;
+                where user_account = ${uid}`;
   if (isLogin) {
     service.query(_sql)
       .then((data) => {
