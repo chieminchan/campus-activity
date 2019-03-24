@@ -72,18 +72,25 @@
       <div class="action-btn">
 
         <template v-if="hasCollection">
-          <Button type="info" size="large" @click.prevent="deleteCollection">已收藏</Button>
+          <Button class="btn" icon="md-heart" type="primary" size="large" @click.prevent="deleteCollection">已收藏</Button>
         </template>
         <template v-else>
-          <Button type="info" size="large" @click.prevent="addCollection" ghost>收藏</Button>
+          <Button class="btn" icon="md-heart-outline" type="primary" size="large" @click.prevent="addCollection"
+            ghost>收藏</Button>
         </template>
 
         <template v-if="hasEnroll">
-          <Button type="warning" size="large" @click.prevent="deleteEnroll">已报名</Button>
+          <Button class="btn" icon="ios-sunny" type="warning" size="large" @click.prevent="deleteEnroll"
+            :disabled=hasEnroll>已报名</Button>
+          <template v-if="activityInfo.activity_type === 'online'">
+            <Button class="btn" icon="md-paper-plane" type="success" size="large">提交电子作品</Button>
+          </template>
         </template>
         <template v-else>
-          <Button type="warning" size="large" @click.prevent="addEnroll" ghost>立即报名</Button>
+          <Button class="btn" icon="ios-sunny-outline" type="warning" size="large" @click.prevent="addEnroll"
+            ghost>立即报名</Button>
         </template>
+
       </div>
 
     </Card>
@@ -98,7 +105,6 @@ import LazyloadImg from '@/components/LazyloadImg';
 import {  updateScore,
   removeActivityCollection,
   updateActivityCollection,
-  removeActivityEnroll,
   updateActivityEnroll,
 } from '@/store/api/activity';
 
@@ -164,7 +170,6 @@ export default {
       this.score = score;
       this.disableScore = true;
       const { params: { aid } } = this.$route;
-
       updateScore({ score: this.score, id: aid });
     },
     addCollection() {
@@ -195,31 +200,27 @@ export default {
         });
     },
     addEnroll() {
-      this.hasEnroll = true;
       const { userId } = this;
       const { params: { aid } } = this.$route;
 
-      updateActivityEnroll({ userId, activityId: aid })
-        .then(() => {
-          this.$Message.success('报名成功！');
-        })
-        .catch(() => {
-          this.$Message.error('报名失败！');
-        });
+      this.$Modal.confirm({
+        title: ' 确认报名',
+        content: '<p>确定要参与报名吗？</p>',
+        onOk: () => {
+          updateActivityEnroll({ userId, activityId: aid })
+            .then(() => {
+              this.hasEnroll = true;
+              this.$Message.success('报名成功！');
+            })
+            .catch(() => {
+              this.$Message.error('报名失败！');
+            });
+        },
+        onCancel: () => {
+          this.$Message.info('取消报名');
+        }
+      });
     },
-    deleteEnroll() {
-      this.hasEnroll = false;
-      const { userId } = this;
-      const { params: { aid } } = this.$route;
-
-      removeActivityEnroll({ userId, activityId: aid })
-        .then(() => {
-          this.$Message.success('取消报名成功！');
-        })
-        .catch(() => {
-          this.$Message.error('取消报名失败！');
-        });
-    }
   },
   mounted() {
     if (this.userInfo.isFulfill) {
@@ -253,6 +254,7 @@ export default {
 
   .poster {
     width: 100%;
+    min-height: 200px;
     padding: 0 10%;
     display: flex;
     justify-content: center;
@@ -277,6 +279,22 @@ export default {
     font-size: 17px;
     color: #4d739a;
     margin: 40px 0 10px;
+  }
+}
+
+.action-btn {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+
+  button {
+    margin-right: 30px;
+  }
+
+  .btn {
+    padding: 10px 25px;
+    font-size: 15px;
+    border-radius: 8px;
   }
 }
 </style>
