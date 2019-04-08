@@ -3,19 +3,22 @@ module.exports = {
   errorRes: (err) => {
     return {
       'status': 1,
-      'message': err
+      'message': err,
+      'results': []
     };
   },
   correctRes: (data) => {
     return {
       'status': 0,
-      'results': data
+      'results': data,
+      'message': ''
     };
   },
   correctRes_msg: (tips) => {
     return {
       'status': 0,
-      'message': tips
+      'message': tips,
+      'results': ''
     };
   }
 };

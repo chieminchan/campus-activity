@@ -18,120 +18,161 @@ router.get('/all', (req, res) => {
 });
 
 // 最新活动
-router.get('/latest', (req, res) => {
-    service.query($sql.latest)
-        .then((data) => {
-            res.send(correctRes(data));
-        })
-        .catch((error) => res.send(errorRes(error)));
+router.get('/latest', async (req, res) => {
+    try {
+        const rows = await service.query($sql.latest);
+        res.send(correctRes(rows));
+
+    } catch (error) {
+        res.send(errorRes(error.message));
+    }
 });
 
 // 首页活动列表
-router.get('/typeLists', (req, res) => {
-    const { type } = req.query;
-    service.query($sql.typeLists(type))
-        .then((data) => {
-            res.send(correctRes(data));
-        })
-        .catch((error) => res.send(errorRes(error)));
+router.get('/typeLists', async (req, res) => {
+    try {
+        const { type } = req.query;
+        const rows = await service.query($sql.typeLists(type));
+        res.send(correctRes(rows));
+
+    } catch (error) {
+        res.send(errorRes(error.message));
+    }
 });
 
 // 活动详情
-router.get('/detail', (req, res) => {
+router.get('/detail', async (req, res) => {
+    try {
+        // 查询活动信息
+        const { userId, activityId } = req.query;
+        const activityInfo = await service.query($sql.info(activityId));
 
-    // 查询活动信息
-    const { userId, activityId } = req.query;
-    service.query($sql.info(activityId))
-        .then((data) => {
+        // 将活动信息中的addition转换成json格式
+        const formatData = activityInfo[0];
+        const addition = formatData['activity_addition'];
+        formatData['activity_addition'] = querystring.parse(addition, "*", ":");
 
-            // 将活动信息中的addition转换成json格式
-            const formatData = data[0];
-            const addition = formatData['activity_addition'];
-            formatData['activity_addition'] = querystring.parse(addition, "*", ":");
+        // 判断是否收藏该帖子
+        const collectionStatus = { hasCollection: false };
+        const hasCollections = await service.query($sql.isCollection(userId, activityId));
+        if (hasCollections.length !== 0) {
+            collectionStatus.hasCollection = true;
+        }
+        Object.assign(formatData, collectionStatus);
 
-            // 需合并至最终结果
-            const formatResult = Object.assign({}, formatData);
+        // 判断是否已经报名
+        const enrollStatus = { hasEnroll: false };
+        const isEnroll = await service.query($sql.isEnroll(userId, activityId));
+        if (isEnroll.length !== 0) {
+            enrollStatus.hasEnroll = true;
+        }
+        Object.assign(formatData, enrollStatus);
 
-            // 判断是否收藏该帖子
-            const collectionStatus = { hasCollection: false };
-            service.query($sql.isCollection(userId, activityId))
-                .then((data) => {
-                    if (data.length !== 0) {
-                        collectionStatus.hasCollection = true;
-                    }
-                    Object.assign(formatResult, collectionStatus)
+        // 发送最终结果
+        res.send(correctRes(formatData));
 
-                    // 判断是否已经报名
-                    const enrollStatus = { hasEnroll: false };
-                    service.query($sql.isEnroll(userId, activityId))
-                        .then((data) => {
-                            if (data.length !== 0) {
-                                enrollStatus.hasEnroll = true;
-                            }
-                            Object.assign(formatResult, enrollStatus)
+    } catch (error) {
+        res.send(errorRes(error.message));
+    }
+});
 
-                            // 发送最终结果
-                            res.json(correctRes(formatResult));
-                        })
-                        .catch((error) => res.send(errorRes(error)));
-                })
-                .catch((error) => res.send(errorRes(error)));
-        })
-        .catch((error) => res.send(errorRes(error)));
+// 活动评论和回复
+router.get('/comments', async (req, res) => {
+    try {
+        //活动评论信息
+        const { activityId } = req.query;
+        const commentData = await service.query($sql.comments(activityId));
+
+        //查询每条评论对应的回复信息
+        const length = commentData.length;
+        for (let i = 0; i < length; i++) {
+            const commentId = commentData[i].comment_id;
+            const replyData = await service.query($sql.replies(commentId));
+            commentData[i]['replyInfo'] = replyData;
+        }
+        res.send(correctRes(commentData));
+
+    } catch (error) {
+        res.send(errorRes(error.message));
+    }
+});
+
+// 发表活动评论
+router.post('/comment/new', async (req, res) => {
+    try {
+        const { activityId, userId, commentContent, commentTime } = req.body.params;
+        await service.query($sql.addComment(userId, activityId, commentContent, commentTime));
+        res.send(correctRes_msg('update comment successfully'));
+
+    } catch (error) {
+        res.send(errorRes(error.message));
+    }
+
+});
+
+// 回复活动评论
+router.post('/reply/new', async (req, res) => {
+    try {
+        const { replyCommentId, userId, targetId, replyContent, replyTime} = req.body.params;
+        await service.query($sql.addReply(userId, targetId, replyCommentId, replyContent, replyTime));
+        res.send(correctRes_msg('update reply successfully'));
+
+    } catch (error) {
+        res.send(errorRes(error.message));
+    }
 });
 
 // 活动评分 
-router.put('/score', (req, res) => {
+router.put('/score', async (req, res) => {
+    try {
+        //查询活动当前评分信息
+        const { activityId, score } = req.body.params;
+        const scoreInfo = await service.query($sql.nowScore(activityId));
 
-    //查询活动当前评分
-    const { id, score } = req.body.params;
-    service.query($sql.nowScore(id))
-        .then((data) => {
+        // 获取旧的评分人数和分数，计算并更新活动评分
+        const oldScore = scoreInfo[0]['activity_score_value'];
+        let count = scoreInfo[0]['activity_score_count'];
+        const newScore = (count * oldScore + score) / (count + 1);
+        await service.query($sql.updateScore(activityId, newScore, count));
+        res.send(correctRes_msg('update score successfully'));
 
-            // 计算并更新活动评分
-            const oldScore = data[0]['activity_score_value'];
-            let count = data[0]['activity_score_count'];
-            const newScore = (count * oldScore + score) / (count + 1);
-            service.query($sql.updateScore(id, newScore, count))
-                .catch((error) => errorRes(error));
-
-            res.send(correctRes_msg('update score successfully'));
-
-        })
-        .catch((error) => res.send(errorRes(error)));
+    } catch (error) {
+        res.send(errorRes(error.message));
+    }
 });
 
 // 活动收藏
-router.post('/addCollection', (req, res) => {
+router.post('/addCollection', async (req, res) => {
+    try {
+        const { userId, activityId } = req.body.params;
+        await service.query($sql.addCollection(userId, activityId));
+        res.send(correctRes_msg('add collection successfully'));
 
-    const { userId, activityId } = req.body.params;
-    service.query($sql.addCollection(userId, activityId))
-        .then(() => {
-            res.send(correctRes_msg('add collection successfully'));
-        })
-        .catch((error) => res.send(errorRes(error)));
+    } catch (error) {
+        res.send(errorRes(error.message));
+    }
 });
-
 
 // 取消活动收藏
-router.delete('/removeCollection', (req, res) => {
-    const { userId, activityId } = req.query;
-    service.query($sql.removeCollection(userId, activityId))
-        .then(() => {
-            res.send(correctRes_msg('remove collection successfully'));
-        })
-        .catch((error) => res.send(errorRes(error)));
+router.delete('/removeCollection', async (req, res) => {
+    try {
+        const { userId, activityId } = req.query;
+        await service.query($sql.removeCollection(userId, activityId));
+        res.send(correctRes_msg('remove collection successfully'));
+    } catch (error) {
+        res.send(errorRes(error.message));
+    }
 });
 
-
 // 活动报名
-router.post('/updateEnroll', (req, res) => {
-    const { userId, activityId } = req.body.params;
-    service.query($sql.addEnroll(userId, activityId))
-        .then(() => {
-            res.send(correctRes_msg('update enroll successfully'));
-        })
-        .catch((error) => res.send(errorRes(error)));
+router.post('/updateEnroll', async (req, res) => {
+    try {
+        const { userId, activityId } = req.body.params;
+        await service.query($sql.addEnroll(userId, activityId));
+        res.send(correctRes_msg('update enroll successfully'));
+    } catch (error) {
+        res.send(errorRes(error.message));
+    }
 });
 
 
