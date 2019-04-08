@@ -1,0 +1,1 @@
+export const LOAD_USERINFO = 'LOAD_USERINFO';
