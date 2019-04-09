@@ -36,14 +36,13 @@
 
               <!-- 评论回复框 -->
               <Collapse class="comment-collapse" accordion>
-                <Panel class="comment-panel" hide-arrow=true>
+                <Panel class="comment-panel" :hide-arrow=true>
                   <i class="fa fa-comments icon" aria-hidden="true"></i>
                   回复
                   <Form slot="content" class="reply-form">
                     <FormItem>
-                      <Input class="reply-text" type="text" v-model="replyText">
-                      </Input>
-                      <Button type="primary" @click="updateTopReply(item)">回复</Button>
+                      <Input class="reply-text" type="text" v-model="topReplyText[index]"></Input>
+                      <Button type="primary" @click="updateTopReply(item, index)">回复</Button>
                     </FormItem>
                   </Form>
                 </Panel>
@@ -78,14 +77,13 @@
 
                     <!-- 回复框 -->
                     <Collapse class="reply-collapse" simple accordion>
-                      <Panel class="reply-panel" hide-arrow=true>
+                      <Panel class="reply-panel" :hide-arrow=true>
                         <i class="fa fa-comments icon" aria-hidden="true"></i>
                         回复
                         <Form slot="content" class="reply-form">
                           <FormItem>
-                            <Input class="reply-text" type="text" v-model="replyText">
-                            </Input>
-                            <Button type="primary" @click="updateSubReply(replyItem)">回复</Button>
+                            <Input class="reply-text" type="text" v-model="subReplyText[replyIndex]"></Input>
+                            <Button type="primary" @click="updateSubReply(replyItem, replyIndex)">回复</Button>
                           </FormItem>
                         </Form>
                       </Panel>
@@ -105,6 +103,7 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import moment from 'moment';
 import { mapState, mapActions } from 'vuex';
 import stateParseMixin from '@/utils/stateParseMixin';
@@ -115,8 +114,9 @@ export default {
   mixins: [stateParseMixin],
   data() {
     return {
-      commentText: '',
-      replyText: '',
+      commentText: undefined,
+      topReplyText: [],
+      subReplyText: [],
     };
   },
   filters: {
@@ -144,14 +144,19 @@ export default {
       const { params: { aid } } = this.$route;
       const userId = this.user.payload.results[0].user_id;
       const commentTime = moment().format('YYYY-MM-DD HH:mm:ss');
+      const commentContent = this.commentText;
+      if (_.isNil(commentContent)) {
+        this.$Message.error('不要害羞，说几句话再进行评论吧！');
+        return;
+      }
       const params = {
         activityId: aid,
         userId,
-        commentContent: this.commentText,
+        commentContent,
         commentTime      };
       addActivityComment(params)
         .then(() => {
-          this.commentText = '';
+          this.commentText = undefined;
           this.$Message.success('评论成功！');
           this.load();
         })
@@ -159,38 +164,48 @@ export default {
           this.$Message.error('评论失败！');
         });
     },
-    updateTopReply(row) {
+    updateTopReply(row, index) {
       const userId = this.user.payload.results[0].user_id;
       const replyTime = moment().format('YYYY-MM-DD HH:mm:ss');
+      const replyContent = this.topReplyText[index];
+      if (_.isNil(replyContent)) {
+        this.$Message.error('不要害羞，说几句话再回复吧！');
+        return;
+      }
       const params = {
         replyCommentId: row.comment_id,
         userId,
         targetId: row.comment_user_id,
-        replyContent: this.replyText,
+        replyContent,
         replyTime
       };
       addActivityReply(params)
         .then(() => {
-          this.replyText = '';
+          this.topReplyText[index] = undefined;
           this.load();
         })
         .catch(() => {
           this.$Message.error('回复失败！');
         });
     },
-    updateSubReply(row) {
+    updateSubReply(row, index) {
       const userId = this.user.payload.results[0].user_id;
       const replyTime = moment().format('YYYY-MM-DD HH:mm:ss');
+      const replyContent = this.subReplyText[index];
+      if (_.isNil(replyContent)) {
+        this.$Message.error('不要害羞，说几句话再回复吧！');
+        return;
+      }
       const params = {
         replyCommentId: row.reply_comment_id,
         userId,
         targetId: row.reply_user_id,
-        replyContent: this.replyText,
+        replyContent,
         replyTime
       };
       addActivityReply(params)
         .then(() => {
-          this.replyText = '';
+          this.subReplyText[index] = undefined;
           this.load();
         })
         .catch(() => {

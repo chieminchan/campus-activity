@@ -10,7 +10,7 @@
         <router-link slot="title" :to="{ name: 'index-detail', params: {aid: item.activity_id} }">
           <h3 class="activity-title"> {{ item.activity_name }} </h3>
         </router-link>
-        <span class="activity-status" slot="extra"> {{ status[item.activity_status] }}</span>
+        <span class="activity-status" slot="extra"> {{ status[item.current_status] }}</span>
 
         <p class="activity-deadline">{{ `报名截止时间： ${item.activity_enroll_deadline}` }}</p>
 
@@ -37,7 +37,7 @@ export default {
       status: {
         'processing': '进行中',
         'over': '已结束',
-        'removed': '已下架'
+        'waitting': '未开始'
       }
     };
   },
