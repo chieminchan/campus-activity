@@ -1,4 +1,5 @@
 const express = require('express');
+const moment = require('moment');
 const service = require('../config/mySqlConfig');
 const querystring = require('querystring')
 const { errorRes, correctRes, correctRes_msg } = require('../config/responseFormat');
@@ -33,6 +34,18 @@ router.get('/typeLists', async (req, res) => {
     try {
         const { type } = req.query;
         const rows = await service.query($sql.typeLists(type));
+        const now = moment().format('YYYY-MM-DD HH:mm:ss');
+        rows.map((item) => {
+            const endTime = item.activity_end;
+            const startTime = item.activity_start;
+            if( endTime < now ) {
+                item.current_status = 'over';
+            } else if ( endTime > now && startTime < now ) {
+                item.current_status = 'processing';
+            } else {
+                item.current_status = 'waitting';
+            }
+        });
         res.send(correctRes(rows));
 
     } catch (error) {

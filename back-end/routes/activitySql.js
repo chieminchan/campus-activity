@@ -7,9 +7,9 @@ const activity = {
     // 首页活动列表
     typeLists: (type) => {
         return `select activity_id, activity_name, activity_brief, activity_enroll_deadline, 
-                activity_start, activity_end, activity_status, activity_poster_front from activities 
+                activity_start, activity_end, activity_poster_front from activities 
                   where activity_type = '${type}'
-                  order by activity_status desc`;
+                  order by activity_end desc`;
     },
 
     // 活动信息

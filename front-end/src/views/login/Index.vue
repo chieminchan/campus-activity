@@ -35,7 +35,7 @@ export default {
     // 存放数据
     return {
       user: {
-        character: '',
+        character: 'student',
         userId: '',
         password: ''
       },

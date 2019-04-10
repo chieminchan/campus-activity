@@ -52,7 +52,12 @@ const router = new Router({
           name: 'find',
           path: '',
           component: () => import('@/views/activity/ActivityFilter.vue'),
-        }
+        },
+        {
+          name: 'find-detail',
+          path: ':aid',
+          component: () => import('@/views/activity/ActivityPost.vue'),
+        }, 
       ]
     }
   ]
