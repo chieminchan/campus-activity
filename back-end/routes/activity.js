@@ -6,24 +6,24 @@ const { errorRes, correctRes, correctRes_msg } = require('../config/responseForm
 const $sql = require('./activitySql');
 const router = express.Router();
 
-
 // 活动筛选， 返回适合条件的全部活动
-router.get('/all', (req, res) => {
-    let _sql = `select activity_name, activity_start, activity_end, activity_status, activity_poster_front, activity_poster_back 
-                from activities`;
-    service.query(_sql)
-        .then((data) => {
-            res.send(correctRes(data));
-        })
-        .catch((error) => errorRes(error));
-});
+router.get('/all', async (req, res) => {
+    try {
+        const { activityType, activityStatus, currentPage, pageSize } = req.query;
+        const count = await service.query($sql.all(activityType, activityStatus, currentPage, pageSize).count);
+        const rows = await service.query($sql.all(activityType, activityStatus, currentPage, pageSize).detail);
+        const results = { data: rows, total: count[0]['count(*)'] };
+        res.send(correctRes(results));
+    } catch (error) {
+        res.send(errorRes(error.message));
+    }
+})
 
 // 最新活动
 router.get('/latest', async (req, res) => {
     try {
         const rows = await service.query($sql.latest);
         res.send(correctRes(rows));
-
     } catch (error) {
         res.send(errorRes(error.message));
     }
@@ -47,7 +47,6 @@ router.get('/typeLists', async (req, res) => {
             }
         });
         res.send(correctRes(rows));
-
     } catch (error) {
         res.send(errorRes(error.message));
     }
@@ -83,7 +82,6 @@ router.get('/detail', async (req, res) => {
 
         // 发送最终结果
         res.send(correctRes(formatData));
-
     } catch (error) {
         res.send(errorRes(error.message));
     }
@@ -120,7 +118,6 @@ router.post('/comment/new', async (req, res) => {
     } catch (error) {
         res.send(errorRes(error.message));
     }
-
 });
 
 // 回复活动评论
@@ -135,7 +132,7 @@ router.post('/reply/new', async (req, res) => {
     }
 });
 
-// 活动评分 
+// 活动评分
 router.put('/score', async (req, res) => {
     try {
         //查询活动当前评分信息
@@ -187,6 +184,5 @@ router.post('/updateEnroll', async (req, res) => {
         res.send(errorRes(error.message));
     }
 });
-
 
 module.exports = router;

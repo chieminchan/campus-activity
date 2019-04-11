@@ -1,20 +1,71 @@
-const activity = {
+const moment = require('moment');
 
+const activity = {
     // 查:
+    // 按条件查看全部活动
+    all: (activityType, activityStatus, currentPage, pageSize) => {
+        const now = moment().format('YYYY-MM-DD HH:mm:ss');
+        let sql = {};
+        const previewNum = (currentPage - 1) * pageSize;
+        if (activityType === 'all') {
+            switch (activityStatus) {
+                case 'all':
+                    sql.count = `select count(*) from activities`;
+                    sql.detail = `select * from activities order by activity_start desc limit ${previewNum}, ${pageSize}`;
+                    break;
+
+                case 'over':
+                    sql.count = `select count(*) from activities where activity_end < '${now}'`;
+                    sql.detail = `select * from activities where activity_end < '${now}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
+                    break;
+
+                case 'processing':
+                    sql.count = `select count(*) from activities where activity_end > '${now}' and activity_start < '${now}'`;
+                    sql.detail = `select * from activities where activity_end > '${now}' and activity_start < '${now}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
+                    break;
+
+                case 'waitting':
+                    sql.count = `select count(*) from activities where activity_start > '${now}'`;
+                    sql.detail = `select * from activities where activity_start > '${now}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
+                    break;
+            }
+        } else {
+            switch (activityStatus) {
+                case 'all':
+                    sql.count = `select count(*) from activities where activity_type = '${activityType}'`;
+                    sql.detail = `select * from activities where activity_type = '${activityType}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
+                    break;
+
+                case 'over':
+                    sql.count = `select count(*) from activities where activity_type = '${activityType}' and activity_end < '${now}'`;
+                    sql.detail = `select * from activities where activity_type = '${activityType}' and activity_end < '${now}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
+                    break;
+
+                case 'processing':
+                    sql.count = `select count(*) from activities where activity_type = '${activityType}' and activity_end > '${now}' and activity_start < '${now}'`;
+                    sql.detail = `select * from activities where activity_type = '${activityType}' and activity_end > '${now}' and activity_start < '${now}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
+                    break;
+
+                case 'waitting':
+                    sql.count= `select count(*) from activities where activity_type = '${activityType}' and activity_start > '${now}'`;
+                    sql.detail = `select * from activities where activity_type = '${activityType}' and activity_start > '${now}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
+                    break;
+            }
+        }
+        return sql;
+    },
+
     // 最新活动
     latest: 'select activity_id, activity_name, activity_poster_front from activities order by activity_start desc limit 2',
 
     // 首页活动列表
     typeLists: (type) => {
-        return `select activity_id, activity_name, activity_brief, activity_enroll_deadline, 
-                activity_start, activity_end, activity_poster_front from activities 
-                  where activity_type = '${type}'
-                  order by activity_end desc`;
+        return `select activity_id, activity_name, activity_brief, activity_enroll_deadline, activity_start, activity_end, activity_poster_front from activities where activity_type = '${type}' order by activity_end desc`;
     },
 
     // 活动信息
     info: (id) => {
-        return `select * from activities where activity_id = ${id}`
+        return `select * from activities where activity_id = ${id}`;
     },
 
     // 是否收藏帖子
@@ -48,15 +99,13 @@ const activity = {
         return `select r.reply_id, r.reply_comment_id, r.reply_content, r.reply_time,r.reply_user_id, u1.user_name as reply_user_name, u1.user_sex as reply_user_sex, r.reply_target_id, u2.user_name as reply_target_name from replies as r
                inner join users as u1 on u1.user_id = r.reply_user_id
                inner join users as u2 on u2.user_id = r.reply_target_id
-               where r.reply_comment_id = ${commentId}`
+               where r.reply_comment_id = ${commentId}`;
     },
-
 
     // 更新:
     // 更新活动得分
     updateScore: (activityId, newScore, count) => {
-        return `update activities set activity_score_value = ${newScore}, activity_score_count = (${count}+1) 
-                where activity_id = ${activityId}`;
+        return `update activities set activity_score_value = ${newScore}, activity_score_count = (${count}+1) where activity_id = ${activityId}`;
     },
 
     // 增:
@@ -77,19 +126,14 @@ const activity = {
 
     // 回复活动评论
     addReply: (userId, targetId, replyCommentId, replyContent, replyTime, replyStatus = 'unread') => {
-        console.log(`insert into replies(reply_content, reply_comment_id, reply_user_id, reply_time, reply_target_id, reply_status) values ('${replyContent}', ${replyCommentId}, ${userId}, '${replyTime}', ${targetId}, '${replyStatus}')`);
-
         return `insert into replies(reply_content, reply_comment_id, reply_user_id, reply_time, reply_target_id, reply_status) values ('${replyContent}', ${replyCommentId}, ${userId}, '${replyTime}', ${targetId}, '${replyStatus}')`;
-    }, 
+    },
 
     // 删:
     // 取消活动收藏
     removeCollection: (userId, activityId) => {
-        return `delete from collections
-                where user_id = ${userId} and activity_id = ${activityId}`;
+        return `delete from collections where user_id = ${userId} and activity_id = ${activityId}`;
     },
-
-
 };
 
 module.exports = activity;
