@@ -6,7 +6,6 @@ const BASE_URL = '/api/activity';
 const ACTIVITIES_URL = `${BASE_URL}/all`;
 export const getActivities = ({ activityType, activityStatus, currentPage, pageSize }) => {
     const params = { activityType, activityStatus, currentPage, pageSize };
-    console.log(params);
     return axios.get(ACTIVITIES_URL, { params });
 };
 

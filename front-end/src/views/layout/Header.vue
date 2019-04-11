@@ -61,7 +61,6 @@ export default {
       getProfile: 'getProfile'
     }),
     menuSelected(name) {
-      console.log(name);
       if (name === 'signOut') {
         this.signOut();
         this.$router.push({ name: 'login' });
