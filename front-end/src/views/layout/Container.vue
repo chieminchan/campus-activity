@@ -10,7 +10,7 @@
 <style type='text/less' lang='less'>
 .app-main {
   width: 100%;
-  padding: 0 3%;
+  padding: 0 4%;
   min-height: 730px;
   background: #f4f4f4;
 }

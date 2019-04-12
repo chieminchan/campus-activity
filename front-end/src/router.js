@@ -59,6 +59,19 @@ const router = new Router({
           component: () => import('@/views/activity/ActivityPost.vue'),
         }, 
       ]
+    },
+
+    // 个人主页
+    {
+      path: '/user',
+      component: HomePage,
+      children: [
+        { 
+          name: 'user',
+          path: '',
+          component: () => import('@/views/user/UserPage.vue'),
+        },
+      ]
     }
   ]
 });

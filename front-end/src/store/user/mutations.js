@@ -6,4 +6,9 @@ export default {
     mutateType: types.LOAD_USERINFO,
     statePath: 'info'
   }),
+
+  ...generateAsyncMutation(undefined, {
+    mutateType: types.LOAD_USERCOLLECTIONS,
+    statePath: 'userCollections'
+  })
 };

@@ -11,29 +11,29 @@
 						</router-link>
 
 						<template v-if="item.activity_score_value">
-               <Rate class="activity-score" disabled v-model="item.activity_score_value" />
+							<Rate class="activity-score" disabled v-model="item.activity_score_value" />
 						</template>
 						<template v-else>
-               <Rate class="activity-score" disabled v-model="initalScore" />
+							<Rate class="activity-score" disabled v-model="initalScore" />
 						</template>
 
 						<p class="activity-brief"> {{ item.activity_brief }}</p>
 
 						<p class="activity-deadline">
-              <span class="activity-tag">报名截止时间：</span>
-              {{ item.activity_enroll_deadline }}
-            </p>
+							<span class="activity-tag">报名截止时间：</span>
+							{{ item.activity_enroll_deadline }}
+						</p>
 
 						<p class="activity-times">
-              <span class="activity-tag">活动时间：</span>
-              {{ ` ${item.activity_start} - ${item.activity_end} ` }}
-            </p>
+							<span class="activity-tag">活动时间：</span>
+							{{ ` ${item.activity_start} - ${item.activity_end} ` }}
+						</p>
 
 						<template v-if="item.activity_type === 'offline'">
 							<p class="activity-address">
-                <span class="activity-tag">活动地点： </span>
-                {{ item.activity_address }}
-              </p>
+								<span class="activity-tag">活动地点： </span>
+								{{ item.activity_address }}
+							</p>
 						</template>
 					</div>
 
@@ -55,15 +55,15 @@ export default {
 	},
 	data() {
 		return {
-      initalScore: 0.0
-    };
+			initalScore: 0.0
+		};
 	},
 }
 </script>
 <style type='text/less' lang='less'>
 .activity {
 	&-item {
-    position: relative;
+		position: relative;
 		width: 100%;
 		height: 270px;
 		display: flex;
@@ -104,18 +104,19 @@ export default {
 		font-size: 15px;
 		height: 40px;
 		line-height: 40px;
-    padding: 1px 30px !important;
-    position: absolute;
-    right: 15px;
-    top: 5px;
-  }
-  
-  &-brief, &-tag {
-    font-weight: 500;
-    font-size: 15px;
-  }
-  &-brief {
-    color: #3e405d;
-  }
+		padding: 1px 30px !important;
+		position: absolute;
+		right: 15px;
+		top: 5px;
+	}
+
+	&-brief,
+	&-tag {
+		font-weight: 500;
+		font-size: 15px;
+	}
+	&-brief {
+		color: #3e405d;
+	}
 }
 </style>

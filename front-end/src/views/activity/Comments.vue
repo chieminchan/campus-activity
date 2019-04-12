@@ -110,7 +110,6 @@ import stateParseMixin from '@/utils/stateParseMixin';
 import { addActivityComment, addActivityReply } from '@/store/api/activity';
 
 export default {
-  components: {},
   mixins: [stateParseMixin],
   data() {
     return {

@@ -5,6 +5,9 @@ export default {
   namespaced: true,
   state: {
     info: {},
+    userCollections: {},
+    userEnrolled: {},
+    userCreated: {}
   },
   actions,
   mutations
