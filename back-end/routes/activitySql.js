@@ -89,8 +89,8 @@ const activity = {
     // 活动评论
     comments: (activityId) => {
         return `select c.comment_id, comment_activity_id, c.comment_content, c.comment_user_id,
-                c.comment_time, u.user_name as comment_user_name, u.user_sex as comment_user_sex from comments as c
-                inner join users as u on u.user_id = c.comment_user_id
+                c.comment_time, u.user_name as comment_user_name, u.user_sex as comment_user_sex from comments as c 
+                inner join users as u on u.user_id = c.comment_user_id 
                 where c.comment_activity_id = ${activityId}`;
     },
 
