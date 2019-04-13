@@ -14,8 +14,14 @@ const user = {
       return `select * from collections 
       inner join activities as a on a.activity_id  = collections.activity_id 
       where user_id = ${userId}`;
-    }
+    },
 
+    // 查询用户参加过的活动
+    enrolled: (userId) => {
+        return `select * from enrolls 
+        inner join activities as a on a.activity_id  = enrolls.activity_id 
+        where user_id = ${userId}`;
+    }
 
 };
 

@@ -64,4 +64,16 @@ router.get('/collections', async (req, res) => {
         res.send(errorRes(error.message));
     }
 });
+
+// 用户参加过的活动
+router.get('/enrolled', async (req, res) => {
+    try {
+        const { userId } = req.query;
+        const rows = await service.query($sql.enrolled(userId));
+        res.send(correctRes(rows));
+    } catch (error) {
+        res.send(errorRes(error.message));
+    }
+});
+
 module.exports = router;
