@@ -7,4 +7,6 @@ export default {
     getProfile: generateAsyncAction(auth.getProfile, { mutateType: types.LOAD_USERINFO }),
 
     getUserCollections: generateAsyncAction(api.getUserCollections, { mutateType: types.LOAD_USERCOLLECTIONS }),
+
+    getUserEnrolled: generateAsyncAction(api.getUserEnrolled, { mutateType: types.LOAD_USERENROLLED }),
 };

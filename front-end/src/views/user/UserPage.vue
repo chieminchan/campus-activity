@@ -29,11 +29,11 @@
 			<TabPane label="收藏的活动" icon="ios-bookmark">
 				<UserCollections :userId="userInformation.user_id"></UserCollections>
 			</TabPane>
-			<TabPane label="发布过的活动" icon="ios-color-wand">
-				<UserCreated :userId="userInformation.user_id"></UserCreated>
-			</TabPane>
 			<TabPane label="参与过的活动" icon="md-contacts">
 				<UserEnrolled :userId="userInformation.user_id"></UserEnrolled>
+			</TabPane>
+			<TabPane label="发布过的活动" icon="ios-color-wand">
+				<UserCreated :userId="userInformation.user_id"></UserCreated>
 			</TabPane>
 		</Tabs>
 	</Card>
@@ -59,10 +59,8 @@ export default {
 				return this.state.payload.results[0];
 			}
 			return {};
-    }
+		}
 	},
-	methods: {},
-	created() {},
 }
 </script>
 <style type='text/less' lang='less'>
@@ -71,9 +69,9 @@ export default {
 .user {
 	&-page {
 		width: 100%;
-		min-height: 200px;
-		margin-top: 40px;
-		padding: 25px 0 10px;
+		min-height: 180px;
+		margin-top: 35px;
+		padding: 15px 0 10px;
 	}
 	&-infos {
 		.flex-vertical();
@@ -84,8 +82,8 @@ export default {
 	}
 
 	&-info-avatar {
-		width: 130px;
-		height: 130px;
+		width: 120px;
+		height: 120px;
 		background: transparent;
 	}
 
@@ -103,7 +101,7 @@ export default {
 	}
 
 	&-tabs {
-		padding: 50px 70px;
+		padding: 45px 70px;
 	}
 }
 </style>

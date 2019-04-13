@@ -9,11 +9,11 @@
 		</template>
 		<template v-else v-for="(item, index) in collectionLists">
 			<Card class="activity-card" :key="index">
-				<router-link slot="title" :to="{ name: 'index-detail', params: {aid: item.activity_id} }">
+				<router-link slot="title" :to="{ name: 'find-detail', params: {aid: item.activity_id} }">
 					<h3 class="activity-title"> {{ item.activity_name }} </h3>
 				</router-link>
 
-				<router-link :to="{ name: 'index-detail', params: {aid: item.activity_id} }">
+				<router-link :to="{ name: 'find-detail', params: {aid: item.activity_id} }">
 					<div class="activity-poster" :style="{ backgroundImage: 'url(' + item.activity_poster_front +')'}">
 					</div>
 				</router-link>
