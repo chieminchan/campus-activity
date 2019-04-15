@@ -1,6 +1,6 @@
 const express = require('express');
 const service = require('../config/mySqlConfig');
-const { errorRes, correctRes, correctRes_msg } = require('../config/responseFormat');
+const { errorRes, correctRes, correctRes_msg, warningRes } = require('../config/responseFormat');
 const $sql = require('./userSql');
 const router = express.Router();
 
@@ -44,7 +44,7 @@ router.get('/profile', async (req, res) => {
     } catch (error) {
         res.send(errorRes(error.message));
     }
-})
+});
 
 // 登出
 router.get('/logout', (req, res) => {
@@ -52,6 +52,38 @@ router.get('/logout', (req, res) => {
     req.session.destroy(() => {
         res.send(correctRes_msg('登出成功！'));
     });
+});
+
+// 修改用户个人密码
+router.post('/update/pwd', async (req, res) => {
+    try {
+        const { userId, oldPwd, newPwd } = req.body.params;
+        const oldUserPwd = await service.query($sql.userPwd(userId));
+        if (oldPwd && oldUserPwd[0].user_password === oldPwd) {
+            await service.query($sql.updatePwd(userId, newPwd));
+            res.send(correctRes_msg('个人密码修改成功'));
+        } else {
+            res.send(errorRes('原始密码输入不正确！'));
+        }
+    } catch (error) {
+        res.send(errorRes(error.message));
+    }
+});
+
+// 修改用户个人信息
+router.post('/update/info', async (req, res) => {
+    try {
+        const { userId, oldPhone, newPhone } = req.body.params;
+        const oldInfo = await service.query($sql.userInfo(userId));
+        if (oldPhone && oldInfo[0].user_phone === oldPhone) {
+            await service.query($sql.updateInfo(userId, newPhone));
+            res.send(correctRes_msg('个人信息修改成功'));
+        } else {
+            res.send(errorRes('旧手机号码输入不正确！'));
+        }
+    } catch (error) {
+        res.send(errorRes(error.message));
+    }
 });
 
 // 用户收藏的活动

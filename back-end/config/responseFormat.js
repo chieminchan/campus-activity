@@ -10,8 +10,8 @@ module.exports = {
   correctRes: (data) => {
     return {
       'status': 0,
-      'results': data,
-      'message': ''
+      'message': '',
+      'results': data
     };
   },
   correctRes_msg: (tips) => {
