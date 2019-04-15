@@ -19,22 +19,9 @@ export default [
     title: '发布',
     icon: 'logo-dribbble',
     name: 'publish',
-    children: [
-      {
-        to: {
-          path: '/publish/activity',
-        },
-        title: '发布线上活动',
-        name: 'online',
-      },
-      {
-        to: {
-          path: '/publish/offline',
-        },
-        title: '发布线下活动',
-        name: 'vote',
-      },
-    ],
+    to: {
+      path: '/publish',
+    },
   },
   {
     title: '个人主页',
