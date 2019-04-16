@@ -92,10 +92,10 @@ export default {
 			background-size: cover;
 			transition: all 0.2s ease-in;
 		}
-
+		
 		&-brief {
-			line-height: 20px;
-			text-indent: 5px;
+			margin-top: 15px;
+			margin-left: 5px;
 		}
 	}
 

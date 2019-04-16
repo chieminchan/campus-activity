@@ -78,7 +78,7 @@
 				<UserEnrolled :userId="userInformation.user_id"></UserEnrolled>
 			</TabPane>
 			<TabPane label="发布过的活动" icon="ios-color-wand">
-				<UserCreated :userId="userInformation.user_id"></UserCreated>
+				<UserPublished :userId="userInformation.user_id"></UserPublished>
 			</TabPane>
 		</Tabs>
 	</Card>
@@ -90,10 +90,10 @@ import stateParseMixin from '@/utils/stateParseMixin';
 import { updateUserPwd, updateUserInfo } from '@/store/api/user';
 import UserCollections from './UserCollections';
 import UserEnrolled from './UserEnrolled';
-import UserCreated from './UserCreated';
+import UserPublished from './UserPublished';
 
 export default {
-	components: { UserCollections, UserEnrolled, UserCreated },
+	components: { UserCollections, UserEnrolled, UserPublished },
 	mixins: [stateParseMixin],
 	data() {
 		return {

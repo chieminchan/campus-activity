@@ -7,7 +7,7 @@ export default {
     info: {},
     userCollections: {},
     userEnrolled: {},
-    userCreated: {}
+    userPublished: {}
   },
   actions,
   mutations

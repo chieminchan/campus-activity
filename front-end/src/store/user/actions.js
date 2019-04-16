@@ -9,4 +9,6 @@ export default {
     getUserCollections: generateAsyncAction(api.getUserCollections, { mutateType: types.LOAD_USERCOLLECTIONS }),
 
     getUserEnrolled: generateAsyncAction(api.getUserEnrolled, { mutateType: types.LOAD_USERENROLLED }),
+
+    getUserPublished: generateAsyncAction(api.getUserPublished, { mutateType: types.LOAD_USERPUBLISHED}),
 };

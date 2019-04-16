@@ -3,7 +3,7 @@
 		<template v-if="isEmpty">
 			<div class="empty-tips">
 				<p><i class="fa fa-meh-o" aria-hidden="true"></i></p>
-				<p>脉动起来，要踊跃参加校园活动哦！</p>
+				<p> 脉动起来，要踊跃参加校园活动哦！</p>
 			</div>
 		</template>
 		<template v-else v-for="(item, index) in enrolledLists">
@@ -93,8 +93,8 @@ export default {
 		}
 
 		&-brief {
-			line-height: 20px;
-			text-indent: 5px;
+			margin-top: 15px;
+			margin-left: 5px;
 		}
 	}
 

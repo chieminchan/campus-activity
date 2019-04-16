@@ -15,5 +15,10 @@ export default {
   ...generateAsyncMutation(undefined, {
     mutateType: types.LOAD_USERENROLLED,
     statePath: 'userEnrolled'
-  })
+  }),
+
+  ...generateAsyncMutation(undefined, {
+    mutateType: types.LOAD_USERPUBLISHED,
+    statePath: 'userPublished'
+  }),
 };
