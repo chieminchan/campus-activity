@@ -23,6 +23,11 @@ const user = {
         where user_id = ${userId}`;
     },
 
+    // 查询用户发布过的活动
+    published: (userId) => {
+        return `select * from activities where activity_creator_id = ${userId}`;
+    },
+
     // 查询用户密码
     userPwd: (userId) => {
         return `select user_password from users where user_id = ${userId}`;
@@ -31,6 +36,23 @@ const user = {
     // 查询用户手机号码
     userInfo: (userId) => {
         return `select user_phone from users where user_id = ${userId}`;
+    },
+
+    // 修改用户发布的活动信息
+    updateActivity: (data) => {
+        const {
+            activity_id,
+            activity_name,
+            activity_brief,
+            activity_address,
+            activity_enroll_deadline,
+            activity_start,
+            activity_end,
+            activity_concat_name,
+            activity_concat_phone,
+            activity_addition
+        } = data;
+        return `update activities set activity_name = '${activity_name}', activity_brief = '${activity_brief}', activity_address = '${activity_address}', activity_enroll_deadline = '${activity_enroll_deadline}', activity_start = '${activity_start}', activity_end = '${activity_end}', activity_concat_name = '${activity_concat_name}', activity_concat_phone = ${activity_concat_phone}, activity_addition = '${activity_addition}' where activity_id = ${activity_id}`;
     },
 
     // 修改用户个人密码

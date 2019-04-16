@@ -11,9 +11,11 @@
     "ejs": "~2.5.7",
     "express": "~4.16.0",
     "express-session": "^1.15.6",
+    "formidable": "^1.2.1",
     "http-errors": "~1.6.2",
     "moment": "^2.24.0",
     "morgan": "~1.9.0",
+    "multiparty": "^4.2.1",
     "mysql": "^2.16.0"
   }
 }

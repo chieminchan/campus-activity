@@ -1,6 +1,8 @@
 const express = require('express');
 const service = require('../config/mySqlConfig');
-const { errorRes, correctRes, correctRes_msg, warningRes } = require('../config/responseFormat');
+const querystring = require('querystring');
+const formidable = require('formidable');
+const { errorRes, correctRes, correctRes_msg } = require('../config/responseFormat');
 const $sql = require('./userSql');
 const router = express.Router();
 
@@ -21,7 +23,6 @@ router.post('/login', async (req, res) => {
                 'message': '请检查账号和密码是否输入正确.'
             });
         }
-
     } catch (error) {
         res.send(errorRes(error.message));
     }
@@ -103,6 +104,40 @@ router.get('/enrolled', async (req, res) => {
         const { userId } = req.query;
         const rows = await service.query($sql.enrolled(userId));
         res.send(correctRes(rows));
+    } catch (error) {
+        res.send(errorRes(error.message));
+    }
+});
+
+// 用户创建过的活动
+router.get('/published', async (req, res) => {
+    try {
+        const { userId } = req.query;
+        const rows = await service.query($sql.published(userId));
+
+        // 将活动信息中的addition转换成json格式
+        rows.map((item) => {
+            const addition = item['activity_addition'];
+            item['activity_addition'] = querystring.parse(addition, "*", ":");
+        });
+
+        res.send(correctRes(rows));
+    } catch (error) {
+        res.send(errorRes(error.message));
+    }
+});
+
+// 修改创建的活动信息
+router.post('/published/update', async (req, res) => {
+    try {
+        const form = new formidable.IncomingForm();
+        form.parse(req, (err, data) => {
+            // 将活动信息中的addition转换成字符串
+            const addition = JSON.parse(data.activity_addition);
+            data['activity_addition'] = querystring.stringify(addition, '*', ':');
+            service.query($sql.updateActivity(data));
+            res.send(correctRes_msg('活动信息修改成功'));
+        });
     } catch (error) {
         res.send(errorRes(error.message));
     }

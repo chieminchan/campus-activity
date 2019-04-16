@@ -1,7 +1,7 @@
 const express = require('express');
 const moment = require('moment');
 const service = require('../config/mySqlConfig');
-const querystring = require('querystring')
+const querystring = require('querystring');
 const { errorRes, correctRes, correctRes_msg } = require('../config/responseFormat');
 const $sql = require('./activitySql');
 const router = express.Router();
