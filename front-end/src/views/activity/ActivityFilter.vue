@@ -131,7 +131,6 @@ export default {
 	&-page {
 		width: 100%;
 		padding: 0 3% 1%;
-		margin-top: 30px;
 	}
 
 	&-items {

@@ -241,7 +241,6 @@ export default {
 
 <style type='text/less' lang='less'>
 .detail {
-  margin-top: 20px;
   padding: 0 5%;
   .title {
     margin: 10px;

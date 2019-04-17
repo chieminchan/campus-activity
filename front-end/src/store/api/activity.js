@@ -75,3 +75,14 @@ export const updateActivityEnroll = ({ userId, activityId }) => {
     const params = { userId, activityId };
     return axios.post(UPDATE_ACTIVITY_ENROLL, { params });
 };
+
+// 活动发布申请
+const UPDATE_ACTIVITY_APPROVAL = `/api/approval/add`;
+export const updateApproval = (params => {
+    const { addition } = params;
+    if (addition) {
+        const addition = JSON.stringify(addition);
+        params.addition = addition;
+    }
+    return axios.post(UPDATE_ACTIVITY_APPROVAL, params, { paramType: 'form' });
+});

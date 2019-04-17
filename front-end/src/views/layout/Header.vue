@@ -78,6 +78,7 @@ export default {
 .head {
   width: 100%;
   height: 65px;
+  margin-bottom: 30px;
   background: #ffffff;
   box-shadow: 0 1px 3px rgba(26, 26, 26, 0.1);
   background-clip: content-box;

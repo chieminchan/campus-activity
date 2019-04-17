@@ -187,7 +187,6 @@ export default {
 	&-page {
 		width: 100%;
 		min-height: 180px;
-		margin-top: 35px;
 		padding: 15px 0 10px;
 	}
 

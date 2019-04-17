@@ -27,17 +27,17 @@ export const updatePublished = (params => {
         const addition = JSON.stringify(activity_addition);
         params.activity_addition = addition;
     }
-    return axios.post(UPDATE_PUBLISHEDINFO, params, { paramType: 'form' });
+    return axios.put(UPDATE_PUBLISHEDINFO, params, { paramType: 'form' });
 })
 
 const UPDATE_PWD = `${BASE_URL}/update/pwd`;
 export const updateUserPwd = ({ userId, oldPwd, newPwd }) => {
     const params = { userId, oldPwd, newPwd };
-    return axios.post(UPDATE_PWD, { params });
+    return axios.put(UPDATE_PWD, { params });
 };
 
 const UPDATE_INFO = `${BASE_URL}/update/info`;
 export const updateUserInfo = ({ userId, oldPhone, newPhone }) => {
     const params = { userId, oldPhone, newPhone };
-    return axios.post(UPDATE_INFO, { params });
+    return axios.put(UPDATE_INFO, { params });
 };

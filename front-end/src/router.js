@@ -61,6 +61,19 @@ const router = new Router({
       ]
     },
 
+    // 活动发布
+    {
+      path: '/publish',
+      component: HomePage,
+      children: [
+        {
+          name: 'publish',
+          path: '',
+          component: () => import('@/views/publish/Index.vue'),
+        }
+      ]
+    },
+
     // 个人主页
     {
       path: '/user',

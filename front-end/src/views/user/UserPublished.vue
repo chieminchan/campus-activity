@@ -154,15 +154,14 @@ export default {
 				activity_concat_phone,
 				activity_addition
 			};
-
 			updatePublished(params)
-			.then(() => {
-				this.$Message.success('修改活动信息成功！');
-				this.loadData();
-			})
-			.catch(() => {
-				this.$Message.success('修改活动信息失败！');
-			});
+				.then(() => {
+					this.$Message.success('修改活动信息成功！');
+					this.loadData();
+				})
+				.catch(() => {
+					this.$Message.success('修改活动信息失败！');
+				});
 		}
 	},
 	mounted() {
