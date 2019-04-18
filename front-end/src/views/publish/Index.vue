@@ -146,6 +146,7 @@
 
 <script>
 import _ from 'lodash';
+import { mapState } from 'vuex';
 import { updateApproval } from '@/store/api/activity';
 
 export default {
@@ -160,7 +161,12 @@ export default {
 			additionObj: {}
 		};
 	},
-	computed: {},
+	computed: {
+		...mapState({ user: 'profile' }),
+		userInformation() {
+			return this. user.payload.results[0];
+		}
+	},
 	methods: {
 		confirmDeadline(datetime) {
 			const { end } = this.newActivity;
@@ -215,10 +221,12 @@ export default {
 				concator,
 				concatorPhone,
 				frontPoster,
-				backPoster,
-				addition
-			} = this.newActivity;
+        backPoster,
+        addition,
+      } = this.newActivity;
+      const options = addition;
 			const params = {
+        userId: this.userInformation.user_id,
 				name,
 				type,
 				brief,
@@ -229,9 +237,10 @@ export default {
 				concator,
 				concatorPhone,
 				frontPoster,
-				backPoster,
-				addition
-			};
+        backPoster,
+        addition: options
+      };
+      console.log(params);      
 			updateApproval(params);
 		},
 		removeAddition(key) {

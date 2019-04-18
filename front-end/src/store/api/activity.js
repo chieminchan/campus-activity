@@ -78,11 +78,24 @@ export const updateActivityEnroll = ({ userId, activityId }) => {
 
 // 活动发布申请
 const UPDATE_ACTIVITY_APPROVAL = `/api/approval/add`;
-export const updateApproval = (params => {
-    const { addition } = params;
+const UPLOAD_URL = 'https://sm.ms/api/upload';
+export const updateApproval = ( async (params) => {
+    const { addition, frontPoster, backPoster } = params;
     if (addition) {
         const addition = JSON.stringify(addition);
         params.addition = addition;
     }
+
+    if (frontPoster) {
+        // const options = new FormData();
+        // options.append('smfile', frontPoster);
+        const uploadParams = { smfile: frontPoster };
+        await axios.post(UPLOAD_URL, uploadParams, { paramType: 'form' })
+            .then((res) => {
+                console.log(res);
+                params.frontPoster = res.url;
+            });
+    }
+
     return axios.post(UPDATE_ACTIVITY_APPROVAL, params, { paramType: 'form' });
 });
