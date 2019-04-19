@@ -1,17 +1,17 @@
 <template>
 	<Card class="publish-page">
 		<h2>校园活动发布</h2>
-		<Form class="publish-form">
+		<Form class="publish-form" ref="publishForm" :rules="publishRules">
 			<Row :gutter="24">
 				<Col span="12">
-				<FormItem>
+				<FormItem prop="name">
 					<label class="item-label">活动主题：</label>
 					<Input class="item-content" type="text" v-model="newActivity.name" placeholder="活动主题">
 					</Input>
 				</FormItem>
 				</Col>
 				<Col span="12">
-				<FormItem>
+				<FormItem prop="type">
 					<label class="item-label">活动类型：</label>
 					<Select class="item-content" v-model="newActivity.type" placeholder="选择活动类型">
 						<Option value="online">线上活动</Option>
@@ -22,14 +22,14 @@
 			</Row>
 			<Row :gutter="24">
 				<Col span="12">
-				<FormItem>
+				<FormItem prop="address">
 					<label class="item-label">活动地点：</label>
 					<Input class="item-content" type="text" v-model="newActivity.address" placeholder="如果为线下类型的活动，请输入活动地点。">
 					</Input>
 				</FormItem>
 				</Col>
 				<Col span="12">
-				<FormItem>
+				<FormItem prop="brief">
 					<label class="item-label">活动简介：</label>
 					<Input class="item-content" type="text" v-model="newActivity.brief" placeholder="简单介绍一下活动，方便同学们了解。">
 					</Input>
@@ -38,14 +38,18 @@
 			</Row>
 			<Row :gutter="24">
 				<Col span="12">
-				<FormItem>
+				<FormItem prop="deadline">
 					<label class="item-label">报名截止时间：</label>
-					<DatePicker class="date-picker" v-model="newActivity.enrollDeadline" type="datetime" format="yyyy-MM-dd HH:mm:ss"
-					 :confirm=true @on-change="confirmDeadline"></DatePicker>
+					<DatePicker class="date-picker"
+                      v-model="newActivity.enrollDeadline" 
+                      type="datetime" 
+                      format="yyyy-MM-dd HH:mm:ss"
+                      :confirm=true 
+                      @on-change="confirmDeadline"></DatePicker>
 				</FormItem>
 				</Col>
 				<Col :span="12">
-				<FormItem>
+				<FormItem prop="concat">
 					<label class="item-label">活动联系方式：</label>
 					<Input class="concat" type="text" v-model="newActivity.concator" placeholder="联系人">
 					</Input> :
@@ -56,30 +60,42 @@
 			</Row>
 			<Row :gutter="24">
 				<Col span="12">
-				<FormItem>
+				<FormItem prop="start">
 					<label class="item-label">活动开始时间：</label>
-					<DatePicker class="date-picker" v-model="newActivity.start" type="date" format="yyyy-MM-dd"
-					 :confirm=true @on-change="confirmStart"></DatePicker>
+					<DatePicker class="date-picker"
+                      v-model="newActivity.start"
+                      type="date"
+                      format="yyyy-MM-dd"
+                      :confirm=true 
+                      @on-change="confirmStart"></DatePicker>
 				</FormItem>
 				</Col>
 				<Col span="12">
-				<FormItem>
+				<FormItem prop="end">
 					<label class="item-label">活动结束时间：</label>
-					<DatePicker class="date-picker" v-model="newActivity.end" type="date" format="yyyy-MM-dd"
-					 :confirm=true @on-change="confirmEnd"></DatePicker>
+					<DatePicker class="date-picker"
+          v-model="newActivity.end"
+          type="date"
+          format="yyyy-MM-dd"
+          :confirm=true
+          @on-change="confirmEnd"></DatePicker>
 				</FormItem>
 				</Col>
 			</Row>
 			<Row :gutter="24">
 				<Col span="14">
-				<FormItem>
+				<FormItem prop="poster">
 					<label class="item-label">活动海报（正面）：</label>
-					<Upload type="drag" :before-upload="frontPosterUploaded" action="null" accept="image/jpeg,image/png,image/jpg"
-					 :format="['jpg','jpeg','png']" :loading="isLoading">
-						<div style="padding: 20px 0">
-							<Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-							<p>选择图片或者拖拽图片进行上传</p>
-						</div>
+					<Upload type="drag"
+                  :before-upload="frontPosterUploaded"
+                  action="null"
+                  accept="image/jpeg,image/png,image/jpg"
+                  :format="['jpg','jpeg','png']"
+                  :loading="isLoading">
+              <div style="padding: 20px 0">
+                <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                <p>{{frontPostTip}}</p>
+              </div>
 					</Upload>
 				</FormItem>
 				</Col>
@@ -99,11 +115,15 @@
 				<Col span="14">
 				<FormItem>
 					<label class="item-label">活动海报（反面）：</label>
-					<Upload type="drag" :before-upload="backPosterUploaded" action="null" accept="image/jpeg,image/png,image/jpg"
-					 :format="['jpg','jpeg','png']" :loading="isLoading">
+					<Upload type="drag" 
+                  :before-upload="backPosterUploaded" 
+                  action="null" 
+                  accept="image/jpeg,image/png,image/jpg"
+                  :format="['jpg','jpeg','png']" 
+                  :loading="isLoading">
 						<div style="padding: 20px 0">
 							<Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-							<p>选择图片或者拖拽图片进行上传</p>
+							<p>{{backPostTip}}</p>
 						</div>
 					</Upload>
 				</FormItem>
@@ -119,8 +139,8 @@
 							<span class="item-content">{{value}}</span>
 							<Button type="text" icon="md-close" shape="circle" size="small" @click.prevent="removeAddition(key)"></Button>
 						</p>
-
 					</template>
+
 					<div class="addition-item">
 						<Input class="addition-key" type="text" v-model="additionObj.key" placeholder="信息字段">
 						</Input>
@@ -134,7 +154,8 @@
 			<Row>
 				<FormItem>
 					<div class="actions">
-						<Button class="btn" type="warning" :loading="isLoading" @click.prevent="moreAddition" ghost>增加额外信息</Button>
+						<Button class="btn" type="warning" :loading="isLoading" @click.prevent="moreAddition" ghost>添加活动额外信息
+							(填写完信息需再点击一次才确认添加)</Button>
 						<Button class="btn" type="primary" :loading="isLoading" @click.prevent="addApproval">提交发布申请</Button>
 					</div>
 				</FormItem>
@@ -147,6 +168,7 @@
 <script>
 import _ from 'lodash';
 import { mapState } from 'vuex';
+import { uploadImg } from '@/utils/uploadImage';
 import { updateApproval } from '@/store/api/activity';
 
 export default {
@@ -156,15 +178,33 @@ export default {
 			isLoading: false,
 			hasAddition: false,
 			newActivity: {
+				name: '',
+				type: '',
+				brief: '',
+				address: '',
+				deadline: '',
+				start: '',
+				end: '',
+				concator: '',
+				concatorPhone: '',
+				frontPoster: '',
+				backPoster: '',
 				addition: {}
 			},
-			additionObj: {}
+			additionObj: {},
+			frontPostTip: '选择图片或者拖拽图片进行上传',
+			backPostTip: '选择图片或者拖拽图片进行上传',
+			publishRules: {
+				name: [
+					{ required: true, message: '活动主题必不可少哦！', trigger: 'blur' }
+				]
+			}
 		};
 	},
 	computed: {
 		...mapState({ user: 'profile' }),
 		userInformation() {
-			return this. user.payload.results[0];
+			return this.user.payload.results[0];
 		}
 	},
 	methods: {
@@ -194,57 +234,81 @@ export default {
 		},
 		frontPosterUploaded(file) {
 			this.newActivity.frontPoster = file;
+			this.frontPostTip = `${file.name} 已选择成功`;
 			return false;
 		},
 		backPosterUploaded(file) {
 			this.newActivity.backPoster = file;
+			this.backPostTip = `${file.name} 已选择成功`;
 			return false;
 		},
 		moreAddition() {
 			this.hasAddition = true;
 			const { additionObj } = this;
+
 			if (additionObj && additionObj.hasOwnProperty('key') && additionObj.hasOwnProperty('value')) {
 				const { key, value } = this.additionObj;
 				this.newActivity.addition[key] = value;
 				this.additionObj = {};
 			}
 		},
-		addApproval() {
-			const {
-				name,
-				type,
-				brief,
-				address,
-				deadline,
-				start,
-				end,
-				concator,
-				concatorPhone,
-				frontPoster,
-        backPoster,
-        addition,
-      } = this.newActivity;
-      const options = addition;
-			const params = {
-        userId: this.userInformation.user_id,
-				name,
-				type,
-				brief,
-				address,
-				deadline,
-				start,
-				end,
-				concator,
-				concatorPhone,
-				frontPoster,
-        backPoster,
-        addition: options
-      };
-      console.log(params);      
-			updateApproval(params);
+		async addApproval() {
+
+			const params = { ...this.newActivity };
+			params.userId = this.userInformation.user_id;
+
+			const { frontPoster, backPoster } = params;
+			if (frontPoster instanceof File) {
+				await uploadImg(frontPoster)
+					.then((res) => {
+						params.frontPoster = res.data.data.url;
+					})
+					.catch(() => {
+						this.$Message.error('图片上传失败，请重试！');
+						return;
+					})
+			}
+
+			if (backPoster instanceof File) {
+				await uploadImg(backPoster)
+					.then((res) => {
+						params.backPoster = res.data.data.url;
+					})
+					.catch(() => {
+						this.$Message.error('图片上传失败，请重试！');
+						return;
+					})
+			}
+
+			await updateApproval(params)
+				.then(() => {
+					this.$Message.success('提交活动申请成功！');
+					this.frontPostTip = '选择图片或者拖拽图片进行上传';
+          this.backPostTip = '选择图片或者拖拽图片进行上传';
+          this.reset();
+				})
+				.catch(() => {
+					this.$Message.error('活动发布申请失败，请重试！');
+				})
 		},
 		removeAddition(key) {
 			this.newActivity.addition = _.omit(this.newActivity.addition, [key]);
+		},
+		reset() {
+			this.newActivity = {
+				name: '',
+				type: '',
+				brief: '',
+				address: '',
+				deadline: '',
+				start: '',
+				end: '',
+				concator: '',
+				concatorPhone: '',
+				frontPoster: '',
+				backPoster: '',
+				addition: {}
+			}
 		}
 	},
 }

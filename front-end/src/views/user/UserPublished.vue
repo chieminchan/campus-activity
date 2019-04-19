@@ -129,31 +129,7 @@ export default {
 			this.currentActivity.activity_end = newDate;
 		},
 		updateActivity() {
-			const {
-				activity_id,
-				activity_name,
-				activity_brief,
-				activity_address,
-				activity_enroll_deadline,
-				activity_start,
-				activity_end,
-				activity_concat_name,
-				activity_concat_phone,
-				activity_addition
-			} = this.currentActivity;
-
-			const params = {
-				activity_id,
-				activity_name,
-				activity_brief,
-				activity_address,
-				activity_enroll_deadline,
-				activity_start,
-				activity_end,
-				activity_concat_name,
-				activity_concat_phone,
-				activity_addition
-			};
+			const params = {...this.currentActivity};
 			updatePublished(params)
 				.then(() => {
 					this.$Message.success('修改活动信息成功！');

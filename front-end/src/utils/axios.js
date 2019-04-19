@@ -2,10 +2,11 @@ import _ from 'lodash';
 import axios from 'axios';
 import Qs from 'qs';
 import router from '@/router';
+import { Notice } from 'iview';
 
 // 创建axios实例,对axios进行封装
 const instance = axios.create({
-  timeout: 50000,
+  timeout: 60000,
   withCredentials: true,
   paramsSerializer(data) {
     return Qs.stringify(data, {
@@ -35,9 +36,7 @@ instance.interceptors.request.use((config) => {
 // response拦截器
 instance.interceptors.response.use(
   (response) => {
-    const {
-      data
-    } = response;
+    const { data } = response;
     const path = `${location.pathname}${location.search}`;
     switch (data.status) {
       case 0:
@@ -56,7 +55,7 @@ instance.interceptors.response.use(
     return Promise.reject(data);
   },
   (error) => {
-    this.$Notice.error({
+    Notice.error({
       title: error
     });
     return Promise.reject(error);
