@@ -56,7 +56,7 @@ router.get('/logout', (req, res) => {
 });
 
 // 修改用户个人密码
-router.post('/update/pwd', async (req, res) => {
+router.put('/update/pwd', async (req, res) => {
     try {
         const { userId, oldPwd, newPwd } = req.body.params;
         const oldUserPwd = await service.query($sql.userPwd(userId));
@@ -72,7 +72,7 @@ router.post('/update/pwd', async (req, res) => {
 });
 
 // 修改用户个人信息
-router.post('/update/info', async (req, res) => {
+router.put('/update/info', async (req, res) => {
     try {
         const { userId, oldPhone, newPhone } = req.body.params;
         const oldInfo = await service.query($sql.userInfo(userId));
@@ -128,13 +128,15 @@ router.get('/published', async (req, res) => {
 });
 
 // 修改创建的活动信息
-router.post('/published/update', async (req, res) => {
+router.put('/published/update', async (req, res) => {
     try {
         const form = new formidable.IncomingForm();
         form.parse(req, (err, data) => {
-            // 将活动信息中的addition转换成字符串
+
+            // 将活动信息中的addition字符串转成特定格式存入数据库
             const addition = JSON.parse(data.activity_addition);
             data['activity_addition'] = querystring.stringify(addition, '*', ':');
+
             service.query($sql.updateActivity(data));
             res.send(correctRes_msg('活动信息修改成功'));
         });

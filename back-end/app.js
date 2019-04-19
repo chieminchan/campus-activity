@@ -5,9 +5,9 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
 var activityRouter = require('./routes/activity');
+var approvalRouter = require('./routes/approval');
 
 var app = express();
 
@@ -32,9 +32,9 @@ app.use(session({
   cookie: {maxAge: 24*60*60*1000, httpOnly: true}
 }));
 
-app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/activity', activityRouter);
+app.use('/approval', approvalRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
