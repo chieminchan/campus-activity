@@ -89,9 +89,17 @@ export default {
 
 			login({ userId, password }).then(() => {
 				this.$Message.success('登录成功');
-				const { query } = this.$route;
-				const to = query.hasOwnProperty('q') ? query.q : { name: 'home' };
-				this.$router.replace(to);
+
+				// 管理员或者超级管理员进入后台
+				if (character === 'manager' || character === 'root') {
+					this.$router.push({name: 'admin-index'});
+				}
+
+				if (character === 'student') {
+					const { query } = this.$route;
+					const to = query.hasOwnProperty('q') ? query.q : { name: 'home' };
+					this.$router.replace(to);
+				}
 			})
 				.catch(() => {
 					this.isFetching = false;

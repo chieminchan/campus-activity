@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import iView from 'iview';
 
-import HomePage from '@/views/layout/HomePage.vue';
+import HomePage from '@/views/client/layout/HomePage.vue';
 
 Vue.use(iView);
 Vue.use(Router);
@@ -33,7 +33,7 @@ const router = new Router({
             children: [{
                 name: 'activity',
                 path: '',
-                component: () => import('@/views/activity/Index.vue'),
+                component: () => import('@/views/client/activity/Index.vue'),
             }]
         },
 
@@ -44,17 +44,17 @@ const router = new Router({
             children: [{
                     name: 'find',
                     path: '',
-                    component: () => import('@/views/activity/ActivityFilter.vue'),
+                    component: () => import('@/views/client/activity/ActivityFilter.vue'),
                 },
                 {
                     name: 'find-detail',
                     path: ':aid',
-                    component: () => import('@/views/activity/ActivityPost.vue'),
+                    component: () => import('@/views/client/activity/ActivityPost.vue'),
                 },
                 {
                     name: 'post-work',
                     path: ':aid/work/new',
-                    component: () => import('@/views/activity/PostWork.vue'),
+                    component: () => import('@/views/client/activity/PostWork.vue'),
                 }
             ]
         },
@@ -66,7 +66,7 @@ const router = new Router({
             children: [{
                 name: 'publish',
                 path: '',
-                component: () => import('@/views/publish/Index.vue'),
+                component: () => import('@/views/client/publish/Index.vue'),
             }]
         },
 
@@ -77,7 +77,7 @@ const router = new Router({
             children: [{
                 name: 'user',
                 path: '',
-                component: () => import('@/views/user/UserPage.vue'),
+                component: () => import('@/views/client/user/UserPage.vue'),
             }, ]
         }
     ]
