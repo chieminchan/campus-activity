@@ -56,7 +56,7 @@ const activity = {
     },
 
     // 最新活动
-    latest: 'select activity_id, activity_name, activity_poster_front from activities order by activity_start desc limit 2',
+    latest: 'select activity_id, activity_name, activity_poster_front from activities order by activity_start desc limit 4',
 
     // 首页活动列表
     typeLists: (type) => {
@@ -117,6 +117,11 @@ const activity = {
     // 活动报名
     addEnroll: (userId, activityId) => {
         return `insert into enrolls(user_id, activity_id) values (${userId}, ${activityId})`;
+    },
+
+    // 活动作品上传
+    addWorks: (data) => {
+
     },
 
     // 发布活动评论

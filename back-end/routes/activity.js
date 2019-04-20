@@ -185,4 +185,13 @@ router.post('/updateEnroll', async (req, res) => {
     }
 });
 
+// 活动作品上传
+router.post('/postWorks', async (req, res) => {
+    try {
+        
+    } catch (error) {
+        res.send(errorRes(error.message));        
+    }
+});
+
 module.exports = router;
