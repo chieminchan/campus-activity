@@ -1,7 +1,8 @@
 const express = require('express');
 const moment = require('moment');
-const service = require('../config/mySqlConfig');
 const querystring = require('querystring');
+const formidable = require('formidable');
+const service = require('../config/mySqlConfig');
 const { errorRes, correctRes, correctRes_msg } = require('../config/responseFormat');
 const $sql = require('./activitySql');
 const router = express.Router();
@@ -38,9 +39,9 @@ router.get('/typeLists', async (req, res) => {
         rows.map((item) => {
             const endTime = item.activity_end;
             const startTime = item.activity_start;
-            if( endTime < now ) {
+            if (endTime < now) {
                 item.current_status = 'over';
-            } else if ( endTime > now && startTime < now ) {
+            } else if (endTime > now && startTime < now) {
                 item.current_status = 'processing';
             } else {
                 item.current_status = 'waitting';
@@ -123,7 +124,7 @@ router.post('/comment/new', async (req, res) => {
 // 回复活动评论
 router.post('/reply/new', async (req, res) => {
     try {
-        const { replyCommentId, userId, targetId, replyContent, replyTime} = req.body.params;
+        const { replyCommentId, userId, targetId, replyContent, replyTime } = req.body.params;
         await service.query($sql.addReply(userId, targetId, replyCommentId, replyContent, replyTime));
         res.send(correctRes_msg('update reply successfully'));
 
@@ -186,11 +187,21 @@ router.post('/updateEnroll', async (req, res) => {
 });
 
 // 活动作品上传
-router.post('/postWorks', async (req, res) => {
+router.post('/postWork', async (req, res) => {
     try {
-        
+        const form = new formidable.IncomingForm();
+        await form.parse(req, (err, data) => {
+            service.query($sql.addWork(data))
+                .then(() => {
+                    res.send(correctRes_msg('add activity work successfully'));
+                })
+                .catch((error) => {
+                    res.send(errorRes(error.message));
+                })
+        });
+
     } catch (error) {
-        res.send(errorRes(error.message));        
+        res.send(errorRes(error.message));
     }
 });
 

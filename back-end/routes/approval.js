@@ -6,7 +6,7 @@ const { errorRes, correctRes, correctRes_msg } = require('../config/responseForm
 const $sql = require('./approvalSql');
 const router = express.Router();
 
-router.post('/add', async (req, res) => {
+router.post('/addApproval', async (req, res) => {
 
     try {
         const form = new formidable.IncomingForm();
@@ -19,7 +19,7 @@ router.post('/add', async (req, res) => {
             }
             service.query($sql.addApproval(data))
                 .then(() => {
-                    res.send(correctRes_msg('update comment successfully'));
+                    res.send(correctRes_msg('post approval successfully'));
                 })
                 .catch((error) => {
                     res.send(errorRes(error.message));

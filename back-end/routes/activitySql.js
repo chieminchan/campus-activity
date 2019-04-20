@@ -120,8 +120,12 @@ const activity = {
     },
 
     // 活动作品上传
-    addWorks: (data) => {
-
+    addWork: (data) => {
+        const {
+            name, brief, content, backWork, frontWork, author, activityId
+        } = data;
+        return `insert into activity_works(work_name, work_brief, work_content, work_activity_id,
+            work_author_id, work_front_img, work_back_img) values ('${name}', '${brief}', '${content}', '${activityId}', '${author}', '${frontWork}', '${backWork}')`;
     },
 
     // 发布活动评论
