@@ -43,18 +43,26 @@
 				</FormItem>
 				<FormItem>
 					<label class="item-label">报名截止时间：</label>
-					<DatePicker :value="currentActivity.activity_enroll_deadline" type="datetime" format="yyyy-MM-dd HH:mm:ss"
-					 :confirm=true @on-change="changeDeadline"></DatePicker>
+					<DatePicker :value="currentActivity.activity_enroll_deadline" 
+											type="datetime" 
+											format="yyyy-MM-dd HH:mm:ss"
+											:confirm=true @on-change="changeDeadline"></DatePicker>
 				</FormItem>
 				<FormItem>
 					<label class="item-label">活动开始时间：</label>
-					<DatePicker :value="currentActivity.activity_start" type="date" format="yyyy-MM-dd" :confirm=true
-					 @on-change="changeStartTime"></DatePicker>
+					<DatePicker :value="currentActivity.activity_start" 
+											type="date" 
+											format="yyyy-MM-dd" 
+											:confirm=true
+											@on-change="changeStartTime"></DatePicker>
 				</FormItem>
 				<FormItem>
 					<label class="item-label">活动结束时间：</label>
-					<DatePicker :value="currentActivity.activity_end" type="date" format="yyyy-MM-dd" :confirm=true
-					 @on-change="changeEndTime"></DatePicker>
+					<DatePicker :value="currentActivity.activity_end" 
+											type="date" 
+											format="yyyy-MM-dd" 
+											:confirm=true
+											@on-change="changeEndTime"></DatePicker>
 				</FormItem>
 				<FormItem>
 					<label class="item-label">联系方式：</label>
@@ -129,7 +137,7 @@ export default {
 			this.currentActivity.activity_end = newDate;
 		},
 		updateActivity() {
-			const params = {...this.currentActivity};
+			const params = { ...this.currentActivity };
 			updatePublished(params)
 				.then(() => {
 					this.$Message.success('修改活动信息成功！');

@@ -47,8 +47,13 @@
 			<FilterLists :lists="allActivities"></FilterLists>
 		</template>
 
-		<Page class="pagination" :total=totalPage :current="currentPage" :page-size-opts="pageOpts"
-    :page-size="pageSize" @on-page-size-change="changePageSize" @on-change="changePage" show-elevator show-sizer/>
+		<Page class="pagination" 
+					:total=totalPage 
+					:current="currentPage" 
+					:page-size-opts="pageOpts"
+					:page-size="pageSize" 
+					@on-page-size-change="changePageSize" 
+					@on-change="changePage" show-elevator show-sizer />
 	</Card>
 </template>
 
@@ -66,7 +71,7 @@ export default {
 			activityStatus: 'all',
 			currentPage: 1,
 			pageOpts: [3, 5, 10, 20],
-      pageSize: 5,
+			pageSize: 5,
 		};
 	},
 	computed: {

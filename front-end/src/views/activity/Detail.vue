@@ -257,7 +257,6 @@ export default {
 
 <style type='text/less' lang='less'>
 .detail {
-	padding: 0 5%;
 	.title {
 		margin: 10px;
 		font-weight: 500;

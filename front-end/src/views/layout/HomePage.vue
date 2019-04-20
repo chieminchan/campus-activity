@@ -1,9 +1,9 @@
 <template>
-  <div class='page'>
-    <HeadCtrl></HeadCtrl>
-    <ContainCtrl></ContainCtrl>
-    <FootCtrl></FootCtrl>
-  </div>
+	<div class='page'>
+		<HeadCtrl></HeadCtrl>
+		<ContainCtrl></ContainCtrl>
+		<FootCtrl></FootCtrl>
+	</div>
 </template>
 
 <script>
@@ -12,7 +12,7 @@ import FootCtrl from "./Footer";
 import ContainCtrl from './Container'
 
 export default {
-  components: { HeadCtrl, FootCtrl, ContainCtrl},
+	components: { HeadCtrl, FootCtrl, ContainCtrl },
 }
 </script>
 

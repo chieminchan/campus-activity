@@ -10,11 +10,11 @@ import './css/index.less';
 import 'font-awesome/css/font-awesome.css';
 
 Vue.use(iView);
-Vue.use(VueMoment, {moment});
+Vue.use(VueMoment, { moment });
 Vue.config.productionTip = process.env.NODE_ENV === 'production';
 
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app')
