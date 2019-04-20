@@ -82,7 +82,7 @@
                   action="null"
                   accept="image/jpeg,image/png,image/jpg"
                   :format="['jpg','jpeg','png']"
-                  :loading="isLoading">
+                  :disabled="isLoading">
               <div style="padding: 20px 0">
                 <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                 <p>{{frontPostTip}}</p>
@@ -104,13 +104,13 @@
 			</Row>
 			<Row :gutter="24">
 				<Col span="14">
-				<FormItem labeel="活动海报（反面）">
+				<FormItem label="活动海报（反面）">
 					<Upload type="drag" 
                   :before-upload="backPosterUploaded" 
                   action="null" 
                   accept="image/jpeg,image/png,image/jpg"
                   :format="['jpg','jpeg','png']"
-                  :loading="isLoading">
+                  :disabled="isLoading">
 						<div style="padding: 20px 0">
 							<Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
 							<p>{{backPostTip}}</p>
@@ -120,9 +120,7 @@
 				</Col>
 			</Row>
 			<Row v-if="hasAddition">
-				<FormItem>
-					<label class="item-label">活动额外信息：</label>
-
+				<FormItem label="活动额外信息">
 					<template v-if="newActivity.addition">
 						<p class="addition-items" v-for="(value, key, index) in newActivity.addition" :key="index">
 							<span class="item-label">{{key}}</span> ：
@@ -162,7 +160,6 @@ import { uploadImg } from '@/utils/uploadImage';
 import { updateApproval } from '@/store/api/activity';
 
 export default {
-	components: {},
 	data() {
 		return {
 			isLoading: false,
@@ -258,7 +255,8 @@ export default {
 		async addApproval() {
 			const params = { ...this.newActivity };
       params.userId = this.userInformation.user_id;
-      const isVaild = this.isVaild();
+			const isVaild = this.isVaild();
+			this.isLoading = true;
 			if (isVaild) {
 				const { frontPoster, backPoster } = params;
 				if (frontPoster instanceof File) {
@@ -287,15 +285,18 @@ export default {
 
 				await updateApproval(params)
 					.then(() => {
+						this.isLoading = false;
 						this.$Message.success('提交活动申请成功！');
 						this.frontPostTip = '选择图片或者拖拽图片进行上传';
 						this.backPostTip = '选择图片或者拖拽图片进行上传';
 						this.reset();
 					})
 					.catch(() => {
+						this.isLoading = false;
 						this.$Message.error('活动发布申请失败，请重试！');
 					})
 			} else {
+						this.isLoading = false;
 						this.$Message.error('活动信息不符合规范哦，请补充完整重新提交！');        
       }
 		},

@@ -7,14 +7,14 @@
 
     <template v-else v-for="(item, index) in activityTypeLists">
       <Card class="activity-card" :bordered="false" :key="index">
-        <router-link slot="title" :to="{ name: 'index-detail', params: {aid: item.activity_id} }">
+        <router-link slot="title" :to="{ name: 'find-detail', params: {aid: item.activity_id} }">
           <h3 class="activity-title"> {{ item.activity_name }} </h3>
         </router-link>
         <span class="activity-status" slot="extra"> {{ status[item.current_status] }}</span>
 
         <p class="activity-deadline">{{ `报名截止时间： ${item.activity_enroll_deadline}` }}</p>
 
-        <router-link :to="{ name: 'index-detail', params: {aid: item.activity_id} }">
+        <router-link :to="{ name: 'find-detail', params: {aid: item.activity_id} }">
           <div class="activity-poster" 
                :style="{ backgroundImage: 'url(' + item.activity_poster_front +')'}">
           </div>

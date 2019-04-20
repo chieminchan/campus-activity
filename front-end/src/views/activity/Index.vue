@@ -4,8 +4,8 @@
 		<!-- 最新活动 -->
 		<Carousel class="carousel" autoplay loop>
 			<template v-for="(item, index) in recommendItems">
-				<CarouselItem>
-					<router-link :to="{ name: 'index-detail', params: {aid: item.activity_id} }">
+				<CarouselItem :key="index">
+					<router-link :to="{ name: 'find-detail', params: {aid: item.activity_id} }">
 						<div class="carousel-img" :style="{ backgroundImage: 'url(' + item.activity_poster_front +')'}">
 						</div>
 					</router-link>

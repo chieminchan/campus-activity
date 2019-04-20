@@ -77,8 +77,14 @@ export const updateActivityEnroll = ({ userId, activityId }) => {
     return axios.post(UPDATE_ACTIVITY_ENROLL, { params });
 };
 
+// 活动作品上传
+const ADD_ACTIVITY_WORK = `${BASE_URL}/postWork`;
+export const addActivityWork = ((params) => {
+    return axios.post(ADD_ACTIVITY_WORK, params, { paramType: 'form' });
+})
+
 // 活动发布申请
-const UPDATE_ACTIVITY_APPROVAL = `/api/approval/add`;
+const UPDATE_ACTIVITY_APPROVAL = `/api/approval/addApproval`;
 export const updateApproval = ((params) => {
     if (_.isObject(params.addition)) {
         const addition = JSON.stringify(params.addition);

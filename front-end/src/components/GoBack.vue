@@ -1,5 +1,5 @@
 <template>
-  <ElButton class="btn" type="text" @click="back"><i class="fa fa-arrow-left"></i> 返回上一级</ElButton>
+  <Button class="btn" type="text" @click="back"><i class="fa fa-arrow-left"></i> 返回上一级</Button>
 </template>
 
 <script type="text/ecmascript-6">

@@ -34,12 +34,7 @@ const router = new Router({
         name: 'activity',
         path: '',
         component: () => import('@/views/activity/Index.vue'),
-      }, 
-      {
-        name: 'index-detail',
-        path: ':aid',
-        component: () => import('@/views/activity/ActivityPost.vue'),
-      }, 
+      }
     ]
     },
 
@@ -58,6 +53,11 @@ const router = new Router({
           path: ':aid',
           component: () => import('@/views/activity/ActivityPost.vue'),
         }, 
+        {
+          name: 'post-work',
+          path: ':aid/work/new',
+          component: () => import('@/views/activity/PostWork.vue'),
+        }
       ]
     },
 
