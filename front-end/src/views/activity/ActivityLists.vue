@@ -90,7 +90,7 @@ export default {
   align-items: baseline;
 
   &-card {
-    width: 31%;
+    width: 31.3%;
     margin-bottom: 30px;
     margin-right: 2%;
   }

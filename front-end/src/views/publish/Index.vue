@@ -1,18 +1,16 @@
 <template>
 	<Card class="publish-page">
 		<h2>校园活动发布</h2>
-		<Form class="publish-form" ref="publishForm" :rules="publishRules">
+		<Form :model="newActivity" class="publish-form" ref="publishForm">
 			<Row :gutter="24">
 				<Col span="12">
-				<FormItem prop="name">
-					<label class="item-label">活动主题：</label>
+				<FormItem prop="name" label="活动主题">
 					<Input class="item-content" type="text" v-model="newActivity.name" placeholder="活动主题">
 					</Input>
 				</FormItem>
 				</Col>
 				<Col span="12">
-				<FormItem prop="type">
-					<label class="item-label">活动类型：</label>
+				<FormItem prop="type" label="活动类型">
 					<Select class="item-content" v-model="newActivity.type" placeholder="选择活动类型">
 						<Option value="online">线上活动</Option>
 						<Option value="offline">线下活动</Option>
@@ -22,15 +20,13 @@
 			</Row>
 			<Row :gutter="24">
 				<Col span="12">
-				<FormItem prop="address">
-					<label class="item-label">活动地点：</label>
+				<FormItem prop="address" label="活动地点">
 					<Input class="item-content" type="text" v-model="newActivity.address" placeholder="如果为线下类型的活动，请输入活动地点。">
 					</Input>
 				</FormItem>
 				</Col>
 				<Col span="12">
-				<FormItem prop="brief">
-					<label class="item-label">活动简介：</label>
+				<FormItem prop="brief" label="活动简介">
 					<Input class="item-content" type="text" v-model="newActivity.brief" placeholder="简单介绍一下活动，方便同学们了解。">
 					</Input>
 				</FormItem>
@@ -38,8 +34,7 @@
 			</Row>
 			<Row :gutter="24">
 				<Col span="12">
-				<FormItem prop="deadline">
-					<label class="item-label">报名截止时间：</label>
+				<FormItem prop="deadline" label="报名截止时间">
 					<DatePicker class="date-picker"
                       v-model="newActivity.enrollDeadline" 
                       type="datetime" 
@@ -49,8 +44,7 @@
 				</FormItem>
 				</Col>
 				<Col :span="12">
-				<FormItem prop="concat">
-					<label class="item-label">活动联系方式：</label>
+				<FormItem prop="concat" label="活动联系方式">
 					<Input class="concat" type="text" v-model="newActivity.concator" placeholder="联系人">
 					</Input> :
 					<Input class="concat" type="text" v-model="newActivity.concatorPhone" placeholder="联系人手机号码">
@@ -60,8 +54,7 @@
 			</Row>
 			<Row :gutter="24">
 				<Col span="12">
-				<FormItem prop="start">
-					<label class="item-label">活动开始时间：</label>
+				<FormItem prop="dateTime" label="活动开始时间">
 					<DatePicker class="date-picker"
                       v-model="newActivity.start"
                       type="date"
@@ -71,21 +64,19 @@
 				</FormItem>
 				</Col>
 				<Col span="12">
-				<FormItem prop="end">
-					<label class="item-label">活动结束时间：</label>
+				<FormItem prop="dateTime" label="活动结束时间">
 					<DatePicker class="date-picker"
-          v-model="newActivity.end"
-          type="date"
-          format="yyyy-MM-dd"
-          :confirm=true
-          @on-change="confirmEnd"></DatePicker>
+                      v-model="newActivity.end"
+                      type="date"
+                      format="yyyy-MM-dd"
+                      :confirm=true
+                      @on-change="confirmEnd"></DatePicker>
 				</FormItem>
 				</Col>
 			</Row>
 			<Row :gutter="24">
 				<Col span="14">
-				<FormItem prop="poster">
-					<label class="item-label">活动海报（正面）：</label>
+				<FormItem prop="frontPoster" label="活动海报（正面）">
 					<Upload type="drag"
                   :before-upload="frontPosterUploaded"
                   action="null"
@@ -104,8 +95,8 @@
 					<label class="item-label">
 						<Icon type="md-information-circle" /> 温馨提示：
 					</label>
-					<p class="tip">1. 尽量选用横向和分辨率高的海报,这样子显示的信息会更加完整哦。</p>
-					<p class="tip">2. 如果活动海报没有反面，可以选择不添加海报反面图片。</p>
+					<p class="tip">1. 尽量选用横向和分辨率高的海报,这样子显示的信息会更加清晰哦。</p>
+					<p class="tip">2. 须上传活动海报正面，如果没有海报反面，可以选择不添加海报反面图片。</p>
 					<p class="tip">3. 仅支持jpg、jpeg、png格式。</p>
 					<p class="tip">4. 精致的活动海报能吸引更多关注哦！</p>
 				</FormItem>
@@ -113,13 +104,12 @@
 			</Row>
 			<Row :gutter="24">
 				<Col span="14">
-				<FormItem>
-					<label class="item-label">活动海报（反面）：</label>
+				<FormItem labeel="活动海报（反面）">
 					<Upload type="drag" 
                   :before-upload="backPosterUploaded" 
                   action="null" 
                   accept="image/jpeg,image/png,image/jpg"
-                  :format="['jpg','jpeg','png']" 
+                  :format="['jpg','jpeg','png']"
                   :loading="isLoading">
 						<div style="padding: 20px 0">
 							<Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
@@ -178,27 +168,22 @@ export default {
 			isLoading: false,
 			hasAddition: false,
 			newActivity: {
-				name: '',
-				type: '',
-				brief: '',
-				address: '',
-				deadline: '',
-				start: '',
-				end: '',
-				concator: '',
-				concatorPhone: '',
-				frontPoster: '',
-				backPoster: '',
+				name: undefined,
+				type: undefined,
+				brief: undefined,
+				address: undefined,
+				enrollDeadline: undefined,
+				start: undefined,
+				end: undefined,
+				concator: undefined,
+				concatorPhone: undefined,
+				frontPoster: undefined,
+				backPoster: undefined,
 				addition: {}
 			},
 			additionObj: {},
 			frontPostTip: '选择图片或者拖拽图片进行上传',
 			backPostTip: '选择图片或者拖拽图片进行上传',
-			publishRules: {
-				name: [
-					{ required: true, message: '活动主题必不可少哦！', trigger: 'blur' }
-				]
-			}
 		};
 	},
 	computed: {
@@ -252,61 +237,84 @@ export default {
 				this.additionObj = {};
 			}
 		},
+		isVaild() {
+			const {
+				name,
+				type,
+				brief,
+				enrollDeadline,
+				start,
+				end,
+				concator,
+				concatorPhone,
+				frontPoster,
+      } = this.newActivity;
+    
+      if(name && type && brief && enrollDeadline && start && end && concator && concatorPhone &&	frontPoster) {
+        return true;
+      }
+      return false;
+		},
 		async addApproval() {
-
 			const params = { ...this.newActivity };
-			params.userId = this.userInformation.user_id;
+      params.userId = this.userInformation.user_id;
+      const isVaild = this.isVaild();
+			if (isVaild) {
+				const { frontPoster, backPoster } = params;
+				if (frontPoster instanceof File) {
+					await uploadImg(frontPoster)
+						.then((res) => {
+							params.frontPoster = res.data.data.url;
+						})
+						.catch(() => {
+							this.$Message.error('图片上传失败，请重试！');
+							return;
+						})
+				} else {
+					this.$Message.error('必须上传活动海报正面哦！');
+				}
 
-			const { frontPoster, backPoster } = params;
-			if (frontPoster instanceof File) {
-				await uploadImg(frontPoster)
-					.then((res) => {
-						params.frontPoster = res.data.data.url;
+				if (backPoster instanceof File) {
+					await uploadImg(backPoster)
+						.then((res) => {
+							params.backPoster = res.data.data.url;
+						})
+						.catch(() => {
+							this.$Message.error('图片上传失败，请重试！');
+							return;
+						})
+				}
+
+				await updateApproval(params)
+					.then(() => {
+						this.$Message.success('提交活动申请成功！');
+						this.frontPostTip = '选择图片或者拖拽图片进行上传';
+						this.backPostTip = '选择图片或者拖拽图片进行上传';
+						this.reset();
 					})
 					.catch(() => {
-						this.$Message.error('图片上传失败，请重试！');
-						return;
+						this.$Message.error('活动发布申请失败，请重试！');
 					})
-			}
-
-			if (backPoster instanceof File) {
-				await uploadImg(backPoster)
-					.then((res) => {
-						params.backPoster = res.data.data.url;
-					})
-					.catch(() => {
-						this.$Message.error('图片上传失败，请重试！');
-						return;
-					})
-			}
-
-			await updateApproval(params)
-				.then(() => {
-					this.$Message.success('提交活动申请成功！');
-					this.frontPostTip = '选择图片或者拖拽图片进行上传';
-          this.backPostTip = '选择图片或者拖拽图片进行上传';
-          this.reset();
-				})
-				.catch(() => {
-					this.$Message.error('活动发布申请失败，请重试！');
-				})
+			} else {
+						this.$Message.error('活动信息不符合规范哦，请补充完整重新提交！');        
+      }
 		},
 		removeAddition(key) {
 			this.newActivity.addition = _.omit(this.newActivity.addition, [key]);
 		},
 		reset() {
 			this.newActivity = {
-				name: '',
-				type: '',
-				brief: '',
-				address: '',
-				deadline: '',
-				start: '',
-				end: '',
-				concator: '',
-				concatorPhone: '',
-				frontPoster: '',
-				backPoster: '',
+				name: undefined,
+				type: undefined,
+				brief: undefined,
+				address: undefined,
+				deadline: undefined,
+				start: undefined,
+				end: undefined,
+				concator: undefined,
+				concatorPhone: undefined,
+				frontPoster: undefined,
+				backPoster: undefined,
 				addition: {}
 			}
 		}
@@ -317,8 +325,11 @@ export default {
 .publish {
 	&-form {
 		padding: 2% 4%;
-		.item-label {
+		.ivu-form-item-label {
+			width: 100%;
 			display: block;
+			text-align: left;
+			font-size: 14px;
 		}
 
 		.item-content {
@@ -327,7 +338,7 @@ export default {
 		}
 
 		.concat {
-			width: 40%;
+			width: 44%;
 		}
 
 		.date-picker {
