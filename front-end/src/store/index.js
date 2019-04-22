@@ -8,6 +8,7 @@ import { generateAsyncAction, generateAsyncMutation } from './generateAsync';
 
 import activityModule from './activity';
 import userModule from './user';
+import adminModule from './admin';
 
 Vue.use(Vuex);
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
   modules: { 
     activity: activityModule, 
     user: userModule,
+    admin: adminModule,
   },
   actions: {
     getProfile: generateAsyncAction(getProfile, {mutateType: LOAD_PROFILE}),

@@ -87,14 +87,15 @@ export default {
 
 			const { user: { character, userId, password } } = this;
 
-			login({ userId, password }).then(() => {
+			login({ character, userId, password }).then(() => {
 				this.$Message.success('登录成功');
 
 				// 管理员或者超级管理员进入后台
 				if (character === 'manager' || character === 'root') {
-					this.$router.push({name: 'admin-index'});
+					this.$router.push({ name: 'admin-activities' });
 				}
 
+				// 学生进入前台
 				if (character === 'student') {
 					const { query } = this.$route;
 					const to = query.hasOwnProperty('q') ? query.q : { name: 'home' };

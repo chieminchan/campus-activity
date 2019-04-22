@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "element-ui": "^2.7.2",
     "font-awesome": "^4.7.0",
     "iview": "^3.3.0",
     "lodash": "^4.17.11",

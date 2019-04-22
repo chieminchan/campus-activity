@@ -10,11 +10,7 @@
 			</h1>
 
 			<!-- 评分 -->
-			<Rate slot="extra"
-            show-text allow-half 
-            v-model="activityScore" 
-            :disabled=disableScore
-            @on-change="getScore">
+			<Rate slot="extra" show-text allow-half v-model="activityScore" :disabled=disableScore @on-change="getScore">
 			</Rate>
 
 			<!-- 海报 -->
@@ -78,30 +74,17 @@
 					<Button class="btn" icon="md-heart" type="primary" size="large" @click.prevent="deleteCollection">已收藏</Button>
 				</template>
 				<template v-else>
-					<Button class="btn"
-                  icon="md-heart-outline" 
-                  type="primary" 
-                  size="large" 
-                  @click.prevent="addCollection" ghost>收藏</Button>
+					<Button class="btn" icon="md-heart-outline" type="primary" size="large" @click.prevent="addCollection" ghost>收藏</Button>
 				</template>
 
 				<template v-if="hasEnroll">
-					<Button class="btn"
-                  icon="ios-sunny"
-                  type="warning" 
-                  size="large" 
-                  @click.prevent="deleteEnroll"
-                  :disabled=hasEnroll>已报名</Button>
+					<Button class="btn" icon="ios-sunny" type="warning" size="large" @click.prevent="deleteEnroll" :disabled=hasEnroll>已报名</Button>
 					<template v-if="activityInfo.activity_type === 'online'">
 						<Button class="btn" icon="md-paper-plane" type="success" size="large" @click.prevent="toPostWork(activityInfo.activity_id)">提交电子作品</Button>
 					</template>
 				</template>
 				<template v-else>
-					<Button class="btn"
-                  icon="ios-sunny-outline" 
-                  type="warning" 
-                  size="large" 
-                  @click.prevent="addEnroll" ghost>立即报名</Button>
+					<Button class="btn" icon="ios-sunny-outline" type="warning" size="large" @click.prevent="addEnroll" ghost>立即报名</Button>
 				</template>
 
 			</div>

@@ -87,8 +87,8 @@ export default {
 	justify-content: space-between;
 
 	.logo img {
-		margin-left: 30px;
-		width: 160px;
+		margin-left: 8%;
+		width: 30%;
 	}
 }
 

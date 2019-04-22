@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import iView from 'iview';
 
 import HomePage from '@/views/client/layout/HomePage.vue';
+import adminHost from '@/views/admin/layout/Index.vue';
 
 Vue.use(iView);
 Vue.use(Router);
@@ -17,6 +18,8 @@ const router = new Router({
             component: () => import('@/views/login/Index.vue'),
             hidden: true,
         },
+
+        // 前台
         {
             path: '/',
             name: 'home',
@@ -79,6 +82,29 @@ const router = new Router({
                 path: '',
                 component: () => import('@/views/client/user/UserPage.vue'),
             }, ]
+        },
+
+        // 管理后台
+        {
+            path: '/admin',
+            component: adminHost,
+            children: [
+                {
+                    name: 'admin-activities',
+                    path: 'activities',
+                    component: () => import('@/views/admin/activities/Index.vue'),
+                },
+                {
+                    name: 'admin-students',
+                    path: 'students',
+                    component: () => import('@/views/admin/students/Index.vue'),
+                },
+                {
+                    name: 'admin-managers',
+                    path: 'managers',
+                    component: () => import('@/views/admin/managers/Index.vue'),
+                }
+            ]
         }
     ]
 });

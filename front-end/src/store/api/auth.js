@@ -5,9 +5,11 @@ const BASE_URL = '/api';
 
 const USER_LOGIN = `${BASE_URL}/user/login`;
 export const login = ({
+  character,
   userId,
   password
 }) => axios.post(USER_LOGIN, {
+  character,
   userId,
   password
 });
