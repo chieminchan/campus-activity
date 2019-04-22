@@ -8,6 +8,7 @@ var logger = require('morgan');
 var userRouter = require('./routes/user');
 var activityRouter = require('./routes/activity');
 var approvalRouter = require('./routes/approval');
+var adminRouter = require('./routes/admin');
 
 var app = express();
 
@@ -17,7 +18,9 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -29,12 +32,16 @@ app.use(session({
   resave: true,
   // 强制没有“初始化”的session保存到storage中
   saveUninitialized: false,
-  cookie: {maxAge: 24*60*60*1000, httpOnly: true}
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000,
+    httpOnly: true
+  }
 }));
 
 app.use('/user', userRouter);
 app.use('/activity', activityRouter);
 app.use('/approval', approvalRouter);
+app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

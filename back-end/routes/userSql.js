@@ -1,7 +1,7 @@
 const user = {
     // 登录
-    login: (userId) => {
-        return `select user_account, user_name, user_password from users where user_account = ${userId}`;
+    login: (userId, character) => {
+        return `select user_id, user_account, user_name, user_password from users where user_account = ${userId} and user_type = '${character}'`;
     },
 
     // 查询用户信息

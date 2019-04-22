@@ -9,8 +9,8 @@ const router = express.Router();
 // 登录
 router.post('/login', async (req, res) => {
     try {
-        const { userId, password } = req.body;
-        const userData = await service.query($sql.login(userId, password));
+        const { character, userId, password } = req.body;
+        const userData = await service.query($sql.login(userId, character));
 
         if (userData.length > 0 && userData[0].user_password === password) {
             // 将用户的信息和登录状态保存到session中
