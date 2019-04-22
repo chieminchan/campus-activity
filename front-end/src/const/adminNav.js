@@ -12,9 +12,9 @@ export default [
       },
       {
         title: '待审批活动',
-        name: 'admin-approval',
+        name: 'admin-approvals',
         to: {
-          path: '/admin/approval'
+          path: '/admin/approvals'
         },
       },
     ]

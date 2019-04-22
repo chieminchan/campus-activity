@@ -1,5 +1,5 @@
 <template>
-	<Menu class='nav' mode="horizontal" :active-name=activeItem>
+	<Menu class='client-nav' mode="horizontal" :active-name=activeItem>
 		<template v-for="(item, index) in menu">
 			<template v-if="item.hasOwnProperty('children')">
 				<Submenu :name="item.name" :key="index">
@@ -48,7 +48,7 @@ export default {
 </script>
 
 <style type='text/less' lang='less'>
-.nav {
+.client-nav {
 	flex-basis: 600px;
 	.ivu-menu-light.ivu-menu-horizontal .ivu-menu-item,
 	.ivu-menu-light.ivu-menu-horizontal .ivu-menu-submenu {

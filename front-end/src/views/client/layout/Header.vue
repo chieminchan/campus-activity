@@ -86,9 +86,13 @@ export default {
 	align-items: center;
 	justify-content: space-between;
 
-	.logo img {
-		margin-left: 8%;
-		width: 30%;
+	.logo {
+		display: inline-block;
+		flex-basis: 200px;
+		img {
+			margin-left: 8%;
+			width: 90%;
+		}
 	}
 }
 

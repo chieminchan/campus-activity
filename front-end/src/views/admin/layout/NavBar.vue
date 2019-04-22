@@ -1,5 +1,5 @@
 <template>
-	<section class='navbar'>
+	<section class='admin-nav'>
 		<p class="menu-collapse" name="menu-collapse">
 			<span class="logo">
 				<img src="https://i.loli.net/2019/03/14/5c8a0d74354ca.png">
@@ -61,8 +61,8 @@ export default {
 </script>
 
 <style type='text/less' lang='less'>
-.navbar {
-	flex-basis: 200px;
+.admin-nav {
+	flex-basis: 180px;
 }
 .nav {
 	min-height: 730px;

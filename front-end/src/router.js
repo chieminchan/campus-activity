@@ -95,6 +95,11 @@ const router = new Router({
                     component: () => import('@/views/admin/activities/Index.vue'),
                 },
                 {
+                    name: 'admin-approvals',
+                    path: 'approvals',
+                    component: () => import('@/views/admin/activities/Approvals.vue'),
+                },
+                {
                     name: 'admin-students',
                     path: 'students',
                     component: () => import('@/views/admin/students/Index.vue'),
