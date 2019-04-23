@@ -85,9 +85,6 @@ export default {
 				return this.state.payload.results.total;
 			}
 			return 0;
-		},
-		isEmpty() {
-			return this.allActivities.length === 0;
 		}
 	},
 	methods: {

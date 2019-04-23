@@ -12,16 +12,20 @@
 			<Input class="search-text" search type="text" v-model="searchText" placeholder="搜索学生" @change=""></Input>
 		</div>
 
-		<Table class="activity-table" :fit="true" :data="allStudents" :loading="isFetching" ref="activityTable" border stripe>
+		<Table class="students-table" :fit="true" :data="allStudents" :loading="isFetching" ref="studentsTable" border stripe>
 			<Column type="selection" width="40">
 			</Column>
 			<Column prop="user_account" label="学生学号" width="130" fixed></Column>
-			<Column prop="user_name" label="学生名字" sortable></Column>
+			<Column prop="user_name" label="学生名字" width="110"></Column>
+			<Column prop="user_sex" label="性别"></Column>
 			<Column prop="user_grade" label="年级" sortable></Column>
-			<Column prop="user_sex" label="性别" sortable></Column>
-			<Column prop="user_department" label="院系" width="160"></Column>
+			<Column prop="user_department" label="院系" width="160" sortable></Column>
 			<Column prop="user_profession" label="专业" width="160" sortable></Column>
-			<Column prop="user_class" label="班级" sortable></Column>
+			<Column prop="user_class" label="班级">
+					<template slot-scope="scope">
+							{{scope.row.user_class}}班
+					</template>
+			</Column>
 			<Column prop="user_phone" label="联系方式" width="115"></Column>
 			<Column class="action-column" label="操作" width="160">
 				<template slot-scope="scope">
@@ -72,9 +76,6 @@ export default {
 				return this.state.payload.results.total;
 			}
 			return 0;
-		},
-		isEmpty() {
-			return this.allStudents.length === 0;
 		}
 	},
 	methods: {
@@ -116,12 +117,13 @@ export default {
 	}
 }
 
-.activity-table {
+.students-table {
 	margin-top: 20px;
 	width: 100%;
 	overflow-x: auto;
 	td {
 		padding: 10px 2px;
+    text-align: center;
 	}
 	th {
 		.cell {

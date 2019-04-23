@@ -15,5 +15,9 @@ export default {
   ...generateAsyncMutation(undefined, {
     mutateType: types.LOAD_STUDENTS,
     statePath: 'students'
+  }),
+  ...generateAsyncMutation(undefined, {
+    mutateType: types.LOAD_MANAGERS,
+    statePath: 'managers'
   })
 }

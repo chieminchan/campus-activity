@@ -24,6 +24,7 @@
 				</FormItem>
 			</Form>
 		</Card>
+		
 	</div>
 </template>
 
@@ -32,7 +33,6 @@ import { login } from '@/store/api/auth';
 
 export default {
 	data() {
-		// 存放数据
 		return {
 			user: {
 				character: 'student',
@@ -71,7 +71,6 @@ export default {
 			isFetching: false
 		};
 	},
-	// 方法集合
 	methods: {
 		submit() {
 			this.$refs.loginForm.validate(isValid => {
@@ -116,8 +115,11 @@ export default {
 
 .login {
 	&-page {
-		background-image: url("https://i.loli.net/2019/03/12/5c8769d753661.png");
+		// background-image: url("https://i.loli.net/2019/03/12/5c8769d753661.png");
+		background-image: url(https://i.loli.net/2019/04/23/5cbe7928943f4.jpg);
 		background-position: center;
+		background-repeat: no-repeat;
+		// background: #9bc1de;
 		width: 100%;
 		min-height: 850px;
 		.flex-line;
@@ -132,7 +134,8 @@ export default {
 		}
 	}
 	&-card {
-		width: 480px;
+		width:550px;
+		border-radius: 10px;
 		padding: 10px 30px 5px;
 
 		.ivu-card-head {
@@ -141,7 +144,7 @@ export default {
 			padding: 0px;
 		}
 		.ivu-card-body {
-			padding: 0px 16px;
+			padding: 0px 50px;
 		}
 	}
 	&-title,
@@ -150,8 +153,8 @@ export default {
 	}
 
 	&-text {
-		font-size: 20px;
-		font-weight: 500;
+		font-size: 18px;
+		font-weight: 400;
 		color: @color-primary;
 		letter-spacing: 2px;
 	}

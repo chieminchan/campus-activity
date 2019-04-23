@@ -28,3 +28,13 @@ export const getStudents = ({currentPage, pageSize}) => {
   };
   return axios.get(LOAD_STUDENTS, { params });
 };
+
+const LOAD_MANAGERS = `${BASE_URL}/managers`;
+export const getManagers = ({userType, currentPage, pageSize}) => {
+  const params = {
+    userType,
+    currentPage, 
+    pageSize
+  }; 
+  return axios.get(LOAD_MANAGERS, { params });
+};

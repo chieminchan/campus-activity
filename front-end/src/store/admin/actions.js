@@ -10,6 +10,9 @@ export default {
     mutateType: types.LOAD_APPROVALS,
   }),
   getStudents: generateAsyncAction(api.getStudents, {
-    mutateType: types.LOAD_STUDENTS
+    mutateType: types.LOAD_STUDENTS,
+  }),
+  getManagers: generateAsyncAction(api.getManagers, {
+    mutateType: types.LOAD_MANAGERS,
   })
 };

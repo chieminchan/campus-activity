@@ -59,9 +59,6 @@ export default {
 				return this.state.payload.results.total;
 			}
 			return 0;
-		},
-		isEmpty() {
-			return this.pendingReview.length === 0;
 		}
 	},
 	methods: {

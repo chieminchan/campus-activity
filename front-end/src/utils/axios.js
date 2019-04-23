@@ -51,6 +51,12 @@ instance.interceptors.response.use(
           });
         }
         break;
+      case 403: 
+        // 后台活动403页面
+        router.replace({
+          name: 'forbidden'
+        });
+        break;
     }
     return Promise.reject(data);
   },

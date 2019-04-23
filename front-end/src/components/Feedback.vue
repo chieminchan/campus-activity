@@ -1,17 +1,17 @@
 <template>
-<Card class='contat'></div>
+	<Card class='contat'></Card>
 </template>
 
 <script>
 
 export default {
-  components: {},
-  data() {
-    return {};
-  },
-  computed: {},
-  methods: {},
-  mounted() {},
+	components: {},
+	data() {
+		return {};
+	},
+	computed: {},
+	methods: {},
+	mounted() { },
 }
 </script>
 <style type='text/less' lang='less'>

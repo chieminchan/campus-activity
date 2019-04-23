@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import iView from 'iview';
 
 import HomePage from '@/views/client/layout/HomePage.vue';
-import adminHost from '@/views/admin/layout/Index.vue';
+import AdminHost from '@/views/admin/layout/Index.vue';
+import CilentIndex from '@/views/client/activity/Index.vue';
 
 Vue.use(iView);
 Vue.use(Router);
@@ -16,7 +17,6 @@ const router = new Router({
             path: '/login',
             name: 'login',
             component: () => import('@/views/login/Index.vue'),
-            hidden: true,
         },
 
         // 前台
@@ -36,7 +36,7 @@ const router = new Router({
             children: [{
                 name: 'activity',
                 path: '',
-                component: () => import('@/views/client/activity/Index.vue'),
+                component: CilentIndex,
             }]
         },
 
@@ -87,7 +87,7 @@ const router = new Router({
         // 管理后台
         {
             path: '/admin',
-            component: adminHost,
+            component: AdminHost,
             children: [
                 {
                     name: 'admin-activities',
@@ -108,7 +108,17 @@ const router = new Router({
                     name: 'admin-managers',
                     path: 'managers',
                     component: () => import('@/views/admin/managers/Index.vue'),
-                }
+                },
+                {
+                    name: 'forbidden',
+                    path: 'managers/forbidden',
+                    component: () => import('@/views/admin/managers/ForbiddenPage'),
+                },
+                {
+                    name: 'admin-concat',
+                    path: 'concat',
+                    component: () => import('@/components/Feedback'),
+                },
             ]
         }
     ]
