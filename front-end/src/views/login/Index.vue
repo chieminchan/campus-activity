@@ -1,37 +1,44 @@
 <template>
 	<div class="login-page">
+		<!-- <h2 class="login-title" slot="title">
+			<img class="logo" src="https://i.loli.net/2019/03/14/5c8a0d74354ca.png">
+		</h2> -->
 		<Card class="login-card">
 			<h2 class="login-title" slot="title">
 				<img class="logo" src="https://i.loli.net/2019/03/14/5c8a0d74354ca.png">
 			</h2>
-			<h3 class="login-text">校园活动服务平台</h3>
-			<Form :model="user" label-position="left" :rules="ruleInline" ref="loginForm">
-				<FormItem label="身 份" prop="character">
-					<Select v-model="user.character">
+			<!-- <h3 class="login-text">校园活动服务平台</h3> -->
+			<Form class="login-form" :model="user" label-position="left" :rules="ruleInline" ref="loginForm">
+				<FormItem class="item" label="身 份" prop="character">
+					<Select class="item-content" v-model="user.character">
 						<Option value="student">学生</Option>
 						<Option value="manager">活动管理员</Option>
 						<Option value="root">超级管理员</Option>
 					</Select>
 				</FormItem>
-				<FormItem label="账号" prop="userId">
-					<Input type="text" v-model="user.userId"></Input>
+				<FormItem class="item" label="账号" prop="userId">
+					<Input class="item-content" type="text" v-model="user.userId"></Input>
 				</FormItem>
-				<FormItem label="密 码" prop="password">
-					<Input type="password" v-model="user.password"></Input>
+				<FormItem class="item" label="密 码" prop="password">
+					<Input class="item-content" type="password" v-model="user.password"></Input>
 				</FormItem>
 				<FormItem class="login-btn">
-					<Button type="primary" size="large" :loading="isFetching" @click.prevent="submit">登 录</Button>
+					<Button type="primary" size="large" :loading="isFetching" @click.prevent="submit" ghost>登 录</Button>
 				</FormItem>
 			</Form>
 		</Card>
-		
+		<div class="bg">
+			<LazyloadImg :src="target"></LazyloadImg>
+		</div>
 	</div>
 </template>
 
 <script>
 import { login } from '@/store/api/auth';
+import LazyloadImg from '@/components/LazyloadImg';
 
 export default {
+	components: { LazyloadImg },
 	data() {
 		return {
 			user: {
@@ -68,7 +75,8 @@ export default {
 					}
 				]
 			},
-			isFetching: false
+			isFetching: false,
+			target: 'https://i.loli.net/2019/04/23/5cbf0a3fe48e9.png',
 		};
 	},
 	methods: {
@@ -115,59 +123,69 @@ export default {
 
 .login {
 	&-page {
-		// background-image: url("https://i.loli.net/2019/03/12/5c8769d753661.png");
-		background-image: url(https://i.loli.net/2019/04/23/5cbe7928943f4.jpg);
-		background-position: center;
-		background-repeat: no-repeat;
-		// background: #9bc1de;
 		width: 100%;
-		min-height: 850px;
-		.flex-line;
+		height: 785px;
+		position: relative;
+		background: white;
 
 		.ivu-form-item-label {
 			font-size: 15px;
-			line-height: 1px;
+			line-height: 2;
+			display: inline-block;
+			width: 60px;
 		}
 
 		.logo {
-			width: 310px;
+			width: 300px;
 		}
 	}
 	&-card {
-		width:550px;
-		border-radius: 10px;
-		padding: 10px 30px 5px;
+		width: 470px;
+		border: none;
+		position: absolute;
+		top: 32%;
+		left: 50%;
+		z-index: 2;
+		transform: translate(-50%, -50%);
 
 		.ivu-card-head {
 			border-bottom: none;
-			font-size: 30px;
-			padding: 0px;
+			padding: 15px 0 0;
 		}
 		.ivu-card-body {
-			padding: 0px 50px;
+			padding: 0 50px;
 		}
 	}
-	&-title,
-	&-text {
+	&-title {
 		text-align: center;
+		// position: absolute;
+		// top: 16%;
+		// left: 50%;
+		// transform: translate(-50%, -50%);
 	}
 
 	&-text {
-		font-size: 18px;
-		font-weight: 400;
-		color: @color-primary;
-		letter-spacing: 2px;
+		text-align: center;
 	}
 
 	&-btn {
-		margin-top: 40px;
 		text-align: center;
-
 		button {
-			width: 200px;
+			padding: 10px 80px;
 			font-size: 16px;
-			font-weight: 600;
+			font-weight: 400;
 		}
 	}
+}
+.login-form {
+	.item-content {
+		width: 80%;
+	}
+}
+.bg {
+	width: 100%;
+	text-align: center;
+	position: absolute;
+	bottom: 0;
 }
 </style>

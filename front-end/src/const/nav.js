@@ -32,11 +32,11 @@ export default [
     },
   },
   {
-    title: '联系我们',
+    title: '意见反馈',
     icon: '',
-    name: '/concat',
+    name: 'feedback',
     to: {
-      path: 'concat'
+      path: '/feedback'
     }
   }
 ];

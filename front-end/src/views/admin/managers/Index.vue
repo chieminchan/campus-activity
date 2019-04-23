@@ -64,7 +64,6 @@ export default {
 			}
 			return '';
 		},
-
 		allManagers() {
 			if (this.isFulfill) {
 				return this.state.payload.results.data;

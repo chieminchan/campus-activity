@@ -22,8 +22,9 @@ export default {
 	&-img {
 		width: 100%;
 		height: 100%;
+		text-align: center;
 		img {
-			height: 610px;
+			width: 96%;
 		}
 	}
 }

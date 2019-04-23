@@ -96,7 +96,7 @@ export default {
 		width: 50%;
 		margin-left: 20px;
 		p {
-			line-height: 50px;
+			margin-top: 30px;
 		}
 	}
 
@@ -113,10 +113,9 @@ export default {
 	&-brief,
 	&-tag {
 		font-weight: 500;
-		font-size: 15px;
 	}
 	&-brief {
-		color: #3e405d;
+		color: #525a6e;
 	}
 }
 </style>

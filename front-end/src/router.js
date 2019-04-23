@@ -84,12 +84,22 @@ const router = new Router({
             }, ]
         },
 
+        // 意见反馈
+        {
+            path: '/feedback',
+            component: HomePage,
+            children: [{
+                name: 'feedback',
+                path: '',
+                component: () => import('@/components/Feedback'),
+            }]
+        },
+
         // 管理后台
         {
             path: '/admin',
             component: AdminHost,
-            children: [
-                {
+            children: [{
                     name: 'admin-activities',
                     path: 'activities',
                     component: () => import('@/views/admin/activities/Index.vue'),
