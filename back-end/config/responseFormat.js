@@ -20,5 +20,12 @@ module.exports = {
       'message': tips,
       'results': ''
     };
+  },
+  forbidden_msg: () => {
+    return {
+      'status': 403,
+      'message': 'You do not have access to this page',
+      'results': ''
+    };
   }
 };

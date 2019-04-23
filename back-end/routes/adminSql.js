@@ -31,6 +31,16 @@ const activity = {
     sql.detail = `select user_account, user_name, user_sex, user_grade, user_department, user_profession, user_phone, user_class from users where user_type = 'student' limit ${previewNum},${pageSize}`;
     return sql;
   },
+
+  // 查看全部活动管理员信息
+  managers: (currentPage, pageSize) => {
+    const previewNum = (currentPage - 1) * pageSize;
+
+    let sql = {};
+    sql.count = `select count(*) from users where user_type = 'manager'`;
+    sql.detail = `select user_account, user_name, user_sex, user_phone from users where user_type = 'manager' limit ${previewNum},${pageSize}`;
+    return sql;
+  },
 };
 
 module.exports = activity;

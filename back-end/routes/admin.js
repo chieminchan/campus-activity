@@ -3,7 +3,7 @@ const moment = require('moment');
 const querystring = require('querystring');
 const formidable = require('formidable');
 const service = require('../config/mySqlConfig');
-const { errorRes, correctRes, correctRes_msg } = require('../config/responseFormat');
+const { errorRes, correctRes, correctRes_msg, forbidden_msg } = require('../config/responseFormat');
 const $sql = require('./adminSql');
 const router = express.Router();
 
@@ -38,6 +38,24 @@ router.get('/students', async (req, res) => {
     const rows = await service.query($sql.students(currentPage, pageSize).detail);
     const results = { data: rows, total: total[0]['count(*)'] };
     res.send(correctRes(results));
+  } catch (error) {
+    res.send(errorRes(error.message));    
+  }
+});
+
+router.get('/managers', async (req, res) => {
+  try {
+    const { userType, currentPage, pageSize } = req.query;
+
+    if(userType === 'manager') {
+      res.send(forbidden_msg());
+    } else {
+      const total = await service.query($sql.managers().count);
+      const rows = await service.query($sql.managers(currentPage, pageSize).detail);
+      const results = { data: rows, total: total[0]['count(*)'] };
+      res.send(correctRes(results)); 
+    }
+
   } catch (error) {
     res.send(errorRes(error.message));    
   }
