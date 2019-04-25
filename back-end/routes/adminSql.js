@@ -9,6 +9,11 @@ const activity = {
     return sql;
   },
 
+  // 活动详情
+  activity: (activityId) => {
+    return `select * from activities where activity_id = ${activityId}`;
+  },
+
   // 查看全部待审核活动
   approvals: (currentPage, pageSize) => {
     const previewNum = (currentPage - 1) * pageSize;

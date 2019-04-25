@@ -65,6 +65,18 @@ router.get('/detail', async (req, res) => {
         const addition = formatData['activity_addition'];
         formatData['activity_addition'] = querystring.parse(addition, "*", ":");
 
+        // 活动状态
+        const now = moment().format('YYYY-MM-DD HH:mm:ss');
+        const endTime = formatData.activity_end;
+        const startTime = formatData.activity_start;
+        if (endTime < now) {
+            formatData.current_status = 'over';
+        } else if (endTime > now && startTime < now) {
+            formatData.current_status = 'processing';
+        } else {
+            formatData.current_status = 'waitting';
+        }
+
         // 判断是否收藏该帖子
         const collectionStatus = { hasCollection: false };
         const hasCollections = await service.query($sql.isCollection(userId, activityId));

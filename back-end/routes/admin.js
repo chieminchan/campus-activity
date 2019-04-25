@@ -19,6 +19,18 @@ router.get('/activities', async (req, res) => {
   }
 });
 
+router.get('/activity', async (req, res) => {
+  const { activityId } = req.query;
+  const activityInfo = await service.query($sql.activity(activityId));
+
+  // 将活动信息中的addition转换成json格式
+  const formatData = activityInfo[0];
+  const addition = formatData['activity_addition'];
+  formatData['activity_addition'] = querystring.parse(addition, "*", ":");
+  
+  res.send(correctRes(formatData));
+});
+
 router.get('/approvals', async (req, res) => {
   try {
     const { currentPage, pageSize } = req.query;

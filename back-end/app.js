@@ -9,6 +9,7 @@ var userRouter = require('./routes/user');
 var activityRouter = require('./routes/activity');
 var approvalRouter = require('./routes/approval');
 var adminRouter = require('./routes/admin');
+var feedBackRouter = require('./routes/feedback');
 
 var app = express();
 
@@ -42,6 +43,7 @@ app.use('/user', userRouter);
 app.use('/activity', activityRouter);
 app.use('/approval', approvalRouter);
 app.use('/admin', adminRouter);
+app.use('/feedback', feedBackRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
