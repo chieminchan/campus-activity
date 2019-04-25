@@ -1,5 +1,4 @@
-export default [
-  {
+export default [{
     title: '活动管理',
     icon: 'md-color-wand',
     name: 'admin-activity',

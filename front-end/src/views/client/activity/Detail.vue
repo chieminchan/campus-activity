@@ -5,7 +5,7 @@
 			<h1 slot="title" class="title">
 				{{ activityInfo.activity_name }}
 				<span class="status">
-					{{ status[activityInfo.activity_status] }}
+					{{ status[activityInfo.current_status] }}
 				</span>
 			</h1>
 
@@ -112,7 +112,7 @@ export default {
 			status: {
 				'processing': '进行中',
 				'over': '已结束',
-				'removed': '已下架'
+				'waitting': '未开始'
 			},
 			score: 0,
 			disableScore: false,
@@ -150,7 +150,7 @@ export default {
 		activityAddition() {
 			if (this.isFulfill) {
 				const addition = this.state.payload.results.activity_addition;
-				return _.isNil(this.score) ? {} : addition;
+				return _.isNil(addition) ? {} : addition;
 			}
 			return {};
 		},

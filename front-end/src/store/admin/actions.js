@@ -6,6 +6,9 @@ export default {
   getActivities: generateAsyncAction(api.getActivities, {
     mutateType: types.LOAD_ACTIVITIES,
   }),
+  getActivityDetail: generateAsyncAction(api.getActivityDetail, {
+    mutateType: types.LOAD_ACTIVITY_DETAIL,
+  }),
   getApprovals: generateAsyncAction(api.getApprovals, {
     mutateType: types.LOAD_APPROVALS,
   }),

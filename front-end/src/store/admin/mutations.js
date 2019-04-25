@@ -9,6 +9,10 @@ export default {
     statePath: 'activities'
   }),
   ...generateAsyncMutation(undefined, {
+    mutateType: types.LOAD_ACTIVITY_DETAIL,
+    statePath: 'activityDetail'  
+  }),
+  ...generateAsyncMutation(undefined, {
     mutateType: types.LOAD_APPROVALS,
     statePath: 'approvals'
   }),

@@ -17,7 +17,7 @@
 			</Column>
 			<Column prop="activity_name" label="活动名字" width="180" fixed>
 				<template slot-scope="scope">
-					<router-link :to="{name: '',params: {aid: scope.row.activity_id}}">
+					<router-link :to="{name: 'admin-activity-detail',params: {aid: scope.row.activity_id}}">
 						{{ scope.row.activity_name }}
 					</router-link>
 				</template>

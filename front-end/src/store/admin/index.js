@@ -5,6 +5,7 @@ export default {
   namespaced: true,
   state: {
     activities: {},
+    activityDetail: {},
     approvals: {},
     students: {},
     managers: {},
