@@ -65,6 +65,7 @@
 				<Button class="btn works-btn" icon="ios-color-palette" type="info" size="large" @click.prevent="">查看参赛作品</Button>
 			</template>
 		</div>
+
 	</Card>
 </template>
 
@@ -73,9 +74,11 @@ import _ from 'lodash';
 import { mapState, mapActions } from 'vuex';
 import stateParseMixin from '@/utils/stateParseMixin';
 import LazyloadImg from '@/components/LazyloadImg';
+import EnrolledModal from './EnrolledModal';
+import UpdateInfoModal from './UpdateActivityModal';
 
 export default {
-	components: { LazyloadImg },
+	components: { LazyloadImg, EnrolledModal, UpdateInfoModal},
 	mixins: [stateParseMixin],
 	data() {
 		return {};
