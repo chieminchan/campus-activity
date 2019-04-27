@@ -58,13 +58,60 @@
 		</template>
 
 		<div class="action-btn">
-			<Button class="btn" icon="ios-build" type="primary" size="large" @click.prevent="">编辑活动信息</Button>
+			<Button class="btn" icon="ios-build" type="primary" size="large" @click.prevent="showActivityModal(activityInfo)">编辑活动信息</Button>
 			<Button class="btn" icon="md-contacts" type="warning" size="large" @click.prevent="">查看报名名单</Button>
 			<Button class="btn" icon="ios-brush" type="success" size="large" @click.prevent="">导出报名名单</Button>
 			<template v-if="activityInfo.activity_type == 'online'">
 				<Button class="btn works-btn" icon="ios-color-palette" type="info" size="large" @click.prevent="">查看参赛作品</Button>
 			</template>
 		</div>
+
+		<Modal v-model="isShowActivityModal" title="编辑活动信息" @on-ok="updateActivity" :mask-closable=false>
+			<Form class="user-form">
+				<FormItem>
+					<label class="item-label">活动主题：</label>
+					<Input type="text" v-model="currentActivity.activity_name">
+					</Input>
+				</FormItem>
+				<FormItem>
+					<label class="item-label">活动简介：</label>
+					<Input type="text" v-model="currentActivity.activity_brief">
+					</Input>
+				</FormItem>
+				<FormItem v-if="currentActivity.activity_type === 'offline'">
+					<label class="item-label">活动地点：</label>
+					<Input type="text" v-model="currentActivity.activity_address">
+					</Input>
+				</FormItem>
+				<FormItem>
+					<label class="item-label">报名截止时间：</label>
+					<DatePicker :value="currentActivity.activity_enroll_deadline" type="datetime" format="yyyy-MM-dd HH:mm:ss" :confirm=true @on-change="changeDeadline"></DatePicker>
+				</FormItem>
+				<FormItem>
+					<label class="item-label">活动开始时间：</label>
+					<DatePicker :value="currentActivity.activity_start" type="date" format="yyyy-MM-dd" :confirm=true @on-change="changeStartTime"></DatePicker>
+				</FormItem>
+				<FormItem>
+					<label class="item-label">活动结束时间：</label>
+					<DatePicker :value="currentActivity.activity_end" type="date" format="yyyy-MM-dd" :confirm=true @on-change="changeEndTime"></DatePicker>
+				</FormItem>
+				<FormItem>
+					<label class="item-label">联系方式：</label>
+					<Input class="concat-item" type="text" v-model="currentActivity.activity_concat_name"></Input>
+					-
+					<Input class="concat-item" type="text" v-model="currentActivity.activity_concat_phone"></Input>
+				</FormItem>
+
+				<template v-if="currentActivity.activity_addition">
+					<FormItem v-for="(value, key, index) in currentActivity.activity_addition" :key="index">
+						<label class="item-label">{{key}}</label>
+						<Input type="text" v-model="currentActivity.activity_addition[key]">
+						</Input>
+					</FormItem>
+				</template>
+
+			</Form>
+		</Modal>
 
 	</Card>
 </template>
@@ -78,10 +125,13 @@ import EnrolledModal from './EnrolledModal';
 import UpdateInfoModal from './UpdateActivityModal';
 
 export default {
-	components: { LazyloadImg, EnrolledModal, UpdateInfoModal},
+	components: { LazyloadImg, EnrolledModal, UpdateInfoModal },
 	mixins: [stateParseMixin],
 	data() {
-		return {};
+		return {
+			isShowActivityModal: false,
+			currentActivity: {},
+		};
 	},
 	computed: {
 		...mapState('admin', { state: 'activityDetail' }),
@@ -105,6 +155,30 @@ export default {
 			const { params: { aid } } = this.$route;
 			this.getActivityDetail({ activityId: aid });
 		},
+		showActivityModal(item) {
+			this.isShowActivityModal = true;
+			this.currentActivity = _.cloneDeep(item);
+		},
+		changeDeadline(newDate) {
+			this.currentActivity.activity_enroll_deadline = newDate;
+		},
+		changeStartTime(newDate) {
+			this.currentActivity.activity_start = newDate;
+		},
+		changeEndTime(newDate) {
+			this.currentActivity.activity_end = newDate;
+		},
+		updateActivity() {
+			const params = { ...this.currentActivity };
+			updatePublished(params)
+				.then(() => {
+					this.$Message.success('修改活动信息成功！');
+					this.loadData();
+				})
+				.catch(() => {
+					this.$Message.success('修改活动信息失败！');
+				});
+		}
 	},
 	mounted() {
 		this.load();
@@ -127,6 +201,7 @@ export default {
 		width: 100%;
 		min-height: 200px;
 		padding: 0 10%;
+		position: relative;
 		display: flex;
 		justify-content: center;
 		.img {
