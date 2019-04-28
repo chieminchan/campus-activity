@@ -253,6 +253,7 @@ export default {
 		width: 100%;
 		min-height: 200px;
 		padding: 0 10%;
+		position: relative;
 		display: flex;
 		justify-content: center;
 		.img {

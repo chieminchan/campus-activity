@@ -13,6 +13,14 @@ export default {
     statePath: 'activityDetail'  
   }),
   ...generateAsyncMutation(undefined, {
+    mutateType: types.LOAD_ENROLLED_LIST,
+    statePath: 'enrolledList'  
+  }),
+  ...generateAsyncMutation(undefined, {
+    mutateType: types.LOAD_ACTIVITY_WORKS,
+    statePath: 'activityWorks'  
+  }),
+  ...generateAsyncMutation(undefined, {
     mutateType: types.LOAD_APPROVALS,
     statePath: 'approvals'
   }),

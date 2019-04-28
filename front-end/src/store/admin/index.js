@@ -6,6 +6,8 @@ export default {
   state: {
     activities: {},
     activityDetail: {},
+    enrolledList: {},
+    activityWorks: {},
     approvals: {},
     students: {},
     managers: {},

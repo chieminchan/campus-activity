@@ -1,7 +1,7 @@
 <template>
 	<Card class='detail'>
-		<h2 slot="title">活动详情管理</h2>
-
+		<GoBack></GoBack>
+		<h2>活动详情管理</h2>
 		<h3 class="them"> {{ activityInfo.activity_name }} </h3>
 		<!-- 海报 -->
 		<div class="poster">
@@ -59,53 +59,45 @@
 
 		<div class="action-btn">
 			<Button class="btn" icon="ios-build" type="primary" size="large" @click.prevent="showActivityModal(activityInfo)">编辑活动信息</Button>
-			<Button class="btn" icon="md-contacts" type="warning" size="large" @click.prevent="">查看报名名单</Button>
+			<Button class="btn" icon="md-contacts" type="warning" size="large" @click.prevent="toEnrolled">查看报名名单</Button>
 			<Button class="btn" icon="ios-brush" type="success" size="large" @click.prevent="">导出报名名单</Button>
 			<template v-if="activityInfo.activity_type == 'online'">
-				<Button class="btn works-btn" icon="ios-color-palette" type="info" size="large" @click.prevent="">查看参赛作品</Button>
+				<Button class="btn works-btn" icon="ios-color-palette" type="info" size="large" @click.prevent="toWorks">查看参赛作品</Button>
 			</template>
 		</div>
 
-		<Modal v-model="isShowActivityModal" title="编辑活动信息" @on-ok="updateActivity" :mask-closable=false>
-			<Form class="user-form">
-				<FormItem>
-					<label class="item-label">活动主题：</label>
-					<Input type="text" v-model="currentActivity.activity_name">
+		<Modal v-model="isShowActivityModal" title="编辑活动信息" @on-ok="updateActivity" width="600">
+			<Form class="detail-form">
+				<FormItem label="活动主题">
+					<Input class="item-content" type="text" v-model="currentActivity.activity_name">
 					</Input>
 				</FormItem>
-				<FormItem>
-					<label class="item-label">活动简介：</label>
-					<Input type="text" v-model="currentActivity.activity_brief">
+				<FormItem label="活动简介">
+					<Input class="item-content" type="text" v-model="currentActivity.activity_brief">
 					</Input>
 				</FormItem>
-				<FormItem v-if="currentActivity.activity_type === 'offline'">
-					<label class="item-label">活动地点：</label>
-					<Input type="text" v-model="currentActivity.activity_address">
+				<FormItem label="活动地点" v-if="currentActivity.activity_type === 'offline'">
+					<Input class="item-content" type="text" v-model="currentActivity.activity_address">
 					</Input>
 				</FormItem>
-				<FormItem>
-					<label class="item-label">报名截止时间：</label>
-					<DatePicker :value="currentActivity.activity_enroll_deadline" type="datetime" format="yyyy-MM-dd HH:mm:ss" :confirm=true @on-change="changeDeadline"></DatePicker>
+				<FormItem label="报名截止时间">
+					<DatePicker class="item-content" :value="currentActivity.activity_enroll_deadline" type="datetime" format="yyyy-MM-dd HH:mm:ss" :confirm=true @on-change="changeDeadline"></DatePicker>
 				</FormItem>
-				<FormItem>
-					<label class="item-label">活动开始时间：</label>
-					<DatePicker :value="currentActivity.activity_start" type="date" format="yyyy-MM-dd" :confirm=true @on-change="changeStartTime"></DatePicker>
+				<FormItem label="活动开始时间">
+					<DatePicker class="item-content" :value="currentActivity.activity_start" type="date" format="yyyy-MM-dd" :confirm=true @on-change="changeStartTime"></DatePicker>
 				</FormItem>
-				<FormItem>
-					<label class="item-label">活动结束时间：</label>
-					<DatePicker :value="currentActivity.activity_end" type="date" format="yyyy-MM-dd" :confirm=true @on-change="changeEndTime"></DatePicker>
+				<FormItem label="活动结束时间">
+					<DatePicker class="item-content" :value="currentActivity.activity_end" type="date" format="yyyy-MM-dd" :confirm=true @on-change="changeEndTime"></DatePicker>
 				</FormItem>
-				<FormItem>
-					<label class="item-label">联系方式：</label>
+				<FormItem label="联系方式">
 					<Input class="concat-item" type="text" v-model="currentActivity.activity_concat_name"></Input>
 					-
 					<Input class="concat-item" type="text" v-model="currentActivity.activity_concat_phone"></Input>
 				</FormItem>
 
 				<template v-if="currentActivity.activity_addition">
-					<FormItem v-for="(value, key, index) in currentActivity.activity_addition" :key="index">
-						<label class="item-label">{{key}}</label>
-						<Input type="text" v-model="currentActivity.activity_addition[key]">
+					<FormItem v-for="(value, key, index) in currentActivity.activity_addition" :label="key" :key="index">
+						<Input class="item-content" type="text" v-model="currentActivity.activity_addition[key]">
 						</Input>
 					</FormItem>
 				</template>
@@ -121,11 +113,11 @@ import _ from 'lodash';
 import { mapState, mapActions } from 'vuex';
 import stateParseMixin from '@/utils/stateParseMixin';
 import LazyloadImg from '@/components/LazyloadImg';
-import EnrolledModal from './EnrolledModal';
-import UpdateInfoModal from './UpdateActivityModal';
+import GoBack from '@/components/GoBack';
+import { updatePublished } from '@/store/api/user'
 
 export default {
-	components: { LazyloadImg, EnrolledModal, UpdateInfoModal },
+	components: { LazyloadImg, GoBack},
 	mixins: [stateParseMixin],
 	data() {
 		return {
@@ -173,11 +165,19 @@ export default {
 			updatePublished(params)
 				.then(() => {
 					this.$Message.success('修改活动信息成功！');
-					this.loadData();
+					this.load();
 				})
 				.catch(() => {
 					this.$Message.success('修改活动信息失败！');
 				});
+		},
+		toEnrolled() {
+			const { params: { aid } } = this.$route;
+			this.$router.push({ name: 'admin-activity-enrolled', params: { aid } });
+		},
+		toWorks() {
+			const { params: { aid } } = this.$route;
+			this.$router.push({ name: 'admin-activity-works', params: { aid } });
 		}
 	},
 	mounted() {
@@ -190,11 +190,11 @@ export default {
 	.them {
 		margin: 20px 0;
 		text-align: center;
-		font-size: 20px;
+		font-size: 18px;
 	}
 
 	.ivu-card-body {
-		padding: 20px;
+		padding: 10px 20px;
 	}
 
 	.poster {
@@ -232,6 +232,22 @@ export default {
 		.works-btn {
 			background-color: #909399;
 			border-color: #909399;
+		}
+	}
+
+	&-form {
+		.ivu-form-item-label {
+			display: block;
+			width: 100%;
+			text-align: left;
+		}
+		.item-content {
+			display: block;
+			width: 90%;
+		}
+		.concat-item {
+			display: inline-block;
+			width: 44%;
 		}
 	}
 }

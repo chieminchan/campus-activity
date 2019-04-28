@@ -110,6 +110,16 @@ const router = new Router({
                     component: () => import('@/views/admin/activities/Detail.vue'),
                 },
                 {
+                    name: 'admin-activity-enrolled',
+                    path: 'activities/:aid/enrolled',
+                    component: () => import('@/views/admin/activities/Enrolled.vue'),
+                },
+                {
+                    name: 'admin-activity-works',
+                    path: 'activities/:aid/works',
+                    component: () => import('@/views/admin/activities/ActivityWorks.vue'),
+                },
+                {
                     name: 'admin-approvals',
                     path: 'approvals',
                     component: () => import('@/views/admin/activities/Approvals.vue'),

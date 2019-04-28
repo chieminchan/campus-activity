@@ -1,5 +1,5 @@
 <template>
-	<Modal class=''></Modal>
+	<Card class=''></Card>
 </template>
 
 <script>

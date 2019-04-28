@@ -22,7 +22,11 @@
 					</router-link>
 				</template>
 			</Column>
-			<Column prop="activity_type" label="活动类型" width="100" sortable></Column>
+			<Column prop="activity_type" label="活动类型" width="100" sortable>
+				<template slot-scope="scope">
+					{{ scope.row.activity_type | formatType }}
+				</template>
+			</Column>
 			<Column prop="activity_start" label="活动时间" width="210" sortable>
 				<template slot-scope="scope">
 					{{`${scope.row.activity_start} - ${scope.row.activity_end}`}}
@@ -70,6 +74,12 @@ export default {
 				return '0.0'
 			}
 			return num.toFixed(1);
+		},
+		formatType(type) {
+			if(type === 'online') {
+				return '线上活动'
+			}
+			return '线下活动';
 		}
 	},
 	computed: {
