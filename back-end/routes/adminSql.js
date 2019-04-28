@@ -14,6 +14,16 @@ const activity = {
     return `select * from activities where activity_id = ${activityId}`;
   },
 
+  // 活动报名名单
+  enrolledList: (activityId) => {
+    return `select u.user_name, u.user_account, u.user_sex, u.user_grade, u.user_department, u.user_profession, u.user_class, u.user_phone from enrolls as e inner join users as u on u.user_id = e.user_id where e.activity_id = ${activityId}`;
+  },
+
+  // 活动作品
+  worksList: (activityId) => {
+    return '';
+  },
+
   // 查看全部待审核活动
   approvals: (currentPage, pageSize) => {
     const previewNum = (currentPage - 1) * pageSize;

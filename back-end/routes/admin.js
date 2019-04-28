@@ -31,6 +31,19 @@ router.get('/activity', async (req, res) => {
   res.send(correctRes(formatData));
 });
 
+router.get('/enrolled', async (req, res) => {
+  const { activityId } = req.query;
+  const activityInfo = await service.query($sql.activity(activityId));
+  const rows = await service.query($sql.enrolledList(activityId));
+  const results = {
+    activity_name: activityInfo[0].activity_name,
+    data: rows,
+  }
+  res.send(correctRes(results));
+});
+
+
+
 router.get('/approvals', async (req, res) => {
   try {
     const { currentPage, pageSize } = req.query;
