@@ -21,7 +21,7 @@ const activity = {
 
   // 活动作品
   worksList: (activityId) => {
-    return '';
+    return `select w.work_name, w.work_brief, w.work_content, w.work_front_img, u.user_name, u.user_account, u.user_grade, u.user_department, u.user_profession, u.user_class, u.user_phone from activity_works as w inner join users as u on u.user_id = w.work_author_id where w.work_activity_id = ${activityId}`;
   },
 
   // 查看全部待审核活动
