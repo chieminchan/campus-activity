@@ -35,9 +35,7 @@ export default {
 	components: { GoBack },
 	mixins: [stateParseMixin],
 	data() {
-		return {
-
-		};
+		return {};
 	},
 	computed: {
 		...mapState('admin', { state: 'enrolledList' }),

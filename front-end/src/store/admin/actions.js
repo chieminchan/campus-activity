@@ -12,6 +12,9 @@ export default {
   getEnrolledList: generateAsyncAction(api.getEnrolledList, {
     mutateType: types.LOAD_ENROLLED_LIST,
   }),
+  getActivityWorks: generateAsyncAction(api.getActivityWorks, {
+    mutateType: types.LOAD_ACTIVITY_WORKS,
+  }),
   getApprovals: generateAsyncAction(api.getApprovals, {
     mutateType: types.LOAD_APPROVALS,
   }),

@@ -7,7 +7,7 @@
 				<i class="fa fa-lg fa-trash-o" aria-hidden="true"></i> 批量删除
 			</Button>
 			<Button class="btn" type="success" @click.prevent="" :loading="isFetching">
-				<i class="fa fa-paper-plane" aria-hidden="true"></i>  发布活动
+				<i class="fa fa-paper-plane" aria-hidden="true"></i> 发布活动
 			</Button>
 			<Input class="search-text" search type="text" v-model="searchText" placeholder="搜索活动" @change=""></Input>
 		</div>
@@ -41,7 +41,9 @@
 			<Column prop="activity_creator_phone" label="联系方式" width="115"></Column>
 			<Column class="action-column" label="操作" width="290">
 				<template slot-scope="scope">
-					<Button class="action-btn" type="primary" @click=""> 查看详情 </Button>
+					<Button class="action-btn" type="primary" @click="toDetail(scope.row.activity_id)">
+						查看详情
+					</Button>
 					<Button class="action-btn" type="success" @click=""> 编辑 </Button>
 					<Button class="action-btn" type="warning" @click=""> 删除 </Button>
 				</template>
@@ -70,13 +72,13 @@ export default {
 	},
 	filters: {
 		formatScore(num) {
-			if(_.isNil(num)) {
+			if (_.isNil(num)) {
 				return '0.0'
 			}
 			return num.toFixed(1);
 		},
 		formatType(type) {
-			if(type === 'online') {
+			if (type === 'online') {
 				return '线上活动'
 			}
 			return '线下活动';
@@ -114,6 +116,9 @@ export default {
 			this.pageSize = pageSize;
 			this.currentPage = 1;
 			this.load();
+		},
+		toDetail(activityId) {
+			this.$router.push({ name: 'admin-activity-detail', params: { aid: activityId } });
 		}
 	},
 	created() {
