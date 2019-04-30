@@ -6,7 +6,7 @@
 			<Button class="btn" type="warning" @click.prevent="" :loading="isFetching">
 				<i class="fa fa-lg fa-trash-o" aria-hidden="true"></i> 批量删除
 			</Button>
-			<Button class="btn" type="success" @click.prevent="" :loading="isFetching">
+			<Button class="btn" type="success" @click.prevent="addActivity" :loading="isFetching">
 				<i class="fa fa-paper-plane" aria-hidden="true"></i> 发布活动
 			</Button>
 			<Input class="search-text" search type="text" v-model="searchText" placeholder="搜索活动" @change=""></Input>
@@ -45,7 +45,7 @@
 						查看详情
 					</Button>
 					<Button class="action-btn" type="success" @click="ShowModal(scope.row)"> 编辑 </Button>
-					<Button class="action-btn" type="warning" @click=""> 删除 </Button>
+					<Button class="action-btn" type="warning" @click="deleteActivity(scope.row.activity_id)"> 删除 </Button>
 				</template>
 			</Column>
 		</Table>
@@ -63,6 +63,7 @@ import stateParseMixin from '@/utils/stateParseMixin';
 import { mapState, mapActions } from 'vuex';
 import updateActivityModal from './updateActivityModal';
 import { updatePublished } from '@/store/api/user'
+import { removeActivity } from '@/store/api/admin';
 
 export default {
 	components: { updateActivityModal },
@@ -140,11 +141,30 @@ export default {
 					this.load();
 				})
 				.catch(() => {
-					this.$Message.success('修改活动信息失败！');
+					this.$Message.error('修改活动信息失败！');
 				});
 		},
 		closeModal() {
 			this.isShowModal = false;
+		},
+		deleteActivity(activityId) {
+			this.$Modal.warning({
+				title: '删除活动',
+				content: '<p>确定要删除活动吗？</p>',
+				onOk: () => {
+					removeActivity(activityId)
+						.then(() => {
+							this.$Message.success('删除活动成功！');
+							this.load();
+						})
+						.catch(() => {
+							this.$Message.error('删除活动失败！');
+						});
+				},
+			});
+		},
+		toAddActivity() {
+			this.$router.push({})
 		}
 	},
 	created() {

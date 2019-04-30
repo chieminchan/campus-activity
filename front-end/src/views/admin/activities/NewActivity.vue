@@ -1,6 +1,6 @@
 <template>
 	<Card class="publish-page">
-		<h2>校园活动发布</h2>
+		<h2>发布校园活动</h2>
 		<Form :model="newActivity" class="publish-form" ref="publishForm">
 			<Row :gutter="24">
 				<Col span="12">
@@ -145,7 +145,7 @@
 					<div class="actions">
 						<Button class="btn" type="warning" :loading="isLoading" @click.prevent="moreAddition" ghost>添加活动额外信息
 							(填写完信息需再点击一次才确认添加)</Button>
-						<Button class="btn" type="primary" :loading="isLoading" @click.prevent="addApproval">提交发布申请</Button>
+						<Button class="btn" type="primary" :loading="isLoading" @click.prevent="addApproval">发布活动</Button>
 					</div>
 				</FormItem>
 			</Row>
@@ -158,7 +158,7 @@
 import _ from 'lodash';
 import { mapState } from 'vuex';
 import { uploadImg } from '@/utils/uploadImage';
-import { updateApproval } from '@/store/api/activity';
+import { addActivity } from '@/store/api/admin';
 
 export default {
 	data() {
@@ -284,7 +284,7 @@ export default {
 						})
 				}
 
-				await updateApproval(params)
+				await addActivity(params)
 					.then(() => {
 						this.isLoading = false;
 						this.$Message.success('提交活动申请成功！');
@@ -293,9 +293,9 @@ export default {
 						this.reset();
 					})
 					.catch(() => {
-						this.isLoading = false;
+            this.isLoading = false;
 						this.frontPostTip = '选择图片或者拖拽图片进行上传';
-						this.backPostTip = '选择图片或者拖拽图片进行上传';  						
+						this.backPostTip = '选择图片或者拖拽图片进行上传';            
 						this.$Message.error('活动发布申请失败，请重试！');
 					})
 			} else {

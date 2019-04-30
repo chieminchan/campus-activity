@@ -24,7 +24,7 @@ const LOAD_ENROLLED_LIST = `${BASE_URL}/enrolled`;
 export const getEnrolledList = ({activityId}) => {
   const params = {activityId};
   return axios.get(LOAD_ENROLLED_LIST, { params });
-}
+};
 
 // 活动作品
 const LOAD_ACTIVITY_WORKS = `${BASE_URL}/works`;
@@ -32,6 +32,12 @@ export const getActivityWorks = ({activityId}) => {
   const params = {activityId};
   return axios.get(LOAD_ACTIVITY_WORKS, { params });
 }
+// 删除活动
+const REMOVE_ACTIVITY = `${BASE_URL}/removeActivity`;
+export const removeActivity = (activityId) => {
+  const params = {activityId};
+  return axios.delete(REMOVE_ACTIVITY, {params});
+};
 
 // 全部待审批活动
 const LOAD_APPROVALS = `${BASE_URL}/approvals`;
