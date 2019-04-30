@@ -44,13 +44,16 @@
 					<Button class="action-btn" type="primary" @click="toDetail(scope.row.activity_id)">
 						查看详情
 					</Button>
-					<Button class="action-btn" type="success" @click=""> 编辑 </Button>
+					<Button class="action-btn" type="success" @click="ShowModal(scope.row)"> 编辑 </Button>
 					<Button class="action-btn" type="warning" @click=""> 删除 </Button>
 				</template>
 			</Column>
 		</Table>
 
 		<Page class="pagination" :total=totalPage :current="currentPage" :page-size-opts="pageOpts" :page-size="pageSize" @on-page-size-change="changePageSize" @on-change="changePage" show-elevator show-sizer />
+
+		<updateActivityModal :isShowModal="isShowModal" :info="currentActivity" @change="updateActivity" @close="closeModal"></updateActivityModal>
+
 	</Card>
 </template>
 
@@ -58,16 +61,21 @@
 import _ from 'lodash';
 import stateParseMixin from '@/utils/stateParseMixin';
 import { mapState, mapActions } from 'vuex';
+import updateActivityModal from './updateActivityModal';
+import { updatePublished } from '@/store/api/user'
 
 export default {
-	components: {},
+	components: { updateActivityModal },
 	mixins: [stateParseMixin],
 	data() {
 		return {
 			currentPage: 1,
 			pageOpts: [3, 5, 10, 20],
 			pageSize: 10,
-			searchText: ''
+			searchText: '',
+			isShowModal: false,
+			currentActivity: {},
+			latestActivity: {}
 		};
 	},
 	filters: {
@@ -119,6 +127,24 @@ export default {
 		},
 		toDetail(activityId) {
 			this.$router.push({ name: 'admin-activity-detail', params: { aid: activityId } });
+		},
+		ShowModal(info) {
+			this.currentActivity = info;
+			this.isShowModal = true;
+		},
+		updateActivity(info) {
+			const params = { ...info };
+			updatePublished(params)
+				.then(() => {
+					this.$Message.success('修改活动信息成功！');
+					this.load();
+				})
+				.catch(() => {
+					this.$Message.success('修改活动信息失败！');
+				});
+		},
+		closeModal() {
+			this.isShowModal = false;
 		}
 	},
 	created() {

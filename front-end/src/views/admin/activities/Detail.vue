@@ -162,6 +162,7 @@ export default {
 		},
 		updateActivity() {
 			const params = { ...this.currentActivity };
+			console.log(params);
 			updatePublished(params)
 				.then(() => {
 					this.$Message.success('修改活动信息成功！');

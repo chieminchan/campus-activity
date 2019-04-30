@@ -78,9 +78,9 @@
 				</template>
 
 				<template v-if="hasEnroll">
-					<Button class="btn" icon="ios-sunny" type="warning" size="large" @click.prevent="deleteEnroll" :disabled=hasEnroll>已报名</Button>
+					<Button class="btn" icon="ios-sunny" type="warning" size="large" @click.prevent="deleteEnroll" :disabled="hasEnroll || isEnrollExpired">已报名</Button>
 					<template v-if="activityInfo.activity_type === 'online'">
-						<Button class="btn" icon="md-paper-plane" type="success" size="large" @click.prevent="toPostWork(activityInfo.activity_id)">提交电子作品</Button>
+						<Button class="btn" icon="md-paper-plane" type="success" size="large" :disabled="isUploadExpired" @click.prevent="toPostWork(activityInfo.activity_id)">提交电子作品</Button>
 					</template>
 				</template>
 				<template v-else>
@@ -95,6 +95,7 @@
 
 <script>
 import _ from 'lodash';
+import moment from 'moment';
 import { mapState, mapActions } from 'vuex';
 import stateParseMixin from '@/utils/stateParseMixin';
 import LazyloadImg from '@/components/LazyloadImg';
@@ -154,6 +155,20 @@ export default {
 			}
 			return {};
 		},
+		isEnrollExpired() {
+			const now = moment().format('YYYY-MM-DD HH:mm:ss');
+			if (this.isFulfill) {
+				return this.activityInfo.activity_enroll_deadline > now;
+			}
+			return true;
+		},
+		isUploadExpired() {
+			const now = moment().format('YYYY-MM-DD');
+			if (this.isFulfill) {
+				return this.activityInfo.activity_end < now;
+			}
+			return true;
+		}
 	},
 	methods: {
 		...mapActions('activity', ['getActivityInfo']),

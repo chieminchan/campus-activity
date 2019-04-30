@@ -26,7 +26,7 @@ export const updatePublished = (params => {
     if (activity_addition) {
         const addition = JSON.stringify(activity_addition);
         params.activity_addition = addition;
-    }
+    } 
     return axios.put(UPDATE_PUBLISHEDINFO, params, { paramType: 'form' });
 })
 
