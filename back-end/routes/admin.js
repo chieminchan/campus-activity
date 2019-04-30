@@ -12,6 +12,12 @@ router.get('/activities', async (req, res) => {
     const { currentPage, pageSize } = req.query;
     const total = await service.query($sql.activities().count);
     const rows = await service.query($sql.activities(currentPage, pageSize).detail);
+    
+    // 将活动信息中的addition转换成json格式    
+    rows.map((item) => {
+        const addition = item['activity_addition'];
+        item['activity_addition'] = querystring.parse(addition, "*", ":");  
+    });
     const results = { data: rows, total: total[0]['count(*)'] };
     res.send(correctRes(results));
   } catch (error) {

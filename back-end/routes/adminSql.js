@@ -5,7 +5,8 @@ const activity = {
 
     let sql = {};
     sql.count = `select count(*) from activities`;
-    sql.detail = `select a.activity_id, a.activity_name, a.activity_end, a.activity_start, a.activity_enroll_deadline, a.activity_score_value, a.activity_type, users.user_name as activity_creator, users.user_phone as activity_creator_phone from activities as a inner join users on users.user_id = a.activity_creator_id limit ${previewNum},${pageSize}`;
+    sql.detail = `select a.activity_id, a.activity_name, a.activity_brief, a.activity_end, a.activity_start, a.activity_enroll_deadline, a.activity_score_value, a.activity_type,
+    a.activity_concat_name, a.activity_concat_phone, a.activity_addition, users.user_name as activity_creator, users.user_phone as activity_creator_phone from activities as a inner join users on users.user_id = a.activity_creator_id limit ${previewNum},${pageSize}`;
     return sql;
   },
 
