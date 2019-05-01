@@ -6,7 +6,7 @@ const activity = {
     let sql = {};
     sql.count = `select count(*) from activities`;
     sql.detail = `select a.activity_id, a.activity_name, a.activity_brief, a.activity_end, a.activity_start, a.activity_enroll_deadline, a.activity_score_value, a.activity_type,
-    a.activity_concat_name, a.activity_concat_phone, a.activity_addition, users.user_name as activity_creator, users.user_phone as activity_creator_phone from activities as a inner join users on users.user_id = a.activity_creator_id limit ${previewNum},${pageSize}`;
+    a.activity_concat_name, a.activity_concat_phone, a.activity_addition, users.user_name as activity_creator, users.user_phone as activity_creator_phone from activities as a inner join users on users.user_id = a.activity_creator_id order by a.activity_id desc limit ${previewNum},${pageSize}`;
     return sql;
   },
 
@@ -57,6 +57,32 @@ const activity = {
     sql.detail = `select user_account, user_name, user_sex, user_phone from users where user_type = 'manager' limit ${previewNum},${pageSize}`;
     return sql;
   },
+
+  // 删除活动
+  removeActivity: (activityId) => {
+    return `delete from activities where activity_id = ${activityId}`;
+  },
+
+  // 增加活动
+  addActivity: (params) => {
+    const {
+      userId,
+      name,
+      type,
+      brief,
+      address,
+      enrollDeadline,
+      start,
+      end,
+      concator,
+      concatorPhone,
+      frontPoster,
+      backPoster,
+      addition
+    } = params;
+    return `insert into activities (activity_name, activity_brief, activity_creator_id, activity_enroll_deadline, activity_start, activity_end, activity_address, activity_type, activity_poster_front, activity_poster_back, activity_concat_phone, activity_concat_name, activity_addition, activity_approval_id, activity_approval_status) values ('${name}', '${brief}', ${userId}, '${enrollDeadline}', '${start}', '${end}', '${address}', '${type}', '${frontPoster}', '${backPoster}', '${concatorPhone}', '${concator}', '${addition}', ${userId}, 1)`;
+  },
+
 };
 
 module.exports = activity;
