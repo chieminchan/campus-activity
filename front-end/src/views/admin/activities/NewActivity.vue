@@ -95,9 +95,9 @@
 					<label class="item-label">
 						<Icon type="md-information-circle" /> 温馨提示：
 					</label>
-					<p class="tip">1. 尽量选用横向和分辨率高的海报,这样子显示的信息会更加清晰哦。</p>
+					<p class="tip">1. 应选用横向和分辨率高的海报,这样子显示的信息会更加清晰哦。</p>
 					<p class="tip">2. 须上传活动海报正面，如果没有海报反面，可以选择不添加海报反面图片。</p>
-					<p class="tip">3. 海报一经上传，后续不可进行修改，上传前务必核对好海报上信息。</p>
+					<p class="tip">3. 海报一经上传，后续不可修改，上传前务必核对好海报上信息。</p>
 					<p class="tip">4. 仅支持jpg、jpeg、png格式。</p>
 					<p class="tip">5. 活动海报越精致、信息越详细能吸引更多关注哦！</p>
 				</FormItem>
@@ -145,7 +145,7 @@
 					<div class="actions">
 						<Button class="btn" type="warning" :loading="isLoading" @click.prevent="moreAddition" ghost>添加活动额外信息
 							(填写完信息需再点击一次才确认添加)</Button>
-						<Button class="btn" type="primary" :loading="isLoading" @click.prevent="addApproval">发布活动</Button>
+						<Button class="btn" type="primary" :loading="isLoading" @click.prevent="addActivity">发布活动</Button>
 					</div>
 				</FormItem>
 			</Row>
@@ -158,7 +158,7 @@
 import _ from 'lodash';
 import { mapState } from 'vuex';
 import { uploadImg } from '@/utils/uploadImage';
-import { addActivity } from '@/store/api/admin';
+import { updateActivity } from '@/store/api/admin';
 
 export default {
 	data() {
@@ -253,7 +253,7 @@ export default {
       }
       return false;
 		},
-		async addApproval() {
+		async addActivity() {
 			const params = { ...this.newActivity };
       params.userId = this.userInformation.user_id;
 			const isVaild = this.isVaild();
@@ -284,13 +284,14 @@ export default {
 						})
 				}
 
-				await addActivity(params)
+				await updateActivity(params)
 					.then(() => {
 						this.isLoading = false;
 						this.$Message.success('提交活动申请成功！');
 						this.frontPostTip = '选择图片或者拖拽图片进行上传';
 						this.backPostTip = '选择图片或者拖拽图片进行上传';
-						this.reset();
+            this.reset();
+            this.$router.push({name: 'admin-activities'});
 					})
 					.catch(() => {
             this.isLoading = false;

@@ -105,6 +105,11 @@ const router = new Router({
                     component: () => import('@/views/admin/activities/Index.vue'),
                 },
                 {
+                    name: 'admin-add-activity',
+                    path: 'activities/new',
+                    component: () => import('@/views/admin/activities/NewActivity.vue'),
+                },
+                {
                     name: 'admin-activity-detail',
                     path: 'activities/:aid',
                     component: () => import('@/views/admin/activities/Detail.vue'),

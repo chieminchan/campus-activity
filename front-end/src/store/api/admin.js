@@ -1,4 +1,5 @@
 import axios from '@/utils/axios';
+import _ from 'lodash';
 
 const BASE_URL = '/api/admin';
 
@@ -38,6 +39,16 @@ export const removeActivity = (activityId) => {
   const params = {activityId};
   return axios.delete(REMOVE_ACTIVITY, {params});
 };
+
+// 增加活动
+const UPDATE_ACTIVITY = `${BASE_URL}/addActivity`;
+export const updateActivity = ((params) => {
+  if (_.isObject(params.addition)) {
+    const addition = JSON.stringify(params.addition);
+    params.addition = addition;
+  } 
+  return axios.post( UPDATE_ACTIVITY, params, { paramType: 'form' });
+});
 
 // 全部待审批活动
 const LOAD_APPROVALS = `${BASE_URL}/approvals`;

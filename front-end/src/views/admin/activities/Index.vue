@@ -6,7 +6,7 @@
 			<Button class="btn" type="warning" @click.prevent="" :loading="isFetching">
 				<i class="fa fa-lg fa-trash-o" aria-hidden="true"></i> 批量删除
 			</Button>
-			<Button class="btn" type="success" @click.prevent="addActivity" :loading="isFetching">
+			<Button class="btn" type="success" @click.prevent="toAddActivity" :loading="isFetching">
 				<i class="fa fa-paper-plane" aria-hidden="true"></i> 发布活动
 			</Button>
 			<Input class="search-text" search type="text" v-model="searchText" placeholder="搜索活动" @change=""></Input>
@@ -164,7 +164,7 @@ export default {
 			});
 		},
 		toAddActivity() {
-			this.$router.push({})
+			this.$router.push({name: 'admin-add-activity'});
 		}
 	},
 	created() {
