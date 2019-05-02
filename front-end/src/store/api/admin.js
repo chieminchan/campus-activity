@@ -62,9 +62,21 @@ export const getApprovals = ({ currentPage, pageSize }) => {
 
 // 待审批活动信息详情
 const LOAD_APPROVAL_DETAIL = `${BASE_URL}/approval`;
-export const getApprovalDetail = ({ approvalId }) => {
-  const params = { approvalId };
+export const getApprovalDetail = ({ activityId }) => {
+  const params = { activityId };
   return axios.get(LOAD_APPROVAL_DETAIL, { params });
+};
+
+// 更改待审核活动状态
+const UPDATE_APPROVAL_STATUS = `${BASE_URL}/approvalStatus`;
+export const updateApprovalStatus = ({activityId, managerId, status, advice = ''}) => {
+  const params = {
+    activityId,
+    managerId,
+    status,
+    advice
+  };
+  return axios.put(UPDATE_APPROVAL_STATUS, {params});
 };
 
 // 全部学生信息

@@ -5,7 +5,7 @@
 		<Table class="approval-table" :fit="true" :data="pendingReview" :loading="isFetching" ref="activityTable" border stripe>
 			<Column prop="activity_name" label="活动名字" width="185" fixed>
 				<template slot-scope="scope">
-					<router-link :to="{name: 'admin-approval-detail', params: {approvalId: scope.row.approval_id}}">
+					<router-link :to="{name: 'admin-approval-detail', params: {aid: scope.row.activity_id}}">
 						{{ scope.row.activity_name }}
 					</router-link>
 				</template>
@@ -25,12 +25,18 @@
 			<Column prop="activity_creator_phone" label="联系方式" width="115"></Column>
 			<Column class="action-column" label="操作" width="285">
 				<template slot-scope="scope">
-					<Button class="action-btn" type="primary" @click="toDetail(scope.row.approval_id)"> 查看详情 </Button>
-					<Button class="action-btn" type="success" @click=""> 通过审核 </Button>
-					<Button class="action-btn" type="warning" @click=""> 不通过 </Button>
+					<Button class="action-btn" type="primary" @click="toDetail(scope.row.activity_id)"> 查看详情 </Button>
+					<Button class="action-btn" type="success" @click="pastApproval(scope.row.activity_id)"> 通过审核 </Button>
+					<Button class="action-btn" type="warning" @click="showFailApproval(scope.row.activity_id)"> 不通过 </Button>
 				</template>
 			</Column>
 		</Table>
+
+		<Modal class="advice-modal" v-model="isShowModal" title="不通过活动审批申请" @on-ok="failApproval">
+			<p class="tip">提点建议，可以让学生更好地完善活动信息哦！</p>
+			<label class="label">活动建议/活动意见：</label>
+			<Input v-model="advice" placeholder="可以说说您对活动的看法哦.."></Input>
+		</Modal>
 
 		<Page class="pagination" :total=totalPage :current="currentPage" :page-size-opts="pageOpts" :page-size="pageSize" @on-page-size-change="changePageSize" @on-change="changePage" show-elevator show-sizer />
 	</Card>
@@ -39,6 +45,7 @@
 <script>
 import stateParseMixin from '@/utils/stateParseMixin';
 import { mapState, mapActions } from 'vuex';
+import { updateApprovalStatus } from '@/store/api/admin';
 
 export default {
 	components: {},
@@ -48,6 +55,9 @@ export default {
 			currentPage: 1,
 			pageOpts: [3, 5, 10, 20],
 			pageSize: 10,
+			advice: '',
+			isShowModal: false,
+			currentApproval: undefined,
 		};
 	},
 	filters: {
@@ -60,6 +70,10 @@ export default {
 	},
 	computed: {
 		...mapState('admin', { state: 'approvals' }),
+		...mapState({ user: 'profile' }),
+		userInformation() {
+			return this.user.payload.results[0];
+		},
 		pendingReview() {
 			if (this.isFulfill) {
 				return this.state.payload.results.data;
@@ -91,9 +105,44 @@ export default {
 			this.currentPage = 1;
 			this.load();
 		},
-		toDetail(approvalId) {
-			this.$router.push({ name: 'admin-approval-detail', params: { approvalId } });
-		}
+		toDetail(activityId) {
+			this.$router.push({ name: 'admin-approval-detail', params: { aid: activityId } });
+		},
+		pastApproval(activityId) {
+			this.$Modal.confirm({
+				title: '通过活动审批申请',
+				content: '<p>确定要通过活动审批申请吗？</p>',
+				onOk: () => {
+					const managerId = this.userInformation.user_id;
+					updateApprovalStatus({ activityId, managerId, status: 1 })
+						.then(() => {
+							this.$Message.success('活动已成功发布！');
+							this.load();
+						})
+						.catch(() => {
+							this.$Message.error('通过审核失败，请重试！');
+							this.load();
+						});
+				},
+			});
+		},
+		showFailApproval(activityId) {
+			this.isShowModal = true;
+			this.currentApproval = activityId;
+		},
+		failApproval() {
+			const managerId = this.userInformation.user_id;
+			const { currentApproval, advice } = this;
+			updateApprovalStatus({ activityId: currentApproval, managerId, status: 2, advice })
+				.then(() => {
+					this.$Message.success('活动已成功反馈！');
+					this.load();
+				})
+				.catch(() => {
+					this.$Message.error('反馈失败，请重试！');
+					this.load();
+				});
+		},
 	},
 	created() {
 		this.load();
@@ -118,5 +167,15 @@ export default {
 .approval-table {
 	margin-top: 20px;
 	width: 100%;
+}
+
+.advice-modal {
+	.tip, .label {
+		line-height: 2;
+		font-size: 14px;
+	}
+	.tip {
+		margin-bottom: 10px;
+	}
 }
 </style>

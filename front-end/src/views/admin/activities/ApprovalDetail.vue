@@ -107,8 +107,8 @@ export default {
 	methods: {
 		...mapActions('admin', ['getApprovalDetail']),
 		load() {
-			const { params: { approvalId } } = this.$route;
-			this.getApprovalDetail({ approvalId });
+			const { params: { aid } } = this.$route;
+			this.getApprovalDetail({ activityId: aid });
 		},
 	},
 	mounted() {
@@ -134,6 +134,7 @@ export default {
 		padding: 0 10%;
 		position: relative;
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		.img {
 			padding: 10px;

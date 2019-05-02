@@ -131,7 +131,7 @@ const router = new Router({
                 },
                 {
                     name: 'admin-approval-detail',
-                    path: 'approvals/:approvalId',
+                    path: 'approvals/:aid',
                     component: () => import('@/views/admin/activities/ApprovalDetail.vue'),
                 },
                 {
