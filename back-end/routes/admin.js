@@ -125,6 +125,24 @@ router.get('/approvals', async (req, res) => {
   }
 });
 
+// 待审批活动详情
+router.get('/approval', async (req, res) =>{
+  try {
+    const { approvalId } = req.query;
+    console.log(approvalId);
+    service.query($sql.approval(approvalId))
+      .then((info) => {
+        // 将活动信息中的addition转换成json格式
+        const formatData = info[0];
+        const addition = formatData['activity_addition'];
+        formatData['activity_addition'] = querystring.parse(addition, "*", ":");
+        res.send(correctRes(formatData));
+      })
+  } catch (error) {
+    res.send(errorRes(error.message));
+  }
+});
+
 // 学生信息
 router.get('/students', async (req, res) => {
   try {

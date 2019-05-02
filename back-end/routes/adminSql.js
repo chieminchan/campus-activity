@@ -38,6 +38,11 @@ const activity = {
     return sql;
   },
 
+  // 待审批活动详细信息
+  approval: (approvalId) => {
+    return `select * from activity_approvals where approval_id = ${approvalId}`;    
+  },
+
   // 查看全部学生信息
   students: (currentPage, pageSize) => {
     const previewNum = (currentPage - 1) * pageSize;
