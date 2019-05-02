@@ -169,14 +169,14 @@ export default {
 				name: undefined,
 				type: undefined,
 				brief: undefined,
-				address: undefined,
+				address: '',
 				enrollDeadline: undefined,
 				start: undefined,
 				end: undefined,
 				concator: undefined,
 				concatorPhone: undefined,
 				frontPoster: undefined,
-				backPoster: undefined,
+				backPoster: '',
 				addition: {}
 			},
 			additionObj: {},
@@ -311,14 +311,14 @@ export default {
 				name: undefined,
 				type: undefined,
 				brief: undefined,
-				address: undefined,
+				address: '',
 				deadline: undefined,
 				start: undefined,
 				end: undefined,
 				concator: undefined,
 				concatorPhone: undefined,
 				frontPoster: undefined,
-				backPoster: undefined,
+				backPoster: '',
 				addition: {}
 			}
 		}

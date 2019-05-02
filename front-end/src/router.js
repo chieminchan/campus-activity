@@ -112,7 +112,7 @@ const router = new Router({
                 {
                     name: 'admin-activity-detail',
                     path: 'activities/:aid',
-                    component: () => import('@/views/admin/activities/Detail.vue'),
+                    component: () => import('@/views/admin/activities/ActivityDetail.vue'),
                 },
                 {
                     name: 'admin-activity-enrolled',
@@ -128,6 +128,11 @@ const router = new Router({
                     name: 'admin-approvals',
                     path: 'approvals',
                     component: () => import('@/views/admin/activities/Approvals.vue'),
+                },
+                {
+                    name: 'admin-approval-detail',
+                    path: 'approvals/:approvalId',
+                    component: () => import('@/views/admin/activities/ApprovalDetail.vue'),
                 },
                 {
                     name: 'admin-students',

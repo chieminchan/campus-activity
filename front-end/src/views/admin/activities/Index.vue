@@ -148,7 +148,7 @@ export default {
 			this.isShowModal = false;
 		},
 		deleteActivity(activityId) {
-			this.$Modal.warning({
+			this.$Modal.confirm({
 				title: '删除活动',
 				content: '<p>确定要删除活动吗？</p>',
 				onOk: () => {

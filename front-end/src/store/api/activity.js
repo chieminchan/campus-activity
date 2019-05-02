@@ -89,6 +89,12 @@ export const updateApproval = ((params) => {
     if (_.isObject(params.addition)) {
         const addition = JSON.stringify(params.addition);
         params.addition = addition;
-    } 
+    }
+    if(!_.has(params, 'backPoster')) {
+        params['backPoster'] = '';
+    }
+    if(!_.has(params, 'address')) {
+        params['address'] = '';
+    }
     return axios.post(UPDATE_ACTIVITY_APPROVAL, params, { paramType: 'form' });
 });

@@ -25,6 +25,10 @@ export default {
     statePath: 'approvals'
   }),
   ...generateAsyncMutation(undefined, {
+    mutateType: types.LOAD_APPROVAL_DETAIL,
+    statePath: 'approvalDetail'
+  }),
+  ...generateAsyncMutation(undefined, {
     mutateType: types.LOAD_STUDENTS,
     statePath: 'students'
   }),

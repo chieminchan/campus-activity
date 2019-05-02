@@ -9,6 +9,7 @@ export default {
     enrolledList: {},
     activityWorks: {},
     approvals: {},
+    approvalDetail: {},
     students: {},
     managers: {},
   },

@@ -18,6 +18,9 @@ export default {
   getApprovals: generateAsyncAction(api.getApprovals, {
     mutateType: types.LOAD_APPROVALS,
   }),
+  getApprovalDetail: generateAsyncAction(api.getApprovalDetail, {
+    mutateType: types.LOAD_APPROVAL_DETAIL
+  }),
   getStudents: generateAsyncAction(api.getStudents, {
     mutateType: types.LOAD_STUDENTS,
   }),

@@ -60,6 +60,13 @@ export const getApprovals = ({ currentPage, pageSize }) => {
   return axios.get(LOAD_APPROVALS, { params });
 };
 
+// 待审批活动信息详情
+const LOAD_APPROVAL_DETAIL = `${BASE_URL}/approval`;
+export const getApprovalDetail = ({ approvalId }) => {
+  const params = { approvalId };
+  return axios.get(LOAD_APPROVAL_DETAIL, { params });
+};
+
 // 全部学生信息
 const LOAD_STUDENTS = `${BASE_URL}/students`;
 export const getStudents = ({ currentPage, pageSize }) => {
