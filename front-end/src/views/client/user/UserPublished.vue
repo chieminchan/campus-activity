@@ -11,6 +11,7 @@
 				<router-link slot="title" :to="{ name: 'find-detail', params: {aid: item.activity_id} }">
 					<h3 class="activity-title"> {{ item.activity_name }} </h3>
 				</router-link>
+				<span class="activity-status" slot="extra"> {{ status[item.activity_approval_status] }}</span>
 
 				<router-link :to="{ name: 'find-detail', params: {aid: item.activity_id} }">
 					<div class="activity-poster" :style="{ backgroundImage: 'url(' + item.activity_poster_front +')'}">
@@ -19,7 +20,10 @@
 
 				<div class="actions">
 					<Button class="action-btn" type="warning" ghost @click.prevent="showActivityModal(item)">编辑活动信息</Button>
-					<Button class="action-btn" type="warning" ghost @click.prevent="">导出报名名单</Button>
+					<Button class="action-btn" type="warning" ghost @click.prevent="downloadFile">导出报名名单</Button>
+					<template v-if="item.activity_approval_status == 2">
+						<Button class="action-btn" type="warning" ghost @click.prevent="showAdviceModal(item.activity_approval_advice)">查看反馈意见</Button>
+					</template>
 				</div>
 			</Card>
 		</template>
@@ -43,26 +47,15 @@
 				</FormItem>
 				<FormItem>
 					<label class="item-label">报名截止时间：</label>
-					<DatePicker :value="currentActivity.activity_enroll_deadline" 
-											type="datetime" 
-											format="yyyy-MM-dd HH:mm:ss"
-											:confirm=true @on-change="changeDeadline"></DatePicker>
+					<DatePicker :value="currentActivity.activity_enroll_deadline" type="datetime" format="yyyy-MM-dd HH:mm:ss" :confirm=true @on-change="changeDeadline"></DatePicker>
 				</FormItem>
 				<FormItem>
 					<label class="item-label">活动开始时间：</label>
-					<DatePicker :value="currentActivity.activity_start" 
-											type="date" 
-											format="yyyy-MM-dd" 
-											:confirm=true
-											@on-change="changeStartTime"></DatePicker>
+					<DatePicker :value="currentActivity.activity_start" type="date" format="yyyy-MM-dd" :confirm=true @on-change="changeStartTime"></DatePicker>
 				</FormItem>
 				<FormItem>
 					<label class="item-label">活动结束时间：</label>
-					<DatePicker :value="currentActivity.activity_end" 
-											type="date" 
-											format="yyyy-MM-dd" 
-											:confirm=true
-											@on-change="changeEndTime"></DatePicker>
+					<DatePicker :value="currentActivity.activity_end" type="date" format="yyyy-MM-dd" :confirm=true @on-change="changeEndTime"></DatePicker>
 				</FormItem>
 				<FormItem>
 					<label class="item-label">联系方式：</label>
@@ -103,6 +96,11 @@ export default {
 		return {
 			isShowActivityModal: false,
 			currentActivity: {},
+			status: {
+				0: '待审核',
+				1: '审核通过',
+				2: '审核失败'
+			},
 		};
 	},
 	computed: {
@@ -146,6 +144,15 @@ export default {
 				.catch(() => {
 					this.$Message.success('修改活动信息失败！');
 				});
+		},
+		showAdviceModal(advice) {
+			this.$Modal.info({
+				title: '活动申请反馈意见',
+				content: `<p>${advice}</p>`,
+			});
+		},
+		downloadFile() {
+			
 		}
 	},
 	mounted() {
@@ -196,8 +203,13 @@ export default {
 		font-size: 17px;
 	}
 
-	.action-btn {
-		margin: 4% 0 2% 4%;
+	.actions {
+		margin-top: 30px;
+		display: flex;
+		justify-content: space-around;
+		.action-btn {
+			margin-left: 10px;
+		}
 	}
 }
 .concat-item {

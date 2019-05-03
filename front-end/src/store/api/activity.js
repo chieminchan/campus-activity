@@ -79,13 +79,13 @@ export const updateActivityEnroll = ({ userId, activityId }) => {
 
 // 活动作品上传
 const ADD_ACTIVITY_WORK = `${BASE_URL}/postWork`;
-export const addActivityWork = ((params) => {
+export const addActivityWork = (params) => {
     return axios.post(ADD_ACTIVITY_WORK, params, { paramType: 'form' });
-})
+};
 
 // 活动发布申请
 const UPDATE_ACTIVITY_APPROVAL = `/api/approval/addApproval`;
-export const updateApproval = ((params) => {
+export const updateApproval = (params) => {
     if (_.isObject(params.addition)) {
         const addition = JSON.stringify(params.addition);
         params.addition = addition;
@@ -97,4 +97,11 @@ export const updateApproval = ((params) => {
         params['address'] = '';
     }
     return axios.post(UPDATE_ACTIVITY_APPROVAL, params, { paramType: 'form' });
-});
+};
+
+// 报名名单导出
+const DOWNLOAD_ACTIVITY_ENROLLS = `${BASE_URL}/downloadEnrolls`;
+export const downloadEnrolls = ({activityId}) => {
+    const params = {activityId};
+    return axios.get(DOWNLOAD_ACTIVITY_ENROLLS, {params})
+};
