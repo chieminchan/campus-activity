@@ -11,21 +11,19 @@ const user = {
 
     // 查询用户收藏过的活动
     collections: (userId) => {
-        return `select * from collections 
-      inner join activities as a on a.activity_id  = collections.activity_id 
-      where user_id = ${userId}`;
+        return `select * from collections inner join activities as a on a.activity_id  = collections.activity_id where user_id = ${userId} order by collections.collection_id desc`;
     },
 
     // 查询用户参加过的活动
     enrolled: (userId) => {
         return `select * from enrolls 
         inner join activities as a on a.activity_id  = enrolls.activity_id 
-        where user_id = ${userId}`;
+        where user_id = ${userId} order by enrolls.enroll_id desc`;
     },
 
     // 查询用户发布过的活动
     published: (userId) => {
-        return `select * from activities where activity_creator_id = ${userId}`;
+        return `select * from activities where activity_creator_id = ${userId} order by activities.activity_id desc`;
     },
 
     // 查询用户密码

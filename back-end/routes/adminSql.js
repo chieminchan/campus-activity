@@ -4,9 +4,9 @@ const activity = {
     const previewNum = (currentPage - 1) * pageSize;
 
     let sql = {};
-    sql.count = `select count(*) from activities`;
+    sql.count = `select count(*) from activities where activity_approval_status = 1`;
     sql.detail = `select a.activity_id, a.activity_name, a.activity_brief, a.activity_end, a.activity_start, a.activity_enroll_deadline, a.activity_score_value, a.activity_type,
-    a.activity_concat_name, a.activity_concat_phone, a.activity_addition, users.user_name as activity_creator, users.user_phone as activity_creator_phone from activities as a inner join users on users.user_id = a.activity_creator_id order by a.activity_id desc limit ${previewNum},${pageSize}`;
+    a.activity_concat_name, a.activity_concat_phone, a.activity_addition, users.user_name as activity_creator, users.user_phone as activity_creator_phone from activities as a inner join users on users.user_id = a.activity_creator_id  where a.activity_approval_status = 1 order by a.activity_id desc limit ${previewNum},${pageSize}`;
     return sql;
   },
 
@@ -30,17 +30,23 @@ const activity = {
     const previewNum = (currentPage - 1) * pageSize;
 
     let sql = {};
-    sql.count = `select count(*) from activity_approvals where activity_approval_status = 0`;
-    sql.detail = `select a.approval_id, a.activity_name, a.activity_brief, a.activity_end, a.activity_start, a.activity_enroll_deadline, a.activity_type, u.user_name as activity_creator, u.user_phone as activity_creator_phone from activity_approvals as a 
+    sql.count = `select count(*) from activities where activity_approval_status = 0`;
+    sql.detail = `select a.activity_id, a.activity_name, a.activity_brief, a.activity_end, a.activity_start, a.activity_enroll_deadline, a.activity_type, u.user_name as activity_creator, u.user_phone as activity_creator_phone from activities as a 
     inner join users as u on u.user_id  = a.activity_creator_id 
     where a.activity_approval_status = 0
+    order by activity_id desc
     limit ${previewNum},${pageSize}`;
     return sql;
   },
 
   // 待审批活动详细信息
-  approval: (approvalId) => {
-    return `select * from activity_approvals where approval_id = ${approvalId}`;    
+  approval: (activityId) => {
+    return `select * from activities where activity_id = ${activityId}`;    
+  },
+
+  // 更新待审批活动状态
+  updateApproval: (activityId, managerId, status, advice) => {
+    return `update activities set activity_approval_status = ${status}, activity_approver_id = ${managerId}, activity_approval_advice = '${advice}' where activity_id = ${activityId}`
   },
 
   // 查看全部学生信息

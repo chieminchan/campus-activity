@@ -128,9 +128,8 @@ router.get('/approvals', async (req, res) => {
 // 待审批活动详情
 router.get('/approval', async (req, res) =>{
   try {
-    const { approvalId } = req.query;
-    console.log(approvalId);
-    service.query($sql.approval(approvalId))
+    const { activityId } = req.query;
+    service.query($sql.approval(activityId))
       .then((info) => {
         // 将活动信息中的addition转换成json格式
         const formatData = info[0];
@@ -140,6 +139,19 @@ router.get('/approval', async (req, res) =>{
       })
   } catch (error) {
     res.send(errorRes(error.message));
+  }
+});
+
+// 审批活动
+router.put('/approvalStatus', async (req, res) => {
+  try {
+    const { activityId, managerId, status, advice = '' } = req.body.params;
+    service.query($sql.updateApproval(activityId, managerId, status, advice))
+      .then(() => {
+        res.send(correctRes_msg('update approval successfully')); 
+      });
+  } catch (error) {
+    res.send(errorRes(error.message));    
   }
 });
 

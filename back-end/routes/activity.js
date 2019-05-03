@@ -217,4 +217,11 @@ router.post('/postWork', async (req, res) => {
     }
 });
 
+// 活动报名名单导出
+router.get('/downloadEnrolls', async(req, res) => {
+    const { activityId } = req.query;
+    const rows = await service.query($sql.enrolledList(activityId));
+    
+});
+
 module.exports = router;

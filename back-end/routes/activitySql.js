@@ -10,45 +10,45 @@ const activity = {
         if (activityType === 'all') {
             switch (activityStatus) {
                 case 'all':
-                    sql.count = `select count(*) from activities`;
-                    sql.detail = `select * from activities order by activity_start desc limit ${previewNum}, ${pageSize}`;
+                    sql.count = `select count(*) from activities where activity_approval_status = 1 `;
+                    sql.detail = `select * from activities where activity_approval_status = 1 order by activity_start desc limit ${previewNum}, ${pageSize}`;
                     break;
 
                 case 'over':
-                    sql.count = `select count(*) from activities where activity_end < '${now}'`;
-                    sql.detail = `select * from activities where activity_end < '${now}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
+                    sql.count = `select count(*) from activities where activity_approval_status = 1 and activity_end < '${now}'`;
+                    sql.detail = `select * from activities where activity_approval_status = 1 and activity_end < '${now}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
                     break;
 
                 case 'processing':
-                    sql.count = `select count(*) from activities where activity_end > '${now}' and activity_start < '${now}'`;
-                    sql.detail = `select * from activities where activity_end > '${now}' and activity_start < '${now}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
+                    sql.count = `select count(*) from activities where activity_approval_status = 1 and activity_end > '${now}' and activity_start < '${now}'`;
+                    sql.detail = `select * from activities where activity_approval_status = 1 and activity_end > '${now}' and activity_start < '${now}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
                     break;
 
                 case 'waitting':
-                    sql.count = `select count(*) from activities where activity_start > '${now}'`;
-                    sql.detail = `select * from activities where activity_start > '${now}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
+                    sql.count = `select count(*) from activities where activity_approval_status = 1 and activity_start > '${now}'`;
+                    sql.detail = `select * from activities where activity_approval_status = 1 and activity_start > '${now}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
                     break;
             }
         } else {
             switch (activityStatus) {
                 case 'all':
-                    sql.count = `select count(*) from activities where activity_type = '${activityType}'`;
-                    sql.detail = `select * from activities where activity_type = '${activityType}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
+                    sql.count = `select count(*) from activities where activity_approval_status = 1 and activity_type = '${activityType}'`;
+                    sql.detail = `select * from activities where activity_approval_status = 1 and activity_type = '${activityType}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
                     break;
 
                 case 'over':
-                    sql.count = `select count(*) from activities where activity_type = '${activityType}' and activity_end < '${now}'`;
-                    sql.detail = `select * from activities where activity_type = '${activityType}' and activity_end < '${now}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
+                    sql.count = `select count(*) from activities where activity_approval_status = 1 and activity_type = '${activityType}' and activity_end < '${now}'`;
+                    sql.detail = `select * from activities where activity_approval_status = 1 and activity_type = '${activityType}' and activity_end < '${now}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
                     break;
 
                 case 'processing':
                     sql.count = `select count(*) from activities where activity_type = '${activityType}' and activity_end > '${now}' and activity_start < '${now}'`;
-                    sql.detail = `select * from activities where activity_type = '${activityType}' and activity_end > '${now}' and activity_start < '${now}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
+                    sql.detail = `select * from activities where activity_approval_status = 1 and activity_type = '${activityType}' and activity_end > '${now}' and activity_start < '${now}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
                     break;
 
                 case 'waitting':
-                    sql.count= `select count(*) from activities where activity_type = '${activityType}' and activity_start > '${now}'`;
-                    sql.detail = `select * from activities where activity_type = '${activityType}' and activity_start > '${now}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
+                    sql.count = `select count(*) from activities where activity_type = '${activityType}' and activity_start > '${now}'`;
+                    sql.detail = `select * from activities where activity_approval_status = 1 and activity_type = '${activityType}' and activity_start > '${now}' order by activity_start desc limit ${previewNum}, ${pageSize}`;
                     break;
             }
         }
@@ -56,11 +56,11 @@ const activity = {
     },
 
     // 最新活动
-    latest: 'select activity_id, activity_name, activity_poster_front from activities order by activity_start desc limit 4',
+    latest: 'select activity_id, activity_name, activity_poster_front from activities where activity_approval_status = 1 order by activity_start desc limit 4',
 
     // 首页活动列表
     typeLists: (type) => {
-        return `select activity_id, activity_name, activity_brief, activity_enroll_deadline, activity_start, activity_end, activity_poster_front from activities where activity_type = '${type}' order by activity_end desc`;
+        return `select activity_id, activity_name, activity_brief, activity_enroll_deadline, activity_start, activity_end, activity_poster_front from activities where activity_approval_status = 1 and activity_type = '${type}' order by activity_end desc`;
     },
 
     // 活动信息
@@ -102,6 +102,11 @@ const activity = {
                where r.reply_comment_id = ${commentId}`;
     },
 
+    // 活动报名名单
+    enrolledList: (activityId) => {
+        return `select u.user_account, u.user_name, u.user_sex, u.user_grade, u.user_department, u.user_profession, u.user_class, u.user_phone from enrolls as e inner join users as u on u.user_id = e.user_id where e.activity_id = ${activityId}`;
+    },
+
     // 更新:
     // 更新活动得分
     updateScore: (activityId, newScore, count) => {
@@ -122,7 +127,13 @@ const activity = {
     // 活动作品上传
     addWork: (data) => {
         const {
-            name, brief, content, backWork, frontWork, author, activityId
+            name,
+            brief,
+            content,
+            backWork,
+            frontWork,
+            author,
+            activityId
         } = data;
         return `insert into activity_works(work_name, work_brief, work_content, work_activity_id,
             work_author_id, work_front_img, work_back_img) values ('${name}', '${brief}', '${content}', '${activityId}', '${author}', '${frontWork}', '${backWork}')`;
