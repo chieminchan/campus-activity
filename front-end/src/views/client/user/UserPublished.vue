@@ -19,8 +19,11 @@
 				</router-link>
 
 				<div class="actions">
-					<Button class="action-btn" type="warning" ghost @click.prevent="showActivityModal(item)">编辑活动信息</Button>
-					<Button class="action-btn" type="warning" ghost @click.prevent="downloadFile">导出报名名单</Button>
+					<template v-if="item.activity_approval_status == 1">
+						<Button class="action-btn" type="warning" ghost @click.prevent="showActivityModal(item)">编辑活动信息</Button>
+						<Button class="action-btn" type="warning" ghost @click.prevent="downloadFile(item.activity_id)">导出报名名单</Button>
+					</template>
+
 					<template v-if="item.activity_approval_status == 2">
 						<Button class="action-btn" type="warning" ghost @click.prevent="showAdviceModal(item.activity_approval_advice)">查看反馈意见</Button>
 					</template>
@@ -81,7 +84,8 @@
 import _ from 'lodash';
 import { mapState, mapActions } from 'vuex';
 import stateParseMixin from '@/utils/stateParseMixin';
-import { updatePublished } from '@/store/api/user'
+import { updatePublished } from '@/store/api/user';
+import { downloadEnrolls } from '@/store/api/activity';
 
 export default {
 	props: {
@@ -142,7 +146,7 @@ export default {
 					this.loadData();
 				})
 				.catch(() => {
-					this.$Message.success('修改活动信息失败！');
+					this.$Message.error('修改活动信息失败！');
 				});
 		},
 		showAdviceModal(advice) {
@@ -151,8 +155,14 @@ export default {
 				content: `<p>${advice}</p>`,
 			});
 		},
-		downloadFile() {
-			
+		downloadFile(activityId) {
+			downloadEnrolls(activityId)
+				.then(() => {
+					this.$Message.success('下载报名名单成功！');
+				})
+				.catch(() => {
+					this.$Message.error('下载报名名单失败！');
+				});
 		}
 	},
 	mounted() {

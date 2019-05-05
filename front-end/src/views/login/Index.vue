@@ -50,7 +50,7 @@ export default {
 				userId: [
 					{
 						required: true,
-						message: '请填写有效的学号.',
+						message: '请填写有效的账号.',
 						trigger: 'blur'
 					}
 				],
@@ -96,7 +96,8 @@ export default {
 
 			login({ character, userId, password }).then(() => {
 				this.$Message.success('登录成功');
-
+				this.isFetching = false;
+				
 				// 管理员或者超级管理员进入后台
 				if (character === 'manager' || character === 'root') {
 					this.$router.push({ name: 'admin-activities' });
@@ -107,6 +108,7 @@ export default {
 					const { query } = this.$route;
 					const to = query.hasOwnProperty('q') ? query.q : { name: 'home' };
 					this.$router.replace(to);
+					// this.$router.push({ name: 'home' });
 				}
 			})
 				.catch(() => {

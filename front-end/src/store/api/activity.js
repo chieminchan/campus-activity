@@ -101,7 +101,7 @@ export const updateApproval = (params) => {
 
 // 报名名单导出
 const DOWNLOAD_ACTIVITY_ENROLLS = `${BASE_URL}/downloadEnrolls`;
-export const downloadEnrolls = ({activityId}) => {
+export const downloadEnrolls = (activityId) => {
     const params = {activityId};
     return axios.get(DOWNLOAD_ACTIVITY_ENROLLS, {params})
 };
