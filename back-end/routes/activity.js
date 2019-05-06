@@ -2,6 +2,7 @@ const express = require('express');
 const moment = require('moment');
 const querystring = require('querystring');
 const formidable = require('formidable');
+var Excel = require("exceljs");
 const service = require('../config/mySqlConfig');
 const { errorRes, correctRes, correctRes_msg } = require('../config/responseFormat');
 const $sql = require('./activitySql');
@@ -219,9 +220,43 @@ router.post('/postWork', async (req, res) => {
 
 // 活动报名名单导出
 router.get('/downloadEnrolls', async(req, res) => {
-    const { activityId } = req.query;
-    const rows = await service.query($sql.enrolledList(activityId));
-    
+    try {
+        const { activityId } = req.query;
+        const rows = await service.query($sql.enrolledList(activityId));
+
+        let workbook = new Excel.Workbook();
+        workbook.created = new Date();
+        workbook.modified = new Date();
+        let sheet = workbook.addWorksheet("导出表");
+        sheet.properties.defaultRowHeight = 25;
+        sheet.columns = [
+            { header: "学号", key: "user_account", width: 25 },
+            { header: "姓名", key: "user_name", width: 30 },
+            { header: "性别", key: "user_sex", width: 30 },
+            { header: "年级", key: "user_grade", width: 30 },
+            { header: "院系", key: "user_department", width: 30 },
+            { header: "专业", key: "user_profession", width: 30 },
+            { header: "班级", key: "user_class", width: 30 },
+            { header: "联系方式", key: "user_phone", width: 30 },
+        ];
+        rows.map(item => {
+            sheet.addRow(item);
+        });
+
+        const fileName = Date.now()+ '.xlsx';
+        const filePath = 'file/' + fileName;
+        await workbook.xlsx.writeFile(filePath)
+        .then(() => {
+            // res.download(filePath, fileName);
+            res.send(correctRes(filePath));
+        })
+        // .catch((err) => {
+        //     console.log('err', err);
+        // });
+       
+    } catch (error) {
+        res.send(errorRes(error.message));        
+    }
 });
 
 module.exports = router;

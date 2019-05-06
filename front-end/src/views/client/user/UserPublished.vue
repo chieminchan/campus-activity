@@ -157,8 +157,11 @@ export default {
 		},
 		downloadFile(activityId) {
 			downloadEnrolls(activityId)
-				.then(() => {
-					this.$Message.success('下载报名名单成功！');
+				.then((res) => {
+					// this.$Message.success('下载报名名单成功！');
+					console.log(res);
+					const path = res.results;
+					window.open(path);
 				})
 				.catch(() => {
 					this.$Message.error('下载报名名单失败！');
