@@ -9,7 +9,6 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "ejs": "~2.5.7",
-    "exceljs": "^1.9.1",
     "express": "~4.16.0",
     "express-session": "^1.15.6",
     "formidable": "^1.2.1",
@@ -18,6 +17,7 @@
     "morgan": "~1.9.0",
     "multiparty": "^4.2.1",
     "mysql": "^2.16.0",
+    "node-xlsx": "^0.15.0",
     "request": "^2.88.0"
   }
 }
