@@ -1,8 +1,6 @@
 <template>
 	<div class="login-page">
-		<!-- <h2 class="login-title" slot="title">
-			<img class="logo" src="https://i.loli.net/2019/03/14/5c8a0d74354ca.png">
-		</h2> -->
+
 		<Card class="login-card">
 			<h2 class="login-title" slot="title">
 				<img class="logo" src="https://i.loli.net/2019/03/14/5c8a0d74354ca.png">

@@ -85,7 +85,7 @@ import _ from 'lodash';
 import { mapState, mapActions } from 'vuex';
 import stateParseMixin from '@/utils/stateParseMixin';
 import { updatePublished } from '@/store/api/user';
-import { downloadEnrolls } from '@/store/api/activity';
+import { download } from '@/utils/download';
 
 export default {
 	props: {
@@ -156,13 +156,8 @@ export default {
 			});
 		},
 		downloadFile(activityId) {
-			downloadEnrolls(activityId)
-				.then(() => {
-					this.$Message.success('下载报名名单成功！');
-				})
-				.catch(() => {
-					this.$Message.error('下载报名名单失败！');
-				});
+			const url = '/api/activity/downloadEnrolls/' + activityId;
+			download(url);
 		}
 	},
 	mounted() {
@@ -197,11 +192,6 @@ export default {
 			background-repeat: no-repeat;
 			background-size: cover;
 			transition: all 0.2s ease-in;
-		}
-
-		&-brief {
-			line-height: 20px;
-			text-indent: 5px;
 		}
 	}
 

@@ -98,10 +98,3 @@ export const updateApproval = (params) => {
     }
     return axios.post(UPDATE_ACTIVITY_APPROVAL, params, { paramType: 'form' });
 };
-
-// 报名名单导出
-const DOWNLOAD_ACTIVITY_ENROLLS = `${BASE_URL}/downloadEnrolls`;
-export const downloadEnrolls = (activityId) => {
-    const params = {activityId};
-    return axios.get(DOWNLOAD_ACTIVITY_ENROLLS, {params})
-};

@@ -94,7 +94,7 @@ export default {
 		margin-right: 2%;
 
 		.activity-brief {
-			padding: 15px 10px;
+			padding: 15px 5px;
 			color: #736d6d;
 		}
 
