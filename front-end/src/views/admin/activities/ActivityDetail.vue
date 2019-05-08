@@ -60,7 +60,7 @@
 		<div class="action-btn">
 			<Button class="btn" icon="ios-build" type="primary" size="large" @click.prevent="showActivityModal(activityInfo)">编辑活动信息</Button>
 			<Button class="btn" icon="md-contacts" type="warning" size="large" @click.prevent="toEnrolled">查看报名名单</Button>
-			<Button class="btn" icon="ios-brush" type="success" size="large" @click.prevent="">导出报名名单</Button>
+			<Button class="btn" icon="ios-brush" type="success" size="large" @click.prevent="exportExcel(activityInfo.activity_id)">导出报名名单</Button>
 			<template v-if="activityInfo.activity_type == 'online'">
 				<Button class="btn works-btn" icon="ios-color-palette" type="info" size="large" @click.prevent="toWorks">查看参赛作品</Button>
 			</template>
@@ -115,6 +115,7 @@ import stateParseMixin from '@/utils/stateParseMixin';
 import LazyloadImg from '@/components/LazyloadImg';
 import GoBack from '@/components/GoBack';
 import { updatePublished } from '@/store/api/user'
+import { download } from '@/utils/download';
 
 export default {
 	components: { LazyloadImg, GoBack},
@@ -162,7 +163,6 @@ export default {
 		},
 		updateActivity() {
 			const params = { ...this.currentActivity };
-			console.log(params);
 			updatePublished(params)
 				.then(() => {
 					this.$Message.success('修改活动信息成功！');
@@ -179,6 +179,10 @@ export default {
 		toWorks() {
 			const { params: { aid } } = this.$route;
 			this.$router.push({ name: 'admin-activity-works', params: { aid } });
+		},
+		exportExcel(activityId) {
+			const url = '/api/activity/downloadEnrolls/' + activityId;
+			download(url);
 		}
 	},
 	mounted() {

@@ -21,7 +21,7 @@
 				<div class="actions">
 					<template v-if="item.activity_approval_status == 1">
 						<Button class="action-btn" type="warning" ghost @click.prevent="showActivityModal(item)">编辑活动信息</Button>
-						<Button class="action-btn" type="warning" ghost @click.prevent="downloadFile(item.activity_id)">导出报名名单</Button>
+						<Button class="action-btn" type="warning" ghost @click.prevent="exportExcel(item.activity_id)">导出报名名单</Button>
 					</template>
 
 					<template v-if="item.activity_approval_status == 2">
@@ -155,7 +155,7 @@ export default {
 				content: `<p>${advice}</p>`,
 			});
 		},
-		downloadFile(activityId) {
+		exportExcel(activityId) {
 			const url = '/api/activity/downloadEnrolls/' + activityId;
 			download(url);
 		}

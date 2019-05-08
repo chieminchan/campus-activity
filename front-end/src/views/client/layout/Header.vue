@@ -11,11 +11,6 @@
 		</div>
 
 		<div class="user-info">
-			<Badge class="news" :count="1">
-				<span>
-					<Icon type="ios-mail-outline" size="30" />
-				</span>
-			</Badge>
 			<Menu mode="horizontal" @on-select="menuSelected">
 				<Submenu index="userAvatar" name="user">
 					<template slot="title">
