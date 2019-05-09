@@ -2,7 +2,7 @@
 	<div class='home-activity'>
 
 		<!-- 最新活动 -->
-		<Carousel class="carousel" autoplay loop>
+		<Carousel class="carousel" autoplay loop :autoplay-speed="8000">
 			<template v-for="(item, index) in recommendItems">
 				<CarouselItem :key="index">
 					<router-link :to="{ name: 'find-detail', params: {aid: item.activity_id} }">

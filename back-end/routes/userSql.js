@@ -23,7 +23,7 @@ const user = {
 
     // 查询用户发布过的活动
     published: (userId) => {
-        return `select * from activities where activity_creator_id = ${userId} order by activities.activity_id desc`;
+        return `select * from activities where activity_creator_id = ${userId}`;
     },
 
     // 查询用户密码

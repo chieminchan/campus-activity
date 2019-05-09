@@ -7,7 +7,8 @@
 		<Navbar></Navbar>
 
 		<div class="search">
-			<Input search placeholder="活动搜索..." />
+			<Input placeholder="活动搜索..." />
+			<Button class="search-btn" shape="circle" icon="ios-search"></Button>
 		</div>
 
 		<div class="user-info">
@@ -113,5 +114,13 @@ export default {
 	flex-basis: 280px;
 	flex-shrink: 20;
 	margin: 0 20px;
+	.ivu-input-wrapper {
+		width: 80%;
+	}
+	&-btn{
+		margin-left: 2px;
+		font-size: 19px !important;
+    border: none !important;
+	}
 }
 </style>
