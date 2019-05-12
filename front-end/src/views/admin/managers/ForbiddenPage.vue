@@ -1,7 +1,9 @@
 <template>
 	<Card class="forbidden-page">
 		<h2 class="card-header" slot="title"> 活动管理员管理 </h2>
-		<LazyloadImg class="forbidden-img" :src="target"></LazyloadImg>
+		<div class="forbidden-wrapper">
+			<LazyloadImg class="forbidden-img" :src="target"></LazyloadImg>
+		</div>
 	</Card>
 </template>
 
@@ -19,6 +21,10 @@ export default {
 </script>
 <style type='text/less' lang='less'>
 .forbidden {
+	&-wrapper {
+		min-height: 500px;
+		position: relative;
+	}
 	&-img {
 		width: 100%;
 		height: 100%;
