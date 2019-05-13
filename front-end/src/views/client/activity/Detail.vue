@@ -19,7 +19,7 @@
 					<LazyloadImg :src="activityInfo.activity_poster_front"></LazyloadImg>
 				</template>
 
-				<template v-if="activityInfo.activity_poster_back">
+				<template v-if="hasBackPoster">
 					<LazyloadImg :src="activityInfo.activity_poster_back"></LazyloadImg>
 				</template>
 			</div>
@@ -135,6 +135,13 @@ export default {
 				return this.state.payload.results;
 			}
 			return '';
+		},
+		hasBackPoster() {
+			const { activityInfo } = this;
+			if (this.isFulfill) {
+				return _.has(activityInfo, 'activity_poster_back') && activityInfo.activity_poster_back !== '';
+			}
+			return false;
 		},
 		activityScore: {
 			get() {

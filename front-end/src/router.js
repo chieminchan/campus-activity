@@ -78,10 +78,16 @@ const router = new Router({
             path: '/user',
             component: HomePage,
             children: [{
-                name: 'user',
-                path: '',
-                component: () => import('@/views/client/user/UserPage.vue'),
-            }, ]
+                    name: 'user',
+                    path: '',
+                    component: () => import('@/views/client/user/UserPage.vue'),
+                },
+                {
+                    name: 'user-works',
+                    path: ':aid/works',
+                    component: () => import('@/views/client/user/ActivityWorks.vue'),
+                }
+            ]
         },
 
         // 意见反馈

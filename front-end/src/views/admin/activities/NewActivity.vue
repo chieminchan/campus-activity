@@ -176,7 +176,7 @@ export default {
 				concator: undefined,
 				concatorPhone: undefined,
 				frontPoster: undefined,
-				backPoster: undefined,
+				backPoster: '',
 				addition: {}
 			},
 			additionObj: {},

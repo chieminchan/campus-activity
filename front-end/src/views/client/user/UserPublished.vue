@@ -22,6 +22,9 @@
 					<template v-if="item.activity_approval_status == 1">
 						<Button class="action-btn" type="warning" ghost @click.prevent="showActivityModal(item)">编辑活动信息</Button>
 						<Button class="action-btn" type="warning" ghost @click.prevent="exportExcel(item.activity_id)">导出报名名单</Button>
+						<template v-if="item.activity_type == 'online'">
+							<Button class="action-btn" type="warning" ghost @click.prevent="toWorks(item.activity_id)">查看活动作品</Button>
+						</template>
 					</template>
 
 					<template v-if="item.activity_approval_status == 2">
@@ -158,6 +161,9 @@ export default {
 		exportExcel(activityId) {
 			const url = '/api/activity/downloadEnrolls/' + activityId;
 			download(url);
+		},
+		toWorks(activityId) {
+			this.$router.push({ name: 'user-works', params: { aid: activityId } });
 		}
 	},
 	mounted() {

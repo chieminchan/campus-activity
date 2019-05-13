@@ -9,7 +9,7 @@
 				<LazyloadImg :src="activityInfo.activity_poster_front"></LazyloadImg>
 			</template>
 
-			<template v-if="activityInfo.activity_poster_back">
+			<template v-if="hasBackPoster">
 				<LazyloadImg :src="activityInfo.activity_poster_back"></LazyloadImg>
 			</template>
 		</div>
@@ -118,7 +118,7 @@ import { updatePublished } from '@/store/api/user'
 import { download } from '@/utils/download';
 
 export default {
-	components: { LazyloadImg, GoBack},
+	components: { LazyloadImg, GoBack },
 	mixins: [stateParseMixin],
 	data() {
 		return {
@@ -140,6 +140,13 @@ export default {
 				return _.isNil(addition) ? {} : addition;
 			}
 			return {};
+		},
+		hasBackPoster() {
+			const { activityInfo } = this;
+			if (this.isFulfill) {
+				return _.has(activityInfo, 'activity_poster_back') && activityInfo.activity_poster_back !== '';
+			}
+			return false;
 		},
 	},
 	methods: {
@@ -208,6 +215,7 @@ export default {
 		padding: 0 10%;
 		position: relative;
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		.img {
 			padding: 10px;
