@@ -1,5 +1,6 @@
 <template>
 	<Card class="publish-page">
+		<GoBack></GoBack>
 		<h2>发布校园活动</h2>
 		<Form :model="newActivity" class="publish-form" ref="publishForm">
 			<Row :gutter="24">
@@ -159,8 +160,10 @@ import _ from 'lodash';
 import { mapState } from 'vuex';
 import { uploadImg } from '@/utils/uploadImage';
 import { updateActivity } from '@/store/api/admin';
+import GoBack from '@/components/GoBack';
 
 export default {
+	components: { GoBack },
 	data() {
 		return {
 			isLoading: false,
@@ -288,8 +291,6 @@ export default {
 					.then(() => {
 						this.isLoading = false;
 						this.$Message.success('提交活动申请成功！');
-						this.frontPostTip = '选择图片或者拖拽图片进行上传';
-						this.backPostTip = '选择图片或者拖拽图片进行上传';
             this.reset();
             this.$router.push({name: 'admin-activities'});
 					})
@@ -308,6 +309,8 @@ export default {
 			this.newActivity.addition = _.omit(this.newActivity.addition, [key]);
 		},
 		reset() {
+			this.frontPostTip = '选择图片或者拖拽图片进行上传';
+			this.backPostTip = '选择图片或者拖拽图片进行上传';
 			this.newActivity = {
 				name: undefined,
 				type: undefined,

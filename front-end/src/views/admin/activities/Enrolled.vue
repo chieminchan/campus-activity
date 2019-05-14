@@ -3,7 +3,7 @@
 		<GoBack></GoBack>
 		<h2>报名名单</h2>
 
-		<Button class="download-btn" type="success" icon="md-download" @click.prevent="" :loading="isFetching">
+		<Button class="download-btn" type="success" icon="md-download" @click.prevent="exportExcel" :loading="isFetching">
 			导出名单
 		</Button>
 
@@ -30,6 +30,7 @@
 import GoBack from '@/components/GoBack';
 import { mapState, mapActions } from 'vuex';
 import stateParseMixin from '@/utils/stateParseMixin';
+import { download } from '@/utils/download';
 
 export default {
 	components: { GoBack },
@@ -45,6 +46,10 @@ export default {
 			}
 			return [];
 		},
+		activityId() {
+			const { params: { aid } } = this.$route;
+			return aid;
+		},
 		activityName() {
 			if (this.isFulfill) {
 				return this.state.payload.results.activity_name;
@@ -58,6 +63,11 @@ export default {
 			const { params: { aid } } = this.$route;
 			this.getEnrolledList({ activityId: aid });
 		},
+		exportExcel() {
+			const { activityId } = this;
+			const url = '/api/activity/downloadEnrolls/' + activityId;
+			download(url);
+		}
 	},
 	mounted() {
 		this.load();

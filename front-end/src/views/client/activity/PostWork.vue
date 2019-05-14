@@ -151,16 +151,18 @@ export default {
 					.then(() => {
 						this.isLoading = false;
 						this.$Message.success('上传活动作品成功！');
-						this.frontPostTip = '选择图片或者拖拽图片进行上传';
-						this.backPostTip = '选择图片或者拖拽图片进行上传';
 						this.reset();
 					})
 					.catch(() => {
 						this.isLoading = false;
+						this.frontPostTip = '选择图片或者拖拽图片进行上传';
+						this.backPostTip = '选择图片或者拖拽图片进行上传';
 						this.$Message.error('上传活动作品失败，请重试！');
 					})        
       },
       reset() {
+				this.frontPostTip = '选择图片或者拖拽图片进行上传';
+				this.backPostTip = '选择图片或者拖拽图片进行上传';
         this.newWork ={
             name: undefined,
             brief: undefined,
