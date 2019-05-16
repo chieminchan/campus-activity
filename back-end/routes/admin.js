@@ -63,9 +63,9 @@ router.post('/addActivity', async (req, res) => {
     await form.parse(req, (err, data) => {
 
         // 将活动信息中的addition字符串转成特定格式存入数据库
-        if (data.activity_addition) {
-            const addition = JSON.parse(data.activity_addition);
-            data['activity_addition'] = querystring.stringify(addition, '*', ':');
+        if (data.addition) {
+            const addition = JSON.parse(data.addition);
+            data['addition'] = querystring.stringify(addition, '*', ':');
         }
         service.query($sql.addActivity(data))
             .then(() => {
