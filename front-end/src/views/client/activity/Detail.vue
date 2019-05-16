@@ -139,7 +139,7 @@ export default {
 		hasBackPoster() {
 			const { activityInfo } = this;
 			if (this.isFulfill) {
-				return _.has(activityInfo, 'activity_poster_back') && activityInfo.activity_poster_back !== '';
+				return _.has(activityInfo, 'activity_poster_back') && activityInfo.activity_poster_back !== '' && !_.isNil(activityInfo.activity_poster_back);
 			}
 			return false;
 		},
