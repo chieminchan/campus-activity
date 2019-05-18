@@ -8,15 +8,22 @@
 		</template>
 		<template v-else v-for="(item, index) in publishedLists">
 			<Card class="activity-card" :key="index">
-				<router-link slot="title" :to="{ name: 'find-detail', params: {aid: item.activity_id} }">
-					<h3 class="activity-title"> {{ item.activity_name }} </h3>
+				<h3 class="activity-title">
+					<template v-if="item.activity_approval_status == 1">
+						<router-link slot="title" :to="{ name: 'find-detail', params: {aid: item.activity_id} }">
+							{{ item.activity_name }}
+						</router-link>
+					</template>
+					<template v-else>
+						{{ item.activity_name }}
+					</template>
+				</h3>
 				</router-link>
+
 				<span class="activity-status" slot="extra"> {{ status[item.activity_approval_status] }}</span>
 
-				<router-link :to="{ name: 'find-detail', params: {aid: item.activity_id} }">
-					<div class="activity-poster" :style="{ backgroundImage: 'url(' + item.activity_poster_front +')'}">
-					</div>
-				</router-link>
+				<div class="activity-poster" :style="{ backgroundImage: 'url(' + item.activity_poster_front +')'}">
+				</div>
 
 				<div class="actions">
 					<template v-if="item.activity_approval_status == 1">
@@ -189,6 +196,11 @@ export default {
 			width: 31.2%;
 			margin-bottom: 30px;
 			margin-right: 2.1%;
+		}
+
+		&-title, &-title a {
+			color: #484041;
+			line-height: 2;
 		}
 
 		&-poster {
