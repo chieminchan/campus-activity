@@ -33,7 +33,6 @@
 							<Button class="action-btn" type="warning" ghost @click.prevent="toWorks(item.activity_id)">查看活动作品</Button>
 						</template>
 					</template>
-
 					<template v-if="item.activity_approval_status == 2">
 						<Button class="action-btn" type="warning" ghost @click.prevent="showAdviceModal(item.activity_approval_advice)">查看反馈意见</Button>
 					</template>
@@ -198,7 +197,8 @@ export default {
 			margin-right: 2.1%;
 		}
 
-		&-title, &-title a {
+		&-title,
+		&-title a {
 			color: #484041;
 			line-height: 2;
 		}
