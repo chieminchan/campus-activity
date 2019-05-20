@@ -277,7 +277,7 @@ export default {
 		padding: 0 10%;
 		position: relative;
 		display: flex;
-		justify-content: center;
+		flex-direction: column;
 		.img {
 			padding: 10px;
 		}

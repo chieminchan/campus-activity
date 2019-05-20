@@ -88,9 +88,9 @@ export default {
 	}
 }
 .work {
-	width: 31%;
+	width: 32%;
 	margin-bottom: 30px;
-	margin-left: 20px;
+	margin-left: 10px;
 	align-self: baseline;
 	border-radius: 0;
 

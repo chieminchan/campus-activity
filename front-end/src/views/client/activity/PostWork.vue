@@ -89,11 +89,11 @@ export default {
 		return {
 			isLoading: false,
 			newWork: {
-        name: undefined,
-        brief: undefined,
-				content: undefined,
-				frontWork: undefined,
-				backWork: undefined
+        name: '',
+        brief: '',
+				content: '',
+				frontWork: '',
+				backWork: ''
 			},
 			frontWorkTip: '选择图片或者拖拽图片进行上传',
 			backWorkTip: '选择图片或者拖拽图片进行上传',
@@ -155,21 +155,21 @@ export default {
 					})
 					.catch(() => {
 						this.isLoading = false;
-						this.frontPostTip = '选择图片或者拖拽图片进行上传';
-						this.backPostTip = '选择图片或者拖拽图片进行上传';
+						this.frontWorkTip = '选择图片或者拖拽图片进行上传';
+						this.backWorkTip = '选择图片或者拖拽图片进行上传';
 						this.$Message.error('上传活动作品失败，请重试！');
 					})        
       },
       reset() {
-				this.frontPostTip = '选择图片或者拖拽图片进行上传';
-				this.backPostTip = '选择图片或者拖拽图片进行上传';
-        this.newWork ={
-            name: undefined,
-            brief: undefined,
-            content: undefined,
-            frontWork: undefined,
-            backWork: undefined
-        }
+				this.frontWorkTip = '选择图片或者拖拽图片进行上传';
+				this.backWorkTip = '选择图片或者拖拽图片进行上传';
+        this.newWork = {
+					name: '',
+					brief: '',
+					content: '',
+					frontWork: '',
+					backWork: ''
+				}
       },
   },
 }
