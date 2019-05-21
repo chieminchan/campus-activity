@@ -1,6 +1,5 @@
 # 校园活动服务平台 Campus-Activity 
 
-
 ## 技术栈
 - 前端：  
 Vue.js + Vue-router + Vuex + Axios + Less + iView + Lodash
@@ -15,6 +14,7 @@ Express + MySQL
 ![项目功能](https://github.com/chieminchan/campus-activity/blob/master/screenshots/%E9%A1%B9%E7%9B%AE%E5%8A%9F%E8%83%BD.jpg?raw=true "项目功能")
 
 ## 项目效果图
+> 声明：网站的图片大多数来自[UI中国](https://www.ui.cn)和[青年之声](https://www.12355.net)，侵删。
 
 ### 登陆页  
 ![登陆页](https://raw.githubusercontent.com/chieminchan/campus-activity/master/screenshots/%E7%99%BB%E9%99%86%E9%A1%B5.png "登陆页")
