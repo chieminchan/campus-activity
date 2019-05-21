@@ -9,10 +9,10 @@ Vue.js + Vue-router + Vuex + Axios + Less + iView + Lodash
 Express + MySQL
 
 ## 项目结构
-![项目结构图](https://i.loli.net/2019/05/19/5ce158dae544685926.jpg "项目结构图")
+![项目文件结构图](https://github.com/chieminchan/campus-activity/blob/master/screenshots/%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84.jpg?raw=true "项目文件结构图")
 
 ## 目前已实现的功能
-
+![项目功能](https://github.com/chieminchan/campus-activity/blob/master/screenshots/%E9%A1%B9%E7%9B%AE%E5%8A%9F%E8%83%BD.jpg?raw=true "项目功能")
 
 ## 项目效果图
 
